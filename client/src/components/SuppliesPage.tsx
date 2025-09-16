@@ -1,7 +1,8 @@
+import { useState } from "react";
 import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
-import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import FileUploadModal from "./FileUploadModal";
+import { Button } from "vienna-ui/dist/Button";
 
 //todo: remove mock functionality
 const suppliesData = [
@@ -49,23 +50,39 @@ const columns = [
 ];
 
 export default function SuppliesPage() {
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+
   return (
-    <DataTable
-      title="Поставки"
-      columns={columns}
-      data={suppliesData}
-      onRowSelect={(rows) => console.log('Selected supplies:', rows)}
-      actions={
-        <div className="flex gap-2">
-          <Button variant="outline" data-testid="button-load-supplies">
-            <Download className="w-4 h-4 mr-2" />
-            Загрузить
-          </Button>
-          <Button data-testid="button-notify-suppliers">
-            Уведить поставщиков об отправкой
-          </Button>
-        </div>
-      }
-    />
+    <>
+      <DataTable
+        title="Поставки"
+        columns={columns}
+        data={suppliesData}
+        onRowSelect={(rows) => console.log('Selected supplies:', rows)}
+        actions={
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Button 
+              design="outline" 
+              onClick={() => setIsUploadModalOpen(true)}
+              data-testid="button-load-supplies"
+            >
+              <span style={{ marginRight: '8px' }}>⭳</span>
+              Загрузить
+            </Button>
+            <Button 
+              design="primary"
+              data-testid="button-notify-suppliers"
+            >
+              Уведить поставщиков об отправкой
+            </Button>
+          </div>
+        }
+      />
+      
+      <FileUploadModal 
+        isOpen={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
+      />
+    </>
   );
 }
