@@ -1,7 +1,7 @@
 import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Button } from "vienna-ui";
+import { AddIcon } from "vienna.icons";
 
 //todo: remove mock functionality
 const auctionsData = [
@@ -56,7 +56,7 @@ export default function AuctionsPage() {
       onRowSelect={(rows) => console.log('Selected auctions:', rows)}
       actions={
         <Button data-testid="button-create-auction">
-          <Plus className="w-4 h-4 mr-2" />
+          <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
           Создать
         </Button>
       }

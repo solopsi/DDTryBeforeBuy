@@ -1,8 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Button } from "vienna-ui/dist/Button";
-import { Checkbox } from "vienna-ui/dist/Checkbox"; 
-import { Input } from "vienna-ui/dist/Input";
+import { Button, Checkbox, Input } from "vienna-ui";
 import StatusBadge from "./StatusBadge";
 
 // ViennaUI Icons
@@ -20,13 +18,99 @@ const IconWrapper = styled.span`
     height: 16px;
   }
 `;
-const ChevronLeftIcon = styled.span`
-  font-size: 12px;
+// Layout containers
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+`;
+
+const FilterSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: hsl(0 0% 98%);
+  border-radius: 8px;
+`;
+
+const FilterGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+`;
+
+const FilterGroupSmall = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const FilterSelect = styled.select`
+  width: 192px;
+  padding: 8px 12px;
+  border: 1px solid hsl(0 0% 80%);
+  border-radius: 4px;
+  font-size: 14px;
+`;
+
+const FilterDateInput = styled(Input)`
+  width: 128px;
+`;
+
+const DateSeparator = styled.span`
   color: hsl(0 0% 64%);
 `;
-const ChevronRightIcon = styled.span`
-  font-size: 12px;
+
+const SelectionBar = styled.div`
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: hsl(0 0% 9%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+const Footer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const FooterText = styled.div`
+  font-size: 14px;
   color: hsl(0 0% 64%);
+`;
+
+const PaginationGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const PageNumbers = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
 `;
 
 // ViennaUI-styled table components
@@ -138,50 +222,47 @@ export default function DataTable({
   const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">{title}</h1>
+    <Container>
+      <Header>
+        <Title>{title}</Title>
         {actions}
-      </div>
+      </Header>
 
       {showFilters && (
-        <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
-          <div className="flex items-center gap-2 flex-1">
+        <FilterSection>
+          <FilterGroup>
             <IconWrapper><DocSearchIcon /></IconWrapper>
             <Input
               placeholder="Поиск..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="max-w-sm"
               data-testid="input-search"
             />
-          </div>
+          </FilterGroup>
           
-          <select className="w-48 px-3 py-2 border rounded" data-testid="select-supplier">
+          <FilterSelect data-testid="select-supplier">
             <option value="all">Все поставщики</option>
             <option value="test">ИП Тестов</option>
             <option value="moscow">АО Тестовая компания</option>
-          </select>
+          </FilterSelect>
 
-          <div className="flex items-center gap-2">
+          <FilterGroupSmall>
             <IconWrapper><CalendarIcon /></IconWrapper>
-            <Input 
+            <FilterDateInput 
               type="date" 
-              className="w-32"
               data-testid="input-date-from"
             />
-            <span className="text-muted-foreground">—</span>
-            <Input 
+            <DateSeparator>—</DateSeparator>
+            <FilterDateInput 
               type="date" 
-              className="w-32"
               data-testid="input-date-to"
             />
-          </div>
+          </FilterGroupSmall>
 
           <Button design="outline" size="s" data-testid="button-clear-filters">
             Сбросить
           </Button>
-        </div>
+        </FilterSection>
       )}
 
       <TableContainer>
@@ -233,20 +314,20 @@ export default function DataTable({
       </TableContainer>
 
       {selectedRows.size > 0 && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-foreground text-background px-6 py-3 rounded-lg shadow-lg flex items-center gap-4">
+        <SelectionBar>
           <IconWrapper><DocSearchIcon /></IconWrapper>
           <span>Настроить перед отправкой</span>
           <span>Количество: {selectedRows.size}</span>
           <span>Оплата: {selectedRows.size * 567420} ₽</span>
-        </div>
+        </SelectionBar>
       )}
 
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-muted-foreground">
+      <Footer>
+        <FooterText>
           Показано {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredData.length)} из {filteredData.length} записей
-        </div>
+        </FooterText>
         
-        <div className="flex items-center gap-2">
+        <PaginationGroup>
           <Button
             design="outline"
             size="s"
@@ -257,7 +338,7 @@ export default function DataTable({
             <IconWrapper><UpChevronIcon style={{ transform: 'rotate(-90deg)' }} /></IconWrapper>
           </Button>
           
-          <div className="flex items-center gap-1">
+          <PageNumbers>
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const page = i + 1;
               return (
@@ -272,7 +353,7 @@ export default function DataTable({
                 </Button>
               );
             })}
-          </div>
+          </PageNumbers>
           
           <Button
             design="outline"
@@ -283,8 +364,8 @@ export default function DataTable({
           >
             <IconWrapper><UpChevronIcon style={{ transform: 'rotate(90deg)' }} /></IconWrapper>
           </Button>
-        </div>
-      </div>
-    </div>
+        </PaginationGroup>
+      </Footer>
+    </Container>
   );
 }

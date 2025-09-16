@@ -1,43 +1,71 @@
-import { Badge } from "@/components/ui/badge";
+import styled from "styled-components";
 
 interface StatusBadgeProps {
   status: string;
   variant?: "default" | "secondary" | "destructive" | "outline";
 }
 
-export default function StatusBadge({ status, variant }: StatusBadgeProps) {
-  // Map Russian statuses to appropriate variants and colors
-  const getStatusConfig = (status: string) => {
-    const statusLower = status.toLowerCase();
-    
-    if (statusLower.includes("активный") || statusLower.includes("в процессе")) {
-      return { variant: "default" as const, className: "bg-green-100 text-green-800 hover:bg-green-200" };
-    }
-    
-    if (statusLower.includes("отклонен") || statusLower.includes("заблокирован")) {
-      return { variant: "destructive" as const, className: "" };
-    }
-    
-    if (statusLower.includes("ждет") || statusLower.includes("отправлено")) {
-      return { variant: "secondary" as const, className: "bg-yellow-100 text-yellow-800 hover:bg-yellow-200" };
-    }
-    
-    if (statusLower.includes("зарегистрирован") || statusLower.includes("приглашение")) {
-      return { variant: "outline" as const, className: "border-blue-200 text-blue-800" };
-    }
-    
-    return { variant: "secondary" as const, className: "" };
-  };
-
-  const config = getStatusConfig(status);
+// ViennaUI-styled badge
+const StyledBadge = styled.span<{ $statusType: string }>`
+  display: inline-flex;
+  align-items: center;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
   
+  ${props => {
+    const status = props.$statusType.toLowerCase();
+    
+    if (status.includes("активный") || status.includes("в процессе")) {
+      return `
+        background-color: hsl(120, 60%, 90%);
+        color: hsl(120, 60%, 25%);
+        border: 1px solid hsl(120, 60%, 80%);
+      `;
+    }
+    
+    if (status.includes("отклонен") || status.includes("заблокирован")) {
+      return `
+        background-color: hsl(0, 60%, 90%);
+        color: hsl(0, 60%, 25%);
+        border: 1px solid hsl(0, 60%, 80%);
+      `;
+    }
+    
+    if (status.includes("ждет") || status.includes("отправлено")) {
+      return `
+        background-color: hsl(45, 60%, 90%);
+        color: hsl(45, 60%, 25%);
+        border: 1px solid hsl(45, 60%, 80%);
+      `;
+    }
+    
+    if (status.includes("зарегистрирован") || status.includes("приглашение")) {
+      return `
+        background-color: hsl(210, 60%, 90%);
+        color: hsl(210, 60%, 25%);
+        border: 1px solid hsl(210, 60%, 80%);
+      `;
+    }
+    
+    return `
+      background-color: hsl(0, 0%, 90%);
+      color: hsl(0, 0%, 45%);
+      border: 1px solid hsl(0, 0%, 80%);
+    `;
+  }}
+`;
+
+export default function StatusBadge({ status, variant }: StatusBadgeProps) {
   return (
-    <Badge 
-      variant={variant || config.variant}
-      className={config.className}
+    <StyledBadge 
+      $statusType={status}
       data-testid={`badge-${status.toLowerCase().replace(/\s+/g, '-')}`}
     >
       {status}
-    </Badge>
+    </StyledBadge>
   );
 }

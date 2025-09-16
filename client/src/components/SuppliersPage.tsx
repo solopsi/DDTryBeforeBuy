@@ -1,7 +1,14 @@
+import styled from "styled-components";
 import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
-import { Button } from "@/components/ui/button";
-import { Plus, AlertTriangle } from "lucide-react";
+import { Button } from "vienna-ui";
+import { AddIcon, WarningTrIcon } from "vienna.icons";
+
+const StatusContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
 
 //todo: remove mock functionality
 const suppliersData = [
@@ -52,10 +59,10 @@ const columns = [
     key: 'status', 
     header: 'Статус',
     render: (value: string, row: any) => (
-      <div className="flex items-center gap-2">
+      <StatusContainer>
         <StatusBadge status={value} />
-        {row.warning && <AlertTriangle className="w-4 h-4 text-yellow-500" />}
-      </div>
+        {row.warning && <WarningTrIcon style={{ width: '16px', height: '16px', color: 'hsl(45, 100%, 50%)' }} />}
+      </StatusContainer>
     )
   },
 ];
@@ -69,7 +76,7 @@ export default function SuppliersPage() {
       onRowSelect={(rows) => console.log('Selected suppliers:', rows)}
       actions={
         <Button data-testid="button-add-supplier">
-          <Plus className="w-4 h-4 mr-2" />
+          <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
           Добавить поставщика
         </Button>
       }

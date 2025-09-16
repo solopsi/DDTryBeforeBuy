@@ -1,7 +1,7 @@
 import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Button } from "vienna-ui";
+import { AddIcon } from "vienna.icons";
 
 //todo: remove mock functionality
 const usersData = [
@@ -61,7 +61,7 @@ export default function UsersPage() {
       onRowSelect={(rows) => console.log('Selected users:', rows)}
       actions={
         <Button data-testid="button-add-user">
-          <Plus className="w-4 h-4 mr-2" />
+          <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
           Добавить
         </Button>
       }

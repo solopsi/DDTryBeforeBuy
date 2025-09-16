@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "vienna-ui";
 import styled from "styled-components";
+import { ListIcon } from "vienna.icons";
 import AppSidebar from "./AppSidebar";
 import SuppliesPage from "./SuppliesPage";
 import AgreementsPage from "./AgreementsPage";
@@ -155,7 +156,7 @@ export default function MainApp() {
         <Header>
           <HeaderLeft>
             <SidebarToggle data-testid="button-sidebar-toggle">
-              ≡
+              <ListIcon style={{ width: '20px', height: '20px' }} />
             </SidebarToggle>
             <TopNavigation>
               <NavButton 
