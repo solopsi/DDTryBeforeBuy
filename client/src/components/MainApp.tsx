@@ -1,13 +1,123 @@
 import { useState } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-import { Moon, Sun } from "lucide-react";
+import { Button } from "vienna-ui";
+import styled from "styled-components";
 import AppSidebar from "./AppSidebar";
 import SuppliesPage from "./SuppliesPage";
 import AgreementsPage from "./AgreementsPage";
 import AuctionsPage from "./AuctionsPage";
 import SuppliersPage from "./SuppliersPage";
 import UsersPage from "./UsersPage";
+
+const AppContainer = styled.div`
+  display: flex;
+  height: 100vh;
+  width: 100%;
+`;
+
+const MainContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid hsl(0 0% 88%);
+  background: hsl(0 0% 100%);
+`;
+
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
+`;
+
+const SidebarToggle = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: hsl(0 0% 64%);
+  
+  &:hover {
+    color: hsl(0 0% 8%);
+  }
+  
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const TopNavigation = styled.nav`
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+`;
+
+const NavButton = styled.button<{ $active?: boolean }>`
+  background: none;
+  border: none;
+  color: ${props => props.$active ? 'hsl(0 0% 8%)' : 'hsl(0 0% 64%)'};
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 0;
+  border-bottom: ${props => props.$active ? '2px solid hsl(45 100% 50%)' : '2px solid transparent'};
+  transition: all 0.2s ease;
+  
+  &:hover {
+    color: hsl(0 0% 8%);
+  }
+`;
+
+const HeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+const SupportEmail = styled.span`
+  font-size: 14px;
+  color: hsl(0 0% 64%);
+`;
+
+const ThemeToggle = styled.button`
+  background: none;
+  border: 1px solid hsl(0 0% 88%);
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  color: hsl(0 0% 64%);
+  
+  &:hover {
+    background: hsl(0 0% 96%);
+    color: hsl(0 0% 8%);
+  }
+`;
+
+const LoginButton = styled.button`
+  background: none;
+  border: 1px solid hsl(0 0% 88%);
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  color: hsl(0 0% 64%);
+  
+  &:hover {
+    background: hsl(0 0% 96%);
+    color: hsl(0 0% 8%);
+  }
+`;
+
+const MainSection = styled.main`
+  flex: 1;
+  overflow: auto;
+  padding: 24px;
+`;
 
 export default function MainApp() {
   const [activeSection, setActiveSection] = useState("/supplies");
@@ -16,7 +126,6 @@ export default function MainApp() {
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
     document.documentElement.classList.toggle('dark');
-    console.log('Theme toggled:', isDarkMode ? 'light' : 'dark');
   };
 
   const renderContent = () => {
@@ -36,88 +145,65 @@ export default function MainApp() {
     }
   };
 
-  const getSectionTitle = () => {
-    const titles: Record<string, string> = {
-      "/supplies": "Поставки",
-      "/agreements": "Соглашения", 
-      "/auctions": "Аукционы",
-      "/suppliers": "Поставщики",
-      "/users": "Пользователи"
-    };
-    return titles[activeSection] || "Поставки";
-  };
-
-  const style = {
-    "--sidebar-width": "20rem",
-    "--sidebar-width-icon": "4rem",
-  };
-
   return (
-    <SidebarProvider style={style as React.CSSProperties}>
-      <div className="flex h-screen w-full">
-        <AppSidebar 
-          activeItem={activeSection}
-          onItemClick={setActiveSection}
-        />
-        <div className="flex flex-col flex-1">
-          <header className="flex items-center justify-between p-4 border-b bg-background">
-            <div className="flex items-center gap-4">
-              <SidebarTrigger data-testid="button-sidebar-toggle" />
-              <nav className="flex gap-6 text-sm">
-                <button 
-                  className={`hover:text-foreground transition-colors ${
-                    activeSection === "/supplies" ? "text-foreground border-b-2 border-primary pb-1" : "text-muted-foreground"
-                  }`}
-                  onClick={() => setActiveSection("/supplies")}
-                  data-testid="nav-not-shipped"
-                >
-                  На отправку
-                </button>
-                <button 
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => console.log('Awaiting response clicked')}
-                  data-testid="nav-awaiting-response"
-                >
-                  Ждет вашего ответа
-                </button>
-                <button 
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => console.log('With error clicked')}
-                  data-testid="nav-with-error"
-                >
-                  С ошибкой
-                </button>
-                <button 
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                  onClick={() => console.log('All supplies clicked')}
-                  data-testid="nav-all-supplies"
-                >
-                  Все поставки
-                </button>
-              </nav>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">dd.support@raiffeisen.ru</span>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleTheme}
-                data-testid="button-theme-toggle"
+    <AppContainer>
+      <AppSidebar 
+        activeItem={activeSection}
+        onItemClick={setActiveSection}
+      />
+      <MainContent>
+        <Header>
+          <HeaderLeft>
+            <SidebarToggle data-testid="button-sidebar-toggle">
+              ≡
+            </SidebarToggle>
+            <TopNavigation>
+              <NavButton 
+                $active={activeSection === "/supplies"}
+                onClick={() => setActiveSection("/supplies")}
+                data-testid="nav-not-shipped"
               >
-                {isDarkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </Button>
-              <Button variant="outline" data-testid="button-login-nav">
-                Войти
-              </Button>
-            </div>
-          </header>
+                На отправку
+              </NavButton>
+              <NavButton 
+                onClick={() => console.log('Awaiting response clicked')}
+                data-testid="nav-awaiting-response"
+              >
+                Ждет вашего ответа
+              </NavButton>
+              <NavButton 
+                onClick={() => console.log('With error clicked')}
+                data-testid="nav-with-error"
+              >
+                С ошибкой
+              </NavButton>
+              <NavButton 
+                onClick={() => console.log('All supplies clicked')}
+                data-testid="nav-all-supplies"
+              >
+                Все поставки
+              </NavButton>
+            </TopNavigation>
+          </HeaderLeft>
           
-          <main className="flex-1 overflow-auto p-6">
-            {renderContent()}
-          </main>
-        </div>
-      </div>
-    </SidebarProvider>
+          <HeaderRight>
+            <SupportEmail>dd.support@raiffeisen.ru</SupportEmail>
+            <ThemeToggle
+              onClick={toggleTheme}
+              data-testid="button-theme-toggle"
+            >
+              {isDarkMode ? "Светлая" : "Темная"}
+            </ThemeToggle>
+            <LoginButton data-testid="button-login-nav">
+              Войти
+            </LoginButton>
+          </HeaderRight>
+        </Header>
+        
+        <MainSection>
+          {renderContent()}
+        </MainSection>
+      </MainContent>
+    </AppContainer>
   );
 }
