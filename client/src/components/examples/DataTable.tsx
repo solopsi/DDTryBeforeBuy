@@ -1,7 +1,7 @@
 import DataTable from '../DataTable';
 import StatusBadge from '../StatusBadge';
-import { Button } from "@/components/ui/button";
-import { Plus, Download } from "lucide-react";
+import { Button } from "vienna-ui";
+import { AddIcon, DownloadIcon } from "vienna.icons";
 
 //todo: remove mock functionality
 const mockData = [
@@ -50,16 +50,16 @@ const columns = [
 
 export default function DataTableExample() {
   return (
-    <div className="p-4">
+    <div style={{ padding: '16px' }}>
       <DataTable
         title="Поставки"
         columns={columns}
         data={mockData}
         onRowSelect={(rows) => console.log('Selected:', rows)}
         actions={
-          <div className="flex gap-2">
-            <Button variant="outline" data-testid="button-load-supplies">
-              <Download className="w-4 h-4 mr-2" />
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <Button design="outline" data-testid="button-load-supplies">
+              <DownloadIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
               Загрузить
             </Button>
             <Button data-testid="button-notify-suppliers">
