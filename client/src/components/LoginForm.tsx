@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Input } from "vienna-ui";
+import { Button, Input, InputPassword } from "vienna-ui";
 import styled from "styled-components";
 import RaiffeisenLogo from "./RaiffeisenLogo";
 
@@ -128,25 +128,6 @@ const Label = styled.label`
   color: hsl(0 0% 8%);
 `;
 
-const PasswordContainer = styled.div`
-  position: relative;
-`;
-
-const PasswordToggle = styled.button`
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  color: hsl(0 0% 64%);
-  
-  &:hover {
-    color: hsl(0 0% 45%);
-  }
-`;
 
 const ForgotPassword = styled.div`
   text-align: center;
@@ -166,7 +147,6 @@ const ForgotPasswordLink = styled.a`
 export default function LoginForm({ onLogin }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -215,24 +195,14 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
             
             <FormField>
               <Label htmlFor="password">Пароль</Label>
-              <PasswordContainer>
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="•••"
-                  data-testid="input-password"
-                  required
-                />
-                <PasswordToggle
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  data-testid="button-toggle-password"
-                >
-                  {showPassword ? "Скрыть" : "Показать"}
-                </PasswordToggle>
-              </PasswordContainer>
+              <InputPassword
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="•••"
+                data-testid="input-password"
+                required
+              />
             </FormField>
             
             <ForgotPassword>
