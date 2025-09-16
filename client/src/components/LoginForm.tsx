@@ -199,7 +199,6 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="•••"
                 data-testid="input-password"
                 required
               />
