@@ -187,7 +187,7 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="123@gmail.com"
+                placeholder="email"
                 data-testid="input-email"
                 required
               />
