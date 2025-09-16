@@ -12,8 +12,8 @@ Preferred communication style: Simple, everyday language.
 
 ### Frontend Architecture
 - **Framework**: React 18 with TypeScript for type safety and modern development practices
-- **UI Components**: Hybrid approach using shadcn/ui components built on Radix UI primitives alongside Vienna UI components for enterprise consistency
-- **Styling**: Tailwind CSS with custom design system implementing Raiffeisen Bank's brand colors (primary yellow accent) and ViennaUI design patterns
+- **UI Components**: ViennaUI component library providing enterprise-grade React components with Raiffeisen Bank design consistency
+- **Styling**: ViennaUI with styled-components implementing Raiffeisen Bank's brand colors (primary yellow accent hsl(45 100% 50%)) and official design patterns
 - **State Management**: React Query (@tanstack/react-query) for server state management and caching
 - **Build Tool**: Vite for fast development and optimized production builds
 
@@ -43,10 +43,9 @@ Preferred communication style: Simple, everyday language.
 ## External Dependencies
 
 ### UI and Design System
-- **Radix UI**: Comprehensive set of unstyled, accessible UI primitives (@radix-ui/react-*)
-- **Vienna UI**: Enterprise design system components for banking applications
-- **Lucide React**: Modern icon library for consistent iconography
-- **Tailwind CSS**: Utility-first CSS framework with custom design tokens
+- **Vienna UI**: Official Raiffeisen Bank design system providing React components and styling primitives
+- **vienna.icons**: Comprehensive icon library integrated with ViennaUI for consistent iconography
+- **styled-components**: CSS-in-JS library for component styling and theming integration
 
 ### Database and ORM
 - **@neondatabase/serverless**: Serverless PostgreSQL database connection
@@ -60,6 +59,5 @@ Preferred communication style: Simple, everyday language.
 
 ### Utilities and Validation
 - **zod**: Runtime type validation and schema definition
-- **class-variance-authority**: Type-safe variant styling for components
-- **clsx**: Conditional CSS class name utility
+- **styled-components**: Runtime CSS-in-JS styling with theme integration
 - **date-fns**: Modern date manipulation library for handling procurement dates and scheduling
