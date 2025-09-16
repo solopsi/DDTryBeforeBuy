@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import RaiffeisenLogo from "./RaiffeisenLogo";
+import { DocumentIcon, HomeIcon, ArrowsLeftRightIcon } from "vienna.icons";
 
 const menuItems = [
-  { title: "Поставки", iconText: "▶", url: "/supplies" },
-  { title: "Соглашения", iconText: "◎", url: "/agreements" },
-  { title: "Аукционы", iconText: "♦", url: "/auctions" },
-  { title: "Поставщики", iconText: "●", url: "/suppliers" },
-  { title: "Пользователи", iconText: "◆", url: "/users" },
+  { title: "Поставки", icon: HomeIcon, url: "/supplies" },
+  { title: "Соглашения", icon: DocumentIcon, url: "/agreements" },
+  { title: "Аукционы", icon: DocumentIcon, url: "/auctions" },
+  { title: "Поставщики", icon: HomeIcon, url: "/suppliers" },
+  { title: "Пользователи", icon: HomeIcon, url: "/users" },
 ];
 
 const SidebarContainer = styled.nav`
@@ -70,6 +71,11 @@ const IconPlaceholder = styled.span`
   justify-content: center;
   font-size: 12px;
   color: currentColor;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 `;
 
 const SidebarFooter = styled.div`
@@ -144,7 +150,7 @@ export default function AppSidebar({ activeItem = "/supplies", onItemClick }: Ap
                 }}
                 data-testid={`link-${item.title.toLowerCase()}`}
               >
-                <IconPlaceholder>{item.iconText}</IconPlaceholder>
+                <IconPlaceholder><item.icon /></IconPlaceholder>
                 <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -168,7 +174,7 @@ export default function AppSidebar({ activeItem = "/supplies", onItemClick }: Ap
           onClick={() => console.log('Logout clicked')}
           data-testid="button-logout"
         >
-          <IconPlaceholder>◀</IconPlaceholder>
+          <IconPlaceholder><ArrowsLeftRightIcon style={{ transform: 'rotate(180deg)' }} /></IconPlaceholder>
           Выйти
         </LogoutButton>
       </SidebarFooter>

@@ -5,14 +5,20 @@ import { Checkbox } from "vienna-ui/dist/Checkbox";
 import { Input } from "vienna-ui/dist/Input";
 import StatusBadge from "./StatusBadge";
 
-// Styled icons using text-based alternatives
-const SearchIcon = styled.span`
+// ViennaUI Icons
+import { CalendarIcon, DocSearchIcon, UpChevronIcon } from "vienna.icons";
+
+// Styled icon wrapper
+const IconWrapper = styled.span`
   font-size: 14px;
   color: hsl(0 0% 64%);
-`;
-const CalendarIcon = styled.span`
-  font-size: 14px;
-  color: hsl(0 0% 64%);
+  display: inline-flex;
+  align-items: center;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 `;
 const ChevronLeftIcon = styled.span`
   font-size: 12px;
@@ -141,7 +147,7 @@ export default function DataTable({
       {showFilters && (
         <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
           <div className="flex items-center gap-2 flex-1">
-            <SearchIcon>⌕</SearchIcon>
+            <IconWrapper><DocSearchIcon /></IconWrapper>
             <Input
               placeholder="Поиск..."
               value={searchQuery}
@@ -158,7 +164,7 @@ export default function DataTable({
           </select>
 
           <div className="flex items-center gap-2">
-            <CalendarIcon>◊</CalendarIcon>
+            <IconWrapper><CalendarIcon /></IconWrapper>
             <Input 
               type="date" 
               className="w-32"
@@ -228,7 +234,7 @@ export default function DataTable({
 
       {selectedRows.size > 0 && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-foreground text-background px-6 py-3 rounded-lg shadow-lg flex items-center gap-4">
-          <SearchIcon>⚙</SearchIcon>
+          <IconWrapper><DocSearchIcon /></IconWrapper>
           <span>Настроить перед отправкой</span>
           <span>Количество: {selectedRows.size}</span>
           <span>Оплата: {selectedRows.size * 567420} ₽</span>
@@ -248,7 +254,7 @@ export default function DataTable({
             disabled={currentPage === 1}
             data-testid="button-prev-page"
           >
-            <ChevronLeftIcon>‹</ChevronLeftIcon>
+            <IconWrapper><UpChevronIcon style={{ transform: 'rotate(-90deg)' }} /></IconWrapper>
           </Button>
           
           <div className="flex items-center gap-1">
@@ -275,7 +281,7 @@ export default function DataTable({
             disabled={currentPage === totalPages}
             data-testid="button-next-page"
           >
-            <ChevronRightIcon>›</ChevronRightIcon>
+            <IconWrapper><UpChevronIcon style={{ transform: 'rotate(90deg)' }} /></IconWrapper>
           </Button>
         </div>
       </div>

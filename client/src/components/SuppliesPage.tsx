@@ -3,6 +3,7 @@ import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
 import FileUploadModal from "./FileUploadModal";
 import { Button } from "vienna-ui/dist/Button";
+import { DownloadIcon } from "vienna.icons";
 
 //todo: remove mock functionality
 const suppliesData = [
@@ -66,7 +67,7 @@ export default function SuppliesPage() {
               onClick={() => setIsUploadModalOpen(true)}
               data-testid="button-load-supplies"
             >
-              <span style={{ marginRight: '8px' }}>⭳</span>
+              <span style={{ marginRight: '8px' }}><DownloadIcon style={{ width: '16px', height: '16px' }} /></span>
               Загрузить
             </Button>
             <Button 

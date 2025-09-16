@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import styled from "styled-components";
 import { Modal } from "vienna-ui/dist/Modal";
 import { Button } from "vienna-ui/dist/Button";
+import { DownloadIcon, CloseCancelXIcon } from "vienna.icons";
 
 interface FileUploadModalProps {
   isOpen: boolean;
@@ -215,7 +216,7 @@ export default function FileUploadModal({ isOpen, onClose }: FileUploadModalProp
           onClick={() => document.getElementById('file-input')?.click()}
           data-testid="upload-area"
         >
-          <UploadIcon>↓</UploadIcon>
+          <UploadIcon><DownloadIcon /></UploadIcon>
           <UploadText>Перетащите файлы сюда или нажмите для выбора</UploadText>
           <UploadSubtext>Поддерживаются форматы: Excel (.xlsx, .xls), CSV</UploadSubtext>
         </UploadArea>
@@ -241,7 +242,7 @@ export default function FileUploadModal({ isOpen, onClose }: FileUploadModalProp
                   onClick={() => removeFile(index)}
                   data-testid={`button-remove-file-${index}`}
                 >
-                  ×
+                  <CloseCancelXIcon style={{ width: '12px', height: '12px' }} />
                 </RemoveButton>
               </FileItem>
             ))}
