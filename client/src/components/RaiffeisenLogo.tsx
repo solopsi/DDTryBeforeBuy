@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import { CloseCancelXIcon } from "vienna.icons";
 
 interface RaiffeisenLogoProps {
   className?: string;
 }
 
+
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 `;
 
 const LogoIcon = styled.div`
@@ -19,39 +19,24 @@ const LogoIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  svg {
-    width: 20px;
-    height: 20px;
-    color: white;
-  }
+  font-weight: bold;
+  color: white;
+  font-size: 16px;
 `;
 
 const LogoText = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const LogoTitle = styled.span`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
-  color: hsl(0 0% 9%);
-`;
-
-const LogoSubtitle = styled.span`
-  font-size: 12px;
-  color: hsl(0 0% 64%);
+  color: hsl(0 0% 8%);
+  font-family: 'Segoe UI', sans-serif;
 `;
 
 export default function RaiffeisenLogo({ className = "" }: RaiffeisenLogoProps) {
   return (
     <LogoContainer className={className}>
-      <LogoIcon>
-        <CloseCancelXIcon />
-      </LogoIcon>
+      <LogoIcon>R</LogoIcon>
       <LogoText>
-        <LogoTitle>Райффайзен</LogoTitle>
-        <LogoSubtitle>Банк</LogoSubtitle>
+        Райффайзен Банк
       </LogoText>
     </LogoContainer>
   );
