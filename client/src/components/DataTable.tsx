@@ -240,16 +240,6 @@ export default function DataTable({
 
       {showFilters && (
         <FilterSection>
-          <FilterGroup>
-            <IconWrapper><DocSearchIcon /></IconWrapper>
-            <Input
-              placeholder="Поиск..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              data-testid="input-search"
-            />
-          </FilterGroup>
-          
           <FilterSelect data-testid="select-supplier">
             <option value="all">Все поставщики</option>
             <option value="test">ИП Тестов</option>
