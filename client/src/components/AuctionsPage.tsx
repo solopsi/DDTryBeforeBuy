@@ -133,7 +133,7 @@ const awaitingResponseData = [
   }
 ];
 
-const allAuctionsData = [
+const otherStatusAuctionsData = [
   {
     period: "16.09.2025 12:20 - 10.09.2025 12:20",
     auctionAmount: "930 239,00 ₽",
@@ -147,20 +147,6 @@ const allAuctionsData = [
     bidsAmount: "952 554,00 ₽",
     paymentDate: "14.09.2025",
     status: "Отменен"
-  },
-  {
-    period: "12.09.2025 12:20 - 15.09.2025 12:20",
-    auctionAmount: "799 841,00 ₽",
-    bidsAmount: "—",
-    paymentDate: "12.09.2025",
-    status: "Запланирован"
-  },
-  {
-    period: "11.09.2025 12:20 - 13.09.2025 12:20",
-    auctionAmount: "585 378,00 ₽",
-    bidsAmount: "—",
-    paymentDate: "12.09.2025",
-    status: "Запланирован"
   },
   {
     period: "12.09.2025 12:20 - 13.09.2025 12:20",
@@ -182,34 +168,6 @@ const allAuctionsData = [
     bidsAmount: "410 343,00 ₽",
     paymentDate: "13.09.2025",
     status: "Закрыт"
-  },
-  {
-    period: "11.09.2025 12:20 - 10.09.2025 12:20",
-    auctionAmount: "695 314,00 ₽",
-    bidsAmount: "785 480,00 ₽",
-    paymentDate: "12.09.2025",
-    status: "Ждет решения"
-  },
-  {
-    period: "10.09.2025 12:20 - 15.09.2025 12:20",
-    auctionAmount: "670 990,00 ₽",
-    bidsAmount: "788 236,00 ₽",
-    paymentDate: "11.09.2025",
-    status: "В процессе"
-  },
-  {
-    period: "12.09.2025 12:20 - 14.09.2025 12:20",
-    auctionAmount: "711 763,00 ₽",
-    bidsAmount: "277 593,00 ₽",
-    paymentDate: "11.09.2025",
-    status: "В процессе"
-  },
-  {
-    period: "16.09.2025 12:20 - 16.09.2025 12:20",
-    auctionAmount: "978 404,00 ₽",
-    bidsAmount: "496 158,00 ₽",
-    paymentDate: "12.09.2025",
-    status: "В процессе"
   },
   {
     period: "15.09.2025 12:20 - 14.09.2025 12:20",
@@ -249,7 +207,8 @@ export default function AuctionsPage() {
       case "awaiting-response":
         return awaitingResponseData;
       case "all":
-        return allAuctionsData;
+        // Combine data from "new", "awaiting-response", and other statuses
+        return [...newAuctionsData, ...awaitingResponseData, ...otherStatusAuctionsData];
       default:
         return newAuctionsData;
     }
