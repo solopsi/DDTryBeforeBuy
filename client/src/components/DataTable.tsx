@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Button, Checkbox, Input, CustomTable, Datepicker } from "vienna-ui";
+import { Button, Checkbox, Input, CustomTable, Datepicker, Pagination, Select } from "vienna-ui";
 import StatusBadge from "./StatusBadge";
 
 // ViennaUI Icons
@@ -104,13 +104,15 @@ const FooterText = styled.div`
 const PaginationGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 `;
 
-const PageNumbers = styled.div`
+const PageSizeSelector = styled.div`
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+  font-size: 14px;
+  color: hsl(0 0% 64%);
 `;
 
 // ViennaUI table styling
@@ -182,7 +184,7 @@ export default function DataTable({
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [itemsPerPage, setItemsPerPage] = useState(60);
 
   const handleRowSelect = (index: number, checked: boolean) => {
     const newSelectedRows = new Set(selectedRows);
@@ -212,6 +214,11 @@ export default function DataTable({
   const handleClearFilters = () => {
     setSearchQuery("");
     setStatusFilter("all");
+    setCurrentPage(1);
+  };
+
+  const handlePageSizeChange = (newSize: number) => {
+    setItemsPerPage(newSize);
     setCurrentPage(1);
   };
 
@@ -348,42 +355,25 @@ export default function DataTable({
         </FooterText>
         
         <PaginationGroup>
-          <Button
-            design="outline"
-            size="s"
-            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            data-testid="button-prev-page"
-          >
-            <IconWrapper><UpChevronIcon style={{ transform: 'rotate(-90deg)' }} /></IconWrapper>
-          </Button>
+          <PageSizeSelector>
+            <span>Показывать по:</span>
+            <Select
+              value={itemsPerPage}
+              onChange={(value) => handlePageSizeChange(value)}
+              data-testid="select-page-size"
+            >
+              <Select.Option value={60}>60</Select.Option>
+              <Select.Option value={120}>120</Select.Option>
+              <Select.Option value={240}>240</Select.Option>
+            </Select>
+          </PageSizeSelector>
           
-          <PageNumbers>
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const page = i + 1;
-              return (
-                <Button
-                  key={page}
-                  design={currentPage === page ? "primary" : "outline"}
-                  size="s"
-                  onClick={() => setCurrentPage(page)}
-                  data-testid={`button-page-${page}`}
-                >
-                  {page}
-                </Button>
-              );
-            })}
-          </PageNumbers>
-          
-          <Button
-            design="outline"
-            size="s"
-            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-            data-testid="button-next-page"
-          >
-            <IconWrapper><UpChevronIcon style={{ transform: 'rotate(90deg)' }} /></IconWrapper>
-          </Button>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            data-testid="pagination"
+          />
         </PaginationGroup>
       </Footer>
     </Container>
