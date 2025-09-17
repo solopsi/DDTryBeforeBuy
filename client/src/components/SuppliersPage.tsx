@@ -83,7 +83,7 @@ export default function SuppliersPage() {
       actions={
         <Button 
           data-testid="button-add-supplier"
-          style={{ backgroundColor: '#FEE600' }}
+          style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
         >
           <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
           Добавить поставщика

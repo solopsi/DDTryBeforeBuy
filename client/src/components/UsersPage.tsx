@@ -62,7 +62,7 @@ export default function UsersPage() {
       actions={
         <Button 
           data-testid="button-add-user"
-          style={{ backgroundColor: '#FEE600' }}
+          style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
         >
           <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
           Добавить
