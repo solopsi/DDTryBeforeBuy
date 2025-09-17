@@ -145,7 +145,7 @@ export default function SuppliersPage() {
                 required
                 style={{ flex: 1 }}
               />
-              <RequiredIndicator>*</RequiredIndicator>
+              <RequiredIndicator style={{ transform: 'translateY(-15px)' }}>*</RequiredIndicator>
             </FormField>
             
             <FormField>
