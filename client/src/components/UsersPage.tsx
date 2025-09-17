@@ -60,7 +60,10 @@ export default function UsersPage() {
       data={usersData}
       onRowSelect={(rows) => console.log('Selected users:', rows)}
       actions={
-        <Button data-testid="button-add-user">
+        <Button 
+          data-testid="button-add-user"
+          style={{ backgroundColor: '#FEE600' }}
+        >
           <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
           Добавить
         </Button>
