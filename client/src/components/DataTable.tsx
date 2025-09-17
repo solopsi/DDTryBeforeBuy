@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Button, Checkbox, Input, CustomTable } from "vienna-ui";
+import { Button, Checkbox, Input, CustomTable, Datepicker } from "vienna-ui";
 import StatusBadge from "./StatusBadge";
 
 // ViennaUI Icons
@@ -67,7 +67,7 @@ const FilterSelect = styled.select`
   font-size: 14px;
 `;
 
-const FilterDateInput = styled(Input)`
+const FilterDateInput = styled(Datepicker)`
   width: 128px;
 `;
 
@@ -246,13 +246,11 @@ export default function DataTable({
           <FilterGroupSmall>
             <IconWrapper><CalendarIcon /></IconWrapper>
             <FilterDateInput 
-              type="date" 
               placeholder="ДД.ММ.ГГГГ"
               data-testid="input-date-from"
             />
             <DateSeparator>—</DateSeparator>
             <FilterDateInput 
-              type="date" 
               placeholder="ДД.ММ.ГГГГ"
               data-testid="input-date-to"
             />
