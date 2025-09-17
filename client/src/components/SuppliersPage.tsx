@@ -81,7 +81,10 @@ export default function SuppliersPage() {
       data={suppliersData}
       onRowSelect={(rows) => console.log('Selected suppliers:', rows)}
       actions={
-        <Button data-testid="button-add-supplier">
+        <Button 
+          data-testid="button-add-supplier"
+          style={{ backgroundColor: '#FEE600' }}
+        >
           <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
           Добавить поставщика
         </Button>
