@@ -85,19 +85,6 @@ const SupportEmail = styled.span`
   color: hsl(0 0% 64%);
 `;
 
-const ThemeToggle = styled.button`
-  background: none;
-  border: 1px solid hsl(0 0% 88%);
-  border-radius: 4px;
-  padding: 8px;
-  cursor: pointer;
-  color: hsl(0 0% 64%);
-  
-  &:hover {
-    background: hsl(0 0% 96%);
-    color: hsl(0 0% 8%);
-  }
-`;
 
 const LoginButton = styled.button`
   background: none;
@@ -122,12 +109,6 @@ const MainSection = styled.main`
 
 export default function MainApp() {
   const [activeSection, setActiveSection] = useState("/supplies");
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
 
   const renderContent = () => {
     switch (activeSection) {
@@ -189,12 +170,6 @@ export default function MainApp() {
           
           <HeaderRight>
             <SupportEmail>dd.support@raiffeisen.ru</SupportEmail>
-            <ThemeToggle
-              onClick={toggleTheme}
-              data-testid="button-theme-toggle"
-            >
-              {isDarkMode ? "Светлая" : "Темная"}
-            </ThemeToggle>
             <LoginButton data-testid="button-login-nav">
               Войти
             </LoginButton>
