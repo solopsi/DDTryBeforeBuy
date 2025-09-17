@@ -275,7 +275,6 @@ export default function DataTable({
           </FilterSelect>
 
           <FilterGroupSmall>
-            <IconWrapper><CalendarIcon /></IconWrapper>
             <FilterDateInput 
               placeholder="ДД.ММ.ГГГГ"
               data-testid="input-date-from"
