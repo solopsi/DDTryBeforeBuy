@@ -4,6 +4,10 @@ import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
 import AuctionDetailView from "./AuctionDetailView";
 import AuctionInProgressView from "./AuctionInProgressView";
+import AuctionAwaitingDecisionView from "./AuctionAwaitingDecisionView";
+import AuctionOfferSelectionView from "./AuctionOfferSelectionView";
+import AuctionAgreementFormationView from "./AuctionAgreementFormationView";
+import ColoredBidsAmount from "./ColoredBidsAmount";
 import { Button } from "vienna-ui";
 import { AddIcon } from "vienna.icons";
 
@@ -73,34 +77,17 @@ const newAuctionsData = [
 const awaitingResponseData = [
   {
     id: 2,
-    period: "11.09.2025 12:20 - 10.09.2025 12:20",
-    auctionAmount: "695 314,00 ₽",
-    bidsAmount: "785 480,00 ₽",
-    paymentDate: "12.09.2025",
-    status: "Ждет решения"
-  },
-  {
-    id: 3,
-    period: "12.09.2025 12:20 - 14.09.2025 12:20",
-    auctionAmount: "711 763,00 ₽",
-    bidsAmount: "277 593,00 ₽",
-    paymentDate: "11.09.2025",
-    status: "Ждет решения"
-  },
-  {
-    id: 4,
-    period: "16.09.2025 12:20 - 10.09.2025 12:20",
-    auctionAmount: "253 570,00 ₽",
-    bidsAmount: "851 621,00 ₽",
-    paymentDate: "12.09.2025",
-    status: "Ждет решения"
-  },
-  {
-    id: 5,
-    period: "10.09.2025 12:20 - 14.09.2025 12:20",
-    auctionAmount: "377 554,00 ₽",
-    bidsAmount: "324 780,00 ₽",
-    paymentDate: "10.09.2025",
+    period: "11.09.2025 12:20 - 16.09.2025 12:20",
+    auctionAmount: "50 000 000,00 ₽",
+    bidsAmount: {
+      breakdown: {
+        green: "50 млн ₽",
+        yellow: "25 млн ₽",
+        red: "35 млн ₽",
+        total: "110 000 000,00 ₽"
+      }
+    },
+    paymentDate: "21.09.2025",
     status: "Ждет решения"
   }
 ];
@@ -167,7 +154,18 @@ const otherStatusAuctionsData = [
 const columns = [
   { key: 'period', header: 'Период проведения' },
   { key: 'auctionAmount', header: 'Сумма аукциона' },
-  { key: 'bidsAmount', header: 'Сумма ответов' },
+  { 
+    key: 'bidsAmount', 
+    header: 'Сумма ответов',
+    render: (value: any) => {
+      // Handle colored bids amount for awaiting response data
+      if (value && typeof value === 'object' && value.breakdown) {
+        return <ColoredBidsAmount breakdown={value.breakdown} />;
+      }
+      // Handle regular string amounts for other data
+      return String(value);
+    }
+  },
   { key: 'paymentDate', header: 'Дата ранней оплаты' },
   { 
     key: 'status', 
@@ -179,6 +177,7 @@ const columns = [
 export default function AuctionsPage() {
   const [activeTab, setActiveTab] = useState("new");
   const [selectedAuction, setSelectedAuction] = useState<any>(null);
+  const [currentView, setCurrentView] = useState<'list' | 'detail' | 'offer-selection' | 'agreement-formation'>('list');
 
   const getTabData = () => {
     switch (activeTab) {
@@ -196,19 +195,73 @@ export default function AuctionsPage() {
 
   const handleRowClick = (auction: any) => {
     setSelectedAuction(auction);
+    setCurrentView('detail');
   };
 
   const handleBackToList = () => {
     setSelectedAuction(null);
+    setCurrentView('list');
   };
 
-  if (selectedAuction) {
-    // Show different views based on auction status
+  const handleCreateAgreement = () => {
+    setCurrentView('offer-selection');
+  };
+
+  const handleBackToDetail = () => {
+    setCurrentView('detail');
+  };
+
+  const handleCreateAgreements = () => {
+    setCurrentView('agreement-formation');
+  };
+
+  const handleBackToOfferSelection = () => {
+    setCurrentView('offer-selection');
+  };
+
+  const handleFinalCreateAgreements = () => {
+    // Final step - create agreements and navigate back to list
+    console.log('Final creation of agreements');
+    setCurrentView('list');
+    setSelectedAuction(null);
+  };
+
+  if (selectedAuction && currentView !== 'list') {
+    // Show agreement formation view
+    if (currentView === 'agreement-formation') {
+      return (
+        <AuctionAgreementFormationView 
+          onBack={handleBackToOfferSelection}
+          onCreateAgreements={handleFinalCreateAgreements}
+        />
+      );
+    }
+    
+    // Show offer selection view
+    if (currentView === 'offer-selection') {
+      return (
+        <AuctionOfferSelectionView 
+          auction={selectedAuction} 
+          onBack={handleBackToDetail}
+          onCreateAgreements={handleCreateAgreements}
+        />
+      );
+    }
+    
+    // Show different detail views based on auction status
     if (selectedAuction.status === "В процессе") {
       return (
         <AuctionInProgressView 
           auction={selectedAuction} 
           onBack={handleBackToList}
+        />
+      );
+    } else if (selectedAuction.status === "Ждет решения") {
+      return (
+        <AuctionAwaitingDecisionView 
+          auction={selectedAuction} 
+          onBack={handleBackToList}
+          onCreateAgreement={handleCreateAgreement}
         />
       );
     } else {
