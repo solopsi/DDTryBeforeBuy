@@ -19,6 +19,70 @@ const StyledBadge = styled.span<{ $statusType: string }>`
   ${props => {
     const status = props.$statusType.toLowerCase();
     
+    // На проверке - Gray
+    if (status === "на проверке") {
+      return `
+        background-color: hsl(0, 0%, 88%);
+        color: hsl(0, 0%, 45%);
+        border: 1px solid hsl(0, 0%, 75%);
+      `;
+    }
+    
+    // Ждет приглашения - Light orange
+    if (status === "ждет приглашения") {
+      return `
+        background-color: hsl(35, 80%, 88%);
+        color: hsl(35, 70%, 35%);
+        border: 1px solid hsl(35, 70%, 75%);
+      `;
+    }
+    
+    // Приглашен - Light purple
+    if (status === "приглашен") {
+      return `
+        background-color: hsl(270, 50%, 90%);
+        color: hsl(270, 60%, 40%);
+        border: 1px solid hsl(270, 50%, 80%);
+      `;
+    }
+    
+    // Регистрируется - Light purple
+    if (status === "регистрируется") {
+      return `
+        background-color: hsl(270, 50%, 90%);
+        color: hsl(270, 60%, 40%);
+        border: 1px solid hsl(270, 50%, 80%);
+      `;
+    }
+    
+    // Активный - Light mint green
+    if (status === "активный") {
+      return `
+        background-color: hsl(160, 60%, 88%);
+        color: hsl(160, 70%, 30%);
+        border: 1px solid hsl(160, 60%, 75%);
+      `;
+    }
+    
+    // Отклонен - Light pink
+    if (status === "отклонен") {
+      return `
+        background-color: hsl(350, 60%, 90%);
+        color: hsl(350, 70%, 40%);
+        border: 1px solid hsl(350, 60%, 80%);
+      `;
+    }
+    
+    // Неактивен - Light pink
+    if (status === "неактивен") {
+      return `
+        background-color: hsl(350, 60%, 90%);
+        color: hsl(350, 70%, 40%);
+        border: 1px solid hsl(350, 60%, 80%);
+      `;
+    }
+    
+    // Legacy status handling for other pages
     if (status.includes("активный") || status.includes("в процессе")) {
       return `
         background-color: hsl(120, 60%, 90%);
