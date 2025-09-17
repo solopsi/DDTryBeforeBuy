@@ -136,13 +136,14 @@ export default function SuppliersPage() {
           <ModalTitle>Добавить поставщика</ModalTitle>
           
           <ModalContent>
-            <FormField>
+            <FormField style={{ flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
               <Input
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 data-testid="input-supplier-email"
                 required
+                style={{ flex: 1 }}
               />
               <RequiredIndicator>*</RequiredIndicator>
             </FormField>
