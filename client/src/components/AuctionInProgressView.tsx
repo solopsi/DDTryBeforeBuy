@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button } from "vienna-ui";
-import { UploadIcon, GoLeftIcon, DocIcon, RefreshRepeatIcon } from "vienna.icons";
+import { UploadIcon, GoLeftIcon, DocIcon, RefreshRepeatIcon, TimerIcon } from "vienna.icons";
 import StatusBadge from "./StatusBadge";
 
 const Container = styled.div`
@@ -292,20 +292,7 @@ export default function AuctionInProgressView({ auction, onBack }: AuctionInProg
           Обновить данные
         </UpdateButton>
         <LastUpdated>
-          <div style={{
-            width: '16px',
-            height: '16px',
-            borderRadius: '50%',
-            border: '2px solid hsl(0 0% 45%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '10px',
-            fontWeight: 'bold',
-            color: 'hsl(0 0% 45%)'
-          }}>
-            ⏰
-          </div>
+          <TimerIcon style={{ width: '16px', height: '16px', color: 'hsl(0 0% 45%)' }} />
           Данные актуальны на {getCurrentTime()}
         </LastUpdated>
       </ActionsSection>
