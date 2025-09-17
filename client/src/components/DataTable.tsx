@@ -217,9 +217,11 @@ export default function DataTable({
     setCurrentPage(1);
   };
 
-  const handlePageSizeChange = (event: any, data: { value: number }) => {
-    setItemsPerPage(data.value);
-    setCurrentPage(1);
+  const handlePageSizeChange = (event: any, data?: { value?: number }) => {
+    if (data?.value) {
+      setItemsPerPage(data.value);
+      setCurrentPage(1);
+    }
   };
 
   const handlePaginationChange = (event: any, data: { pageIndex: number; pageSize: number }) => {
