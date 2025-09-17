@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
+import AuctionDetailView from "./AuctionDetailView";
 import { Button } from "vienna-ui";
 import { AddIcon } from "vienna.icons";
 
@@ -49,61 +50,20 @@ const Title = styled.h1`
   margin: 0;
 `;
 
-//todo: remove mock functionality
 const newAuctionsData = [
   {
-    period: "12.09.2025 12:20 - 15.09.2025 12:20",
-    auctionAmount: "799 841,00 ₽",
-    bidsAmount: "—",
-    paymentDate: "12.09.2025",
+    id: 1,
+    period: "17.09.2025 12:20 - 31.12.2025 12:20",
+    auctionAmount: "100 000 000,00 ₽",
+    bidsAmount: "150 000 000,00 ₽",
+    paymentDate: "05.01.2025",
     status: "Запланирован"
-  },
-  {
-    period: "11.09.2025 12:20 - 13.09.2025 12:20",
-    auctionAmount: "585 378,00 ₽",
-    bidsAmount: "—",
-    paymentDate: "12.09.2025",
-    status: "Запланирован"
-  },
-  {
-    period: "10.09.2025 12:20 - 15.09.2025 12:20",
-    auctionAmount: "670 990,00 ₽",
-    bidsAmount: "788 236,00 ₽",
-    paymentDate: "11.09.2025",
-    status: "В процессе"
-  },
-  {
-    period: "16.09.2025 12:20 - 16.09.2025 12:20",
-    auctionAmount: "978 404,00 ₽",
-    bidsAmount: "496 158,00 ₽",
-    paymentDate: "12.09.2025",
-    status: "В процессе"
-  },
-  {
-    period: "11.09.2025 12:20 - 16.09.2025 12:20",
-    auctionAmount: "749 948,00 ₽",
-    bidsAmount: "734 867,00 ₽",
-    paymentDate: "10.09.2025",
-    status: "В процессе"
-  },
-  {
-    period: "11.09.2025 12:20 - 14.09.2025 12:20",
-    auctionAmount: "389 491,00 ₽",
-    bidsAmount: "—",
-    paymentDate: "11.09.2025",
-    status: "Запланирован"
-  },
-  {
-    period: "15.09.2025 12:20 - 11.09.2025 12:20",
-    auctionAmount: "612 449,00 ₽",
-    bidsAmount: "837 367,00 ₽",
-    paymentDate: "14.09.2025",
-    status: "В процессе"
   }
 ];
 
 const awaitingResponseData = [
   {
+    id: 2,
     period: "11.09.2025 12:20 - 10.09.2025 12:20",
     auctionAmount: "695 314,00 ₽",
     bidsAmount: "785 480,00 ₽",
@@ -111,6 +71,7 @@ const awaitingResponseData = [
     status: "Ждет решения"
   },
   {
+    id: 3,
     period: "12.09.2025 12:20 - 14.09.2025 12:20",
     auctionAmount: "711 763,00 ₽",
     bidsAmount: "277 593,00 ₽",
@@ -118,6 +79,7 @@ const awaitingResponseData = [
     status: "Ждет решения"
   },
   {
+    id: 4,
     period: "16.09.2025 12:20 - 10.09.2025 12:20",
     auctionAmount: "253 570,00 ₽",
     bidsAmount: "851 621,00 ₽",
@@ -125,6 +87,7 @@ const awaitingResponseData = [
     status: "Ждет решения"
   },
   {
+    id: 5,
     period: "10.09.2025 12:20 - 14.09.2025 12:20",
     auctionAmount: "377 554,00 ₽",
     bidsAmount: "324 780,00 ₽",
@@ -135,6 +98,7 @@ const awaitingResponseData = [
 
 const otherStatusAuctionsData = [
   {
+    id: 6,
     period: "16.09.2025 12:20 - 10.09.2025 12:20",
     auctionAmount: "930 239,00 ₽",
     bidsAmount: "748 642,00 ₽",
@@ -142,6 +106,7 @@ const otherStatusAuctionsData = [
     status: "Отменен"
   },
   {
+    id: 7,
     period: "12.09.2025 12:20 - 10.09.2025 12:20",
     auctionAmount: "451 715,00 ₽",
     bidsAmount: "952 554,00 ₽",
@@ -149,6 +114,7 @@ const otherStatusAuctionsData = [
     status: "Отменен"
   },
   {
+    id: 8,
     period: "12.09.2025 12:20 - 13.09.2025 12:20",
     auctionAmount: "745 900,00 ₽",
     bidsAmount: "842 893,00 ₽",
@@ -156,6 +122,7 @@ const otherStatusAuctionsData = [
     status: "Закрыт"
   },
   {
+    id: 9,
     period: "13.09.2025 12:20 - 13.09.2025 12:20",
     auctionAmount: "528 247,00 ₽",
     bidsAmount: "324 802,00 ₽",
@@ -163,6 +130,7 @@ const otherStatusAuctionsData = [
     status: "Отменен"
   },
   {
+    id: 10,
     period: "10.09.2025 12:20 - 14.09.2025 12:20",
     auctionAmount: "288 725,00 ₽",
     bidsAmount: "410 343,00 ₽",
@@ -170,6 +138,7 @@ const otherStatusAuctionsData = [
     status: "Закрыт"
   },
   {
+    id: 11,
     period: "15.09.2025 12:20 - 14.09.2025 12:20",
     auctionAmount: "564 102,00 ₽",
     bidsAmount: "751 047,00 ₽",
@@ -177,6 +146,7 @@ const otherStatusAuctionsData = [
     status: "Не выполнен"
   },
   {
+    id: 12,
     period: "15.09.2025 12:20 - 11.09.2025 12:20",
     auctionAmount: "820 072,00 ₽",
     bidsAmount: "698 587,00 ₽",
@@ -188,7 +158,7 @@ const otherStatusAuctionsData = [
 const columns = [
   { key: 'period', header: 'Период проведения' },
   { key: 'auctionAmount', header: 'Сумма аукциона' },
-  { key: 'bidsAmount', header: 'Сумма ставок' },
+  { key: 'bidsAmount', header: 'Сумма ответов' },
   { key: 'paymentDate', header: 'Дата ранней оплаты' },
   { 
     key: 'status', 
@@ -199,6 +169,7 @@ const columns = [
 
 export default function AuctionsPage() {
   const [activeTab, setActiveTab] = useState("new");
+  const [selectedAuction, setSelectedAuction] = useState<any>(null);
 
   const getTabData = () => {
     switch (activeTab) {
@@ -213,6 +184,23 @@ export default function AuctionsPage() {
         return newAuctionsData;
     }
   };
+
+  const handleRowClick = (auction: any) => {
+    setSelectedAuction(auction);
+  };
+
+  const handleBackToList = () => {
+    setSelectedAuction(null);
+  };
+
+  if (selectedAuction) {
+    return (
+      <AuctionDetailView 
+        auction={selectedAuction} 
+        onBack={handleBackToList}
+      />
+    );
+  }
 
   return (
     <PageContainer>
@@ -248,6 +236,7 @@ export default function AuctionsPage() {
         columns={columns}
         data={getTabData()}
         onRowSelect={(rows) => console.log('Selected auctions:', rows)}
+        onRowClick={handleRowClick}
         actions={
           <Button 
             data-testid="button-create-auction"

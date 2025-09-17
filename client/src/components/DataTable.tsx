@@ -168,6 +168,7 @@ interface DataTableProps {
   columns: DataTableColumn[];
   data: any[];
   onRowSelect?: (selectedRows: any[]) => void;
+  onRowClick?: (row: any) => void;
   actions?: React.ReactNode;
   showFilters?: boolean;
   showCheckboxes?: boolean;
@@ -178,6 +179,7 @@ export default function DataTable({
   columns, 
   data, 
   onRowSelect,
+  onRowClick,
   actions,
   showFilters = true,
   showCheckboxes = true 
@@ -326,6 +328,8 @@ export default function DataTable({
                 <CustomTable.Row
                   key={originalIndex}
                   data-testid={`row-item-${originalIndex}`}
+                  onClick={() => onRowClick?.(row)}
+                  style={{ cursor: onRowClick ? 'pointer' : 'default' }}
                 >
                   {showCheckboxes && (
                     <CustomTable.Data>
