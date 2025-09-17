@@ -3,6 +3,7 @@ import styled from "styled-components";
 import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
 import AuctionDetailView from "./AuctionDetailView";
+import AuctionInProgressView from "./AuctionInProgressView";
 import { Button } from "vienna-ui";
 import { AddIcon } from "vienna.icons";
 
@@ -58,6 +59,14 @@ const newAuctionsData = [
     bidsAmount: "150 000 000,00 ₽",
     paymentDate: "05.01.2025",
     status: "Запланирован"
+  },
+  {
+    id: 2,
+    period: "17.09.2025 12:20 - 31.12.2025 12:20",
+    auctionAmount: "200 000 000,00 ₽",
+    bidsAmount: "250 000 000,00 ₽",
+    paymentDate: "01.01.2025",
+    status: "В процессе"
   }
 ];
 
@@ -194,12 +203,22 @@ export default function AuctionsPage() {
   };
 
   if (selectedAuction) {
-    return (
-      <AuctionDetailView 
-        auction={selectedAuction} 
-        onBack={handleBackToList}
-      />
-    );
+    // Show different views based on auction status
+    if (selectedAuction.status === "В процессе") {
+      return (
+        <AuctionInProgressView 
+          auction={selectedAuction} 
+          onBack={handleBackToList}
+        />
+      );
+    } else {
+      return (
+        <AuctionDetailView 
+          auction={selectedAuction} 
+          onBack={handleBackToList}
+        />
+      );
+    }
   }
 
   return (
