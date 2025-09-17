@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button } from "vienna-ui";
-import { UploadIcon, GoLeftIcon, DocIcon } from "vienna.icons";
+import { UploadIcon, GoLeftIcon, DocIcon, RefreshRepeatIcon } from "vienna.icons";
 import StatusBadge from "./StatusBadge";
 
 const Container = styled.div`
@@ -288,18 +288,7 @@ export default function AuctionInProgressView({ auction, onBack }: AuctionInProg
 
       <ActionsSection>
         <UpdateButton data-testid="button-update-data" size="m">
-          <div style={{
-            width: '16px',
-            height: '16px',
-            marginRight: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '12px',
-            fontWeight: 'bold'
-          }}>
-            🔄
-          </div>
+          <RefreshRepeatIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
           Обновить данные
         </UpdateButton>
         <LastUpdated>
