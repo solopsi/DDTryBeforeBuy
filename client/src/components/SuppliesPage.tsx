@@ -67,8 +67,10 @@ export default function SuppliesPage() {
               onClick={() => setIsUploadModalOpen(true)}
               data-testid="button-load-supplies"
             >
-              <span style={{ marginRight: '8px' }}><DownloadIcon style={{ width: '16px', height: '16px' }} /></span>
-              Загрузить
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <DownloadIcon style={{ width: '16px', height: '16px' }} />
+                Загрузить
+              </div>
             </Button>
             <Button 
               design="primary"
