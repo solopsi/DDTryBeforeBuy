@@ -180,6 +180,7 @@ export default function DataTable({
 }: DataTableProps) {
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -208,11 +209,23 @@ export default function DataTable({
     }
   };
 
-  const filteredData = data.filter(row =>
-    Object.values(row).some(value => 
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setStatusFilter("all");
+    setCurrentPage(1);
+  };
+
+  const filteredData = data.filter(row => {
+    // Search filter
+    const matchesSearch = Object.values(row).some(value => 
       String(value).toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
+    );
+    
+    // Status filter
+    const matchesStatus = statusFilter === "all" || row.status === statusFilter;
+    
+    return matchesSearch && matchesStatus;
+  });
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -243,6 +256,18 @@ export default function DataTable({
             <option value="moscow">АО Тестовая компания</option>
           </FilterSelect>
 
+          <FilterSelect 
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            data-testid="select-status"
+          >
+            <option value="all">Все статусы</option>
+            <option value="Активный">Активный</option>
+            <option value="Зарегистрирован">Зарегистрирован</option>
+            <option value="Отклонен">Отклонен</option>
+            <option value="Не активный">Не активный</option>
+          </FilterSelect>
+
           <FilterGroupSmall>
             <IconWrapper><CalendarIcon /></IconWrapper>
             <FilterDateInput 
@@ -256,7 +281,12 @@ export default function DataTable({
             />
           </FilterGroupSmall>
 
-          <Button design="outline" size="s" data-testid="button-clear-filters">
+          <Button 
+            design="outline" 
+            size="s" 
+            onClick={handleClearFilters}
+            data-testid="button-clear-filters"
+          >
             Сбросить
           </Button>
         </FilterSection>

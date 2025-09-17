@@ -80,7 +80,7 @@ export default function SuppliersPage() {
           Добавить поставщика
         </Button>
       }
-      showFilters={false}
+      showFilters={true}
     />
   );
 }
