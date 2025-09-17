@@ -217,9 +217,13 @@ export default function DataTable({
     setCurrentPage(1);
   };
 
-  const handlePageSizeChange = (newSize: number) => {
-    setItemsPerPage(newSize);
+  const handlePageSizeChange = (event: any, data: { value: number }) => {
+    setItemsPerPage(data.value);
     setCurrentPage(1);
+  };
+
+  const handlePaginationChange = (event: any, data: { pageIndex: number; pageSize: number }) => {
+    setCurrentPage(data.pageIndex + 1); // ViennaUI uses 0-based pageIndex
   };
 
   const filteredData = data.filter(row => {
@@ -359,7 +363,7 @@ export default function DataTable({
             <span>Показывать по:</span>
             <Select
               value={itemsPerPage}
-              onChange={(value) => handlePageSizeChange(value)}
+              onSelect={handlePageSizeChange}
               data-testid="select-page-size"
             >
               <Select.Option value={60}>60</Select.Option>
@@ -369,9 +373,10 @@ export default function DataTable({
           </PageSizeSelector>
           
           <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
+            pageSize={itemsPerPage}
+            totalItemsCount={filteredData.length}
+            currentPage={currentPage - 1}
+            onChange={handlePaginationChange}
             data-testid="pagination"
           />
         </PaginationGroup>
