@@ -262,10 +262,13 @@ export default function DataTable({
             data-testid="select-status"
           >
             <option value="all">Все статусы</option>
+            <option value="На проверке">На проверке</option>
+            <option value="Ждет приглашения">Ждет приглашения</option>
+            <option value="Приглашен">Приглашен</option>
+            <option value="Регистрируется">Регистрируется</option>
             <option value="Активный">Активный</option>
-            <option value="Зарегистрирован">Зарегистрирован</option>
             <option value="Отклонен">Отклонен</option>
-            <option value="Не активный">Не активный</option>
+            <option value="Неактивен">Неактивен</option>
           </FilterSelect>
 
           <FilterGroupSmall>
