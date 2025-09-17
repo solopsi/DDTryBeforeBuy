@@ -134,21 +134,6 @@ export default function MainApp() {
         onItemClick={setActiveSection}
       />
       <MainContent>
-        <Header>
-          <HeaderLeft>
-            <SidebarToggle data-testid="button-sidebar-toggle">
-              <ListIcon style={{ width: '20px', height: '20px' }} />
-            </SidebarToggle>
-          </HeaderLeft>
-          
-          <HeaderRight>
-            <SupportEmail>dd.support@raiffeisen.ru</SupportEmail>
-            <LoginButton data-testid="button-login-nav">
-              Войти
-            </LoginButton>
-          </HeaderRight>
-        </Header>
-        
         <MainSection>
           {renderContent()}
         </MainSection>
