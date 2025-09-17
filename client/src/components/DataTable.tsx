@@ -247,11 +247,13 @@ export default function DataTable({
             <IconWrapper><CalendarIcon /></IconWrapper>
             <FilterDateInput 
               type="date" 
+              placeholder="ДД.ММ.ГГГГ"
               data-testid="input-date-from"
             />
             <DateSeparator>—</DateSeparator>
             <FilterDateInput 
               type="date" 
+              placeholder="ДД.ММ.ГГГГ"
               data-testid="input-date-to"
             />
           </FilterGroupSmall>
