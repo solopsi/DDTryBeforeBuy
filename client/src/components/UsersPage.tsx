@@ -90,6 +90,7 @@ export default function UsersPage() {
           </Button>
         }
         showFilters={false}
+        showCheckboxes={false}
       />
 
       <Modal 

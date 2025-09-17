@@ -170,6 +170,7 @@ interface DataTableProps {
   onRowSelect?: (selectedRows: any[]) => void;
   actions?: React.ReactNode;
   showFilters?: boolean;
+  showCheckboxes?: boolean;
 }
 
 export default function DataTable({ 
@@ -178,7 +179,8 @@ export default function DataTable({
   data, 
   onRowSelect,
   actions,
-  showFilters = true 
+  showFilters = true,
+  showCheckboxes = true 
 }: DataTableProps) {
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
@@ -301,13 +303,15 @@ export default function DataTable({
         <CustomTable>
           <CustomTable.Head>
             <CustomTable.Row>
-              <CustomTable.Data>
-                <Checkbox
-                  checked={selectedRows.size === data.length && data.length > 0}
-                  onChange={(e) => handleSelectAll(e.target.checked)}
-                  data-testid="checkbox-select-all"
-                />
-              </CustomTable.Data>
+              {showCheckboxes && (
+                <CustomTable.Data>
+                  <Checkbox
+                    checked={selectedRows.size === data.length && data.length > 0}
+                    onChange={(e) => handleSelectAll(e.target.checked)}
+                    data-testid="checkbox-select-all"
+                  />
+                </CustomTable.Data>
+              )}
               {columns.map((column) => (
                 <CustomTable.Header key={column.key}>
                   {column.header}
@@ -323,13 +327,15 @@ export default function DataTable({
                   key={originalIndex}
                   data-testid={`row-item-${originalIndex}`}
                 >
-                  <CustomTable.Data>
-                    <Checkbox
-                      checked={selectedRows.has(originalIndex)}
-                      onChange={(e) => handleRowSelect(originalIndex, e.target.checked)}
-                      data-testid={`checkbox-row-${originalIndex}`}
-                    />
-                  </CustomTable.Data>
+                  {showCheckboxes && (
+                    <CustomTable.Data>
+                      <Checkbox
+                        checked={selectedRows.has(originalIndex)}
+                        onChange={(e) => handleRowSelect(originalIndex, e.target.checked)}
+                        data-testid={`checkbox-row-${originalIndex}`}
+                      />
+                    </CustomTable.Data>
+                  )}
                   {columns.map((column) => (
                     <CustomTable.Data key={column.key}>
                       {column.render ? 
