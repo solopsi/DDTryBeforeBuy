@@ -63,6 +63,12 @@ export default function SuppliesPage() {
         actions={
           <div style={{ display: 'flex', gap: '8px' }}>
             <Button 
+              design="primary"
+              data-testid="button-notify-suppliers"
+            >
+              Удалить поставки на отправку
+            </Button>
+            <Button 
               design="outline" 
               onClick={() => setIsUploadModalOpen(true)}
               data-testid="button-load-supplies"
@@ -71,12 +77,6 @@ export default function SuppliesPage() {
                 <DownloadIcon style={{ width: '16px', height: '16px' }} />
                 Загрузить
               </div>
-            </Button>
-            <Button 
-              design="primary"
-              data-testid="button-notify-suppliers"
-            >
-              Удалить поставки на отправку
             </Button>
           </div>
         }
