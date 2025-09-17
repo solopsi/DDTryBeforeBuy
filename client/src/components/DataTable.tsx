@@ -345,14 +345,6 @@ export default function DataTable({
         </CustomTable>
       </TableContainer>
 
-      {selectedRows.size > 0 && (
-        <SelectionBar>
-          <IconWrapper><DocSearchIcon /></IconWrapper>
-          <span>Настроить перед отправкой</span>
-          <span>Количество: {selectedRows.size}</span>
-          <span>Оплата: {selectedRows.size * 567420} ₽</span>
-        </SelectionBar>
-      )}
 
       <Footer>
         <FooterText>
