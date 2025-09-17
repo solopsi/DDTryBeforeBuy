@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Button, Checkbox, Input } from "vienna-ui";
+import { Button, Checkbox, Input, CustomTable } from "vienna-ui";
 import StatusBadge from "./StatusBadge";
 
 // ViennaUI Icons
@@ -113,49 +113,46 @@ const PageNumbers = styled.div`
   gap: 4px;
 `;
 
-// ViennaUI-styled table components
+// ViennaUI table styling
 const TableContainer = styled.div`
   border: 1px solid hsl(0 0% 90%);
   border-radius: 8px;
   background: white;
   overflow: hidden;
-`;
-
-const ViennaTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-`;
-
-const TableHead = styled.thead`
-  background: hsl(0 0% 98%);
-`;
-
-const TableBody = styled.tbody`
-  & tr:hover {
+  
+  /* Style ViennaUI CustomTable components */
+  & table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  & thead {
     background: hsl(0 0% 98%);
   }
-`;
-
-const TableRow = styled.tr`
-  border-bottom: 1px solid hsl(0 0% 93%);
   
-  &:last-child {
+  & tbody tr:hover {
+    background: hsl(0 0% 98%);
+  }
+  
+  & tr {
+    border-bottom: 1px solid hsl(0 0% 93%);
+  }
+  
+  & tr:last-child {
     border-bottom: none;
   }
-`;
-
-const TableCell = styled.td`
-  padding: 12px 16px;
-  text-align: left;
-  vertical-align: middle;
-`;
-
-const TableHeaderCell = styled.th`
-  padding: 12px 16px;
-  text-align: left;
-  font-weight: 500;
-  color: hsl(0 0% 45%);
-  font-size: 14px;
+  
+  & td, & th {
+    padding: 12px 16px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  
+  & th {
+    font-weight: 500;
+    color: hsl(0 0% 45%);
+    font-size: 14px;
+  }
 `;
 
 interface DataTableColumn {
@@ -266,51 +263,51 @@ export default function DataTable({
       )}
 
       <TableContainer>
-        <ViennaTable>
-          <TableHead>
-            <TableRow>
-              <TableCell>
+        <CustomTable>
+          <CustomTable.Head>
+            <CustomTable.Row>
+              <CustomTable.Data>
                 <Checkbox
                   checked={selectedRows.size === data.length && data.length > 0}
                   onChange={(e) => handleSelectAll(e.target.checked)}
                   data-testid="checkbox-select-all"
                 />
-              </TableCell>
+              </CustomTable.Data>
               {columns.map((column) => (
-                <TableHeaderCell key={column.key}>
+                <CustomTable.Header key={column.key}>
                   {column.header}
-                </TableHeaderCell>
+                </CustomTable.Header>
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
+            </CustomTable.Row>
+          </CustomTable.Head>
+          <CustomTable.Body>
             {paginatedData.map((row, index) => {
               const originalIndex = startIndex + index;
               return (
-                <TableRow
+                <CustomTable.Row
                   key={originalIndex}
                   data-testid={`row-item-${originalIndex}`}
                 >
-                  <TableCell>
+                  <CustomTable.Data>
                     <Checkbox
                       checked={selectedRows.has(originalIndex)}
                       onChange={(e) => handleRowSelect(originalIndex, e.target.checked)}
                       data-testid={`checkbox-row-${originalIndex}`}
                     />
-                  </TableCell>
+                  </CustomTable.Data>
                   {columns.map((column) => (
-                    <TableCell key={column.key}>
+                    <CustomTable.Data key={column.key}>
                       {column.render ? 
                         column.render(row[column.key], row) : 
                         String(row[column.key])
                       }
-                    </TableCell>
+                    </CustomTable.Data>
                   ))}
-                </TableRow>
+                </CustomTable.Row>
               );
             })}
-          </TableBody>
-        </ViennaTable>
+          </CustomTable.Body>
+        </CustomTable>
       </TableContainer>
 
       {selectedRows.size > 0 && (
