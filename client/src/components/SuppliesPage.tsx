@@ -1,9 +1,54 @@
 import { useState } from "react";
+import styled from "styled-components";
 import DataTable from "./DataTable";
 import StatusBadge from "./StatusBadge";
 import FileUploadModal from "./FileUploadModal";
 import { Button } from "vienna-ui/dist/Button";
 import { DownloadIcon } from "vienna.icons";
+
+// Styled components for tabs
+const TabNavigation = styled.div`
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid hsl(0 0% 90%);
+  padding-bottom: 0;
+`;
+
+const TabButton = styled.button<{ $active?: boolean }>`
+  background: none;
+  border: none;
+  color: ${props => props.$active ? 'hsl(0 0% 8%)' : 'hsl(0 0% 64%)'};
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 0;
+  border-bottom: ${props => props.$active ? '2px solid hsl(45 100% 50%)' : '2px solid transparent'};
+  transition: all 0.2s ease;
+  font-weight: ${props => props.$active ? '500' : '400'};
+  
+  &:hover {
+    color: hsl(0 0% 8%);
+  }
+`;
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const TitleSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+`;
 
 //todo: remove mock functionality
 const suppliesData = [
@@ -52,11 +97,46 @@ const columns = [
 
 export default function SuppliesPage() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("on-shipment");
 
   return (
-    <>
+    <PageContainer>
+      <TitleSection>
+        <Title>Поставки</Title>
+        <TabNavigation>
+          <TabButton 
+            $active={activeTab === "on-shipment"}
+            onClick={() => setActiveTab("on-shipment")}
+            data-testid="nav-not-shipped"
+          >
+            На отправку
+          </TabButton>
+          <TabButton 
+            $active={activeTab === "awaiting-response"}
+            onClick={() => setActiveTab("awaiting-response")}
+            data-testid="nav-awaiting-response"
+          >
+            Ждет вашего ответа
+          </TabButton>
+          <TabButton 
+            $active={activeTab === "with-error"}
+            onClick={() => setActiveTab("with-error")}
+            data-testid="nav-with-error"
+          >
+            С ошибкой
+          </TabButton>
+          <TabButton 
+            $active={activeTab === "all-supplies"}
+            onClick={() => setActiveTab("all-supplies")}
+            data-testid="nav-all-supplies"
+          >
+            Все поставки
+          </TabButton>
+        </TabNavigation>
+      </TitleSection>
+
       <DataTable
-        title="Поставки"
+        title="" // Remove title since we have it above
         columns={columns}
         data={suppliesData}
         onRowSelect={(rows) => console.log('Selected supplies:', rows)}
@@ -86,6 +166,6 @@ export default function SuppliesPage() {
         isOpen={isUploadModalOpen}
         onClose={() => setIsUploadModalOpen(false)}
       />
-    </>
+    </PageContainer>
   );
 }

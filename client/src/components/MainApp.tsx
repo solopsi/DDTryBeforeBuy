@@ -139,33 +139,6 @@ export default function MainApp() {
             <SidebarToggle data-testid="button-sidebar-toggle">
               <ListIcon style={{ width: '20px', height: '20px' }} />
             </SidebarToggle>
-            <TopNavigation>
-              <NavButton 
-                $active={activeSection === "/supplies"}
-                onClick={() => setActiveSection("/supplies")}
-                data-testid="nav-not-shipped"
-              >
-                На отправку
-              </NavButton>
-              <NavButton 
-                onClick={() => console.log('Awaiting response clicked')}
-                data-testid="nav-awaiting-response"
-              >
-                Ждет вашего ответа
-              </NavButton>
-              <NavButton 
-                onClick={() => console.log('With error clicked')}
-                data-testid="nav-with-error"
-              >
-                С ошибкой
-              </NavButton>
-              <NavButton 
-                onClick={() => console.log('All supplies clicked')}
-                data-testid="nav-all-supplies"
-              >
-                Все поставки
-              </NavButton>
-            </TopNavigation>
           </HeaderLeft>
           
           <HeaderRight>
