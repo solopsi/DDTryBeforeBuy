@@ -76,7 +76,7 @@ export default function SuppliesPage() {
               design="primary"
               data-testid="button-notify-suppliers"
             >
-              Уведить поставщиков об отправкой
+              Удалить поставки на отправку
             </Button>
           </div>
         }
