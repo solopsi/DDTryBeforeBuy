@@ -35,8 +35,7 @@ const DrawerHeader = styled.div`
 
 const HeaderLeft = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
 `;
 
 const HeaderTitle = styled.h2`
@@ -281,13 +280,13 @@ export default function SupplierSelectionDrawer({
         <DrawerHeader>
           <HeaderLeft>
             <HeaderTitle>Участники аукциона {totalCount}</HeaderTitle>
-            <ResetLink 
-              onClick={handleToggleAll}
-              data-testid="button-toggle-all"
-            >
-              {allSelected ? `Сбросить всех (${totalCount})` : `Выбрать всех (${totalCount})`}
-            </ResetLink>
           </HeaderLeft>
+          <ResetLink 
+            onClick={handleToggleAll}
+            data-testid="button-toggle-all"
+          >
+            {allSelected ? `Сбросить всех (${totalCount})` : `Выбрать всех (${totalCount})`}
+          </ResetLink>
         </DrawerHeader>
 
         <DrawerBody>
