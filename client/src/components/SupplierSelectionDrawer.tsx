@@ -260,6 +260,15 @@ export default function SupplierSelectionDrawer({
 
   const selectedCount = selectedSuppliers.length;
   const totalCount = mockSuppliers.length;
+  const allSelected = selectedCount === totalCount;
+
+  const handleToggleAll = () => {
+    if (allSelected) {
+      handleDeselectAll();
+    } else {
+      handleSelectAll();
+    }
+  };
 
   return (
     <Drawer
@@ -272,10 +281,10 @@ export default function SupplierSelectionDrawer({
           <HeaderLeft>
             <HeaderTitle>Участники аукциона {totalCount}</HeaderTitle>
             <ResetLink 
-              onClick={handleDeselectAll}
-              data-testid="button-reset-all"
+              onClick={handleToggleAll}
+              data-testid="button-toggle-all"
             >
-              Сбросить всех ({totalCount})
+              {allSelected ? `Сбросить всех (${totalCount})` : `Выбрать всех (${totalCount})`}
             </ResetLink>
           </HeaderLeft>
         </DrawerHeader>
