@@ -416,16 +416,6 @@ export default function AuctionsPage() {
         data={getTabData()}
         onRowSelect={(rows) => console.log('Selected auctions:', rows)}
         onRowClick={handleRowClick}
-        actions={
-          <Button 
-            data-testid="button-create-auction"
-            onClick={handleCreateAuction}
-            style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
-          >
-            <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
-            Создать
-          </Button>
-        }
         showFilters={true}
       />
     </PageContainer>
