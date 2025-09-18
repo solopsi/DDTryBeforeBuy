@@ -8,6 +8,7 @@ import AuctionAwaitingDecisionView from "./AuctionAwaitingDecisionView";
 import AuctionOfferSelectionView from "./AuctionOfferSelectionView";
 import AuctionAgreementFormationView from "./AuctionAgreementFormationView";
 import ColoredBidsAmount from "./ColoredBidsAmount";
+import CreateAuctionForm from "./CreateAuctionForm";
 import { Button } from "vienna-ui";
 import { AddIcon } from "vienna.icons";
 
@@ -49,13 +50,20 @@ const TitleSection = styled.div`
   gap: 12px;
 `;
 
+const TitleRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+`;
+
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 600;
   margin: 0;
 `;
 
-const newAuctionsData = [
+const initialNewAuctionsData = [
   {
     id: 1,
     period: "17.09.2025 12:20 - 31.12.2025 12:20",
@@ -177,7 +185,8 @@ const columns = [
 export default function AuctionsPage() {
   const [activeTab, setActiveTab] = useState("new");
   const [selectedAuction, setSelectedAuction] = useState<any>(null);
-  const [currentView, setCurrentView] = useState<'list' | 'detail' | 'offer-selection' | 'agreement-formation'>('list');
+  const [currentView, setCurrentView] = useState<'list' | 'detail' | 'offer-selection' | 'agreement-formation' | 'create-form'>('list');
+  const [newAuctionsData, setNewAuctionsData] = useState(initialNewAuctionsData);
 
   const getTabData = () => {
     switch (activeTab) {
@@ -225,6 +234,94 @@ export default function AuctionsPage() {
     setCurrentView('list');
     setSelectedAuction(null);
   };
+
+  const handleCreateAuction = () => {
+    setCurrentView('create-form');
+  };
+
+  const handleBackToListFromCreate = () => {
+    setCurrentView('list');
+  };
+
+  // Utility function to format currency with thousand separators
+  const formatCurrencyAmount = (amount: string): string => {
+    if (!amount) return "0,00 ₽";
+    
+    // Remove currency symbol and spaces for processing
+    let cleanAmount = amount.replace(/[₽\s]/g, '').replace(',', '.');
+    
+    // Parse as number and format
+    const numericAmount = parseFloat(cleanAmount) || 0;
+    
+    // Format with thousand separators and 2 decimal places
+    const formatted = numericAmount.toLocaleString('ru-RU', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+    
+    // Replace period with comma for Russian format
+    return formatted.replace('.', ',') + ' ₽';
+  };
+
+  const generateAuctionFromFormData = (formData: any) => {
+    // Generate unique ID based on current auctions
+    const allAuctions = [...newAuctionsData, ...awaitingResponseData, ...otherStatusAuctionsData];
+    const maxId = Math.max(...allAuctions.map(auction => auction.id), 0);
+    const newId = maxId + 1;
+
+    // Format period from form data
+    const period = `${formData.startDate} ${formData.startTime} - ${formData.endDate} ${formData.endTime}`;
+    
+    // Format auction amount with proper currency formatting
+    const auctionAmount = formatCurrencyAmount(formData.auctionAmount);
+
+    return {
+      id: newId,
+      period: period,
+      auctionAmount: auctionAmount,
+      bidsAmount: "0,00 ₽", // Default value for new auctions
+      paymentDate: formData.earlyPaymentDate,
+      status: "Запланирован"
+    };
+  };
+
+  // Show create form
+  if (currentView === 'create-form') {
+    return (
+      <PageContainer>
+        <TitleSection>
+          <TitleRow>
+            <Title>Новый аукцион</Title>
+            <Button 
+              data-testid="button-back-to-list"
+              onClick={handleBackToListFromCreate}
+              style={{ backgroundColor: 'transparent', color: '#2B2D33', border: '1px solid #E0E0E0' }}
+            >
+              ← Список аукционов
+            </Button>
+          </TitleRow>
+        </TitleSection>
+        <CreateAuctionForm 
+          onCreateAuction={(auctionData) => {
+            console.log('Creating auction with data:', auctionData);
+            
+            // Generate new auction object
+            const newAuction = generateAuctionFromFormData(auctionData);
+            
+            // Add new auction to the state
+            setNewAuctionsData(prevAuctions => [...prevAuctions, newAuction]);
+            
+            // Switch to "Новые" tab to show the new auction
+            setActiveTab("new");
+            
+            // Navigate back to list
+            handleBackToListFromCreate();
+          }}
+          onBack={handleBackToListFromCreate}
+        />
+      </PageContainer>
+    );
+  }
 
   if (selectedAuction && currentView !== 'list') {
     // Show agreement formation view
@@ -277,7 +374,17 @@ export default function AuctionsPage() {
   return (
     <PageContainer>
       <TitleSection>
-        <Title>Аукционы</Title>
+        <TitleRow>
+          <Title>Аукционы</Title>
+          <Button 
+            data-testid="button-create-auction-header"
+            onClick={handleCreateAuction}
+            style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
+          >
+            <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+            Создать
+          </Button>
+        </TitleRow>
         <TabNavigation>
           <TabButton 
             $active={activeTab === "new"}
@@ -312,6 +419,7 @@ export default function AuctionsPage() {
         actions={
           <Button 
             data-testid="button-create-auction"
+            onClick={handleCreateAuction}
             style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
           >
             <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
