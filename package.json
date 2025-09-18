@@ -24,6 +24,7 @@
     "tailwindcss-animate": "^1.0.7",
     "vienna-ui": "^11.30.0",
     "vienna.icons": "^5.18.0",
+    "vienna.ui-theme": "^5.55.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
