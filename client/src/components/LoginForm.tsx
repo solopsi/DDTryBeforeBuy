@@ -5,6 +5,7 @@ import RaiffeisenLogo from "./RaiffeisenLogo";
 
 interface LoginFormProps {
   onLogin?: (email: string, password: string) => void;
+  error?: string | null;
 }
 
 const SplitScreenContainer = styled.div`
@@ -144,7 +145,17 @@ const ForgotPasswordLink = styled.a`
   }
 `;
 
-export default function LoginForm({ onLogin }: LoginFormProps) {
+const ErrorMessage = styled.div`
+  background-color: hsl(0 84% 95%);
+  border: 1px solid hsl(0 84% 80%);
+  color: hsl(0 84% 40%);
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 16px;
+`;
+
+export default function LoginForm({ onLogin, error }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -180,6 +191,12 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
           </CardHeader>
           
           <Form onSubmit={handleSubmit}>
+            {error && (
+              <ErrorMessage data-testid="error-message">
+                {error}
+              </ErrorMessage>
+            )}
+            
             <FormField>
               <Label htmlFor="email">Электронная почта</Label>
               <Input
