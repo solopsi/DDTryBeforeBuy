@@ -20,8 +20,6 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "styled-components": "^6.1.19",
-    "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7",
     "vienna-ui": "^11.30.0",
     "vienna.icons": "^5.18.0",
     "vienna.ui-theme": "^5.55.0",
@@ -30,7 +28,6 @@
   "devDependencies": {
     "@replit/vite-plugin-cartographer": "^0.3.0",
     "@replit/vite-plugin-runtime-error-modal": "^0.0.3",
-    "@tailwindcss/typography": "^0.5.15",
     "@types/express": "4.17.21",
     "@types/node": "20.16.11",
     "@types/react": "^18.3.11",
@@ -38,7 +35,6 @@
     "@vitejs/plugin-react": "^4.3.2",
     "drizzle-kit": "^0.30.4",
     "esbuild": "^0.25.0",
-    "tailwindcss": "^3.4.17",
     "tsx": "^4.19.1",
     "typescript": "5.6.3",
     "vite": "^5.4.19"
