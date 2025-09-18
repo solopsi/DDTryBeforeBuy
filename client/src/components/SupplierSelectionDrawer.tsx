@@ -279,7 +279,7 @@ export default function SupplierSelectionDrawer({
       <DrawerContent>
         <DrawerHeader>
           <HeaderLeft>
-            <HeaderTitle>Участники аукциона {totalCount}</HeaderTitle>
+            <HeaderTitle>Участники аукциона {selectedCount}</HeaderTitle>
           </HeaderLeft>
           <ResetLink 
             onClick={handleToggleAll}
