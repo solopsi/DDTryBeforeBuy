@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import styled from "styled-components";
 import { Drawer } from "vienna-ui";
 import { Button, Input, Checkbox } from "vienna-ui";
-import { SearchIcon, CloseCancelXIcon } from "vienna.icons";
+import { SearchIcon } from "vienna.icons";
 
 interface Supplier {
   id: number;
@@ -58,17 +58,6 @@ const ResetLink = styled.button`
   }
 `;
 
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: hsl(0 0% 64%);
-  padding: 4px;
-  
-  &:hover {
-    color: hsl(0 0% 8%);
-  }
-`;
 
 const DrawerBody = styled.div`
   flex: 1;
@@ -289,12 +278,6 @@ export default function SupplierSelectionDrawer({
               Сбросить всех ({totalCount})
             </ResetLink>
           </HeaderLeft>
-          <CloseButton 
-            onClick={onClose}
-            data-testid="button-close-drawer"
-          >
-            <CloseCancelXIcon style={{ width: '20px', height: '20px' }} />
-          </CloseButton>
         </DrawerHeader>
 
         <DrawerBody>
