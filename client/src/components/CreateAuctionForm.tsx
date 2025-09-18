@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Input, Datepicker } from "vienna-ui";
 import { DocIcon } from "vienna.icons";
 import styled from "styled-components";
+import SupplierSelectionDrawer from "./SupplierSelectionDrawer";
 
 // Utility function to format Date objects to Russian DD.MM.YYYY format
 const formatDate = (date: Date | string): string => {
@@ -289,6 +290,13 @@ export default function CreateAuctionForm({ onCreateAuction, onBack }: CreateAuc
     rejectLowOffers: true
   });
 
+  // Drawer state
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedSuppliers, setSelectedSuppliers] = useState<number[]>(
+    // По умолчанию все 15 поставщиков выбраны (как в SupplierSelectionDrawer)
+    Array.from({ length: 15 }, (_, i) => i + 1)
+  );
+
   const handleSubmit = () => {
     onCreateAuction?.(formData);
   };
@@ -320,6 +328,13 @@ export default function CreateAuctionForm({ onCreateAuction, onBack }: CreateAuc
       [field]: value
     }));
   };
+
+  const handleSaveSuppliers = (suppliers: number[]) => {
+    setSelectedSuppliers(suppliers);
+    setIsDrawerOpen(false);
+  };
+
+  const totalSuppliers = 15; // Всего поставщиков согласно mock данным в SupplierSelectionDrawer
 
   return (
     <FormContainer>
@@ -429,10 +444,11 @@ export default function CreateAuctionForm({ onCreateAuction, onBack }: CreateAuc
         <ParticipantsContainer>
           <ParticipantsInfo>
             <DocIcon style={{ width: '20px', height: '20px', color: 'hsl(0 0% 64%)' }} />
-            <ParticipantsText>Выбрано 22 из 22 Поставщики</ParticipantsText>
+            <ParticipantsText>Выбрано {selectedSuppliers.length} из {totalSuppliers} Поставщики</ParticipantsText>
           </ParticipantsInfo>
           <Button
             design="outline"
+            onClick={() => setIsDrawerOpen(true)}
             data-testid="button-view-participants"
           >
             Посмотреть и изменить
@@ -484,6 +500,13 @@ export default function CreateAuctionForm({ onCreateAuction, onBack }: CreateAuc
       >
         Создать аукцион
       </CreateButton>
+
+      {/* Supplier Selection Drawer */}
+      <SupplierSelectionDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        onSave={handleSaveSuppliers}
+      />
     </FormContainer>
   );
 }
