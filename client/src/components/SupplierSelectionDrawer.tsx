@@ -22,6 +22,7 @@ const DrawerContent = styled.div`
   flex-direction: column;
   height: 100vh;
   background: white;
+  min-width: 630px;
 `;
 
 const DrawerHeader = styled.div`
