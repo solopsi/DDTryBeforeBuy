@@ -1,5 +1,5 @@
-import DataTable from "./DataTable";
-import StatusBadge from "./StatusBadge";
+import DataTable from "../DataTable";
+import StatusBadge from "../StatusBadge";
 
 //todo: remove mock functionality
 const agreementsData = [

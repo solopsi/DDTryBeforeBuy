@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import DataTable from "./DataTable";
-import StatusBadge from "./StatusBadge";
+import DataTable from "../DataTable";
+import StatusBadge from "../StatusBadge";
 import { Button, Modal, Input, Hint } from "vienna-ui";
 import { AddIcon, WarningTrIcon } from "vienna.icons";
 

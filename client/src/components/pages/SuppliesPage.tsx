@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import DataTable from "./DataTable";
-import StatusBadge from "./StatusBadge";
-import FileUploadModal from "./FileUploadModal";
+import DataTable from "../DataTable";
+import StatusBadge from "../StatusBadge";
+import FileUploadModal from "../FileUploadModal";
 import { Button } from "vienna-ui/dist/Button";
 import { DownloadIcon } from "vienna.icons";
 

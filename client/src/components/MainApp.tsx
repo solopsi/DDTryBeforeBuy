@@ -3,11 +3,11 @@ import { Button } from "vienna-ui";
 import styled from "styled-components";
 import { ListIcon } from "vienna.icons";
 import AppSidebar from "./AppSidebar";
-import SuppliesPage from "./SuppliesPage";
-import AgreementsPage from "./AgreementsPage";
-import AuctionsPage from "./AuctionsPage";
-import SuppliersPage from "./SuppliersPage";
-import UsersPage from "./UsersPage";
+import SuppliesPage from "./pages/SuppliesPage";
+import AgreementsPage from "./pages/AgreementsPage";
+import AuctionsPage from "./pages/AuctionsPage";
+import SuppliersPage from "./pages/SuppliersPage";
+import UsersPage from "./pages/UsersPage";
 
 const AppContainer = styled.div`
   display: flex;

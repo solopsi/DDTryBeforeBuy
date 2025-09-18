@@ -1,14 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
-import DataTable from "./DataTable";
-import StatusBadge from "./StatusBadge";
-import AuctionDetailView from "./AuctionDetailView";
-import AuctionInProgressView from "./AuctionInProgressView";
-import AuctionAwaitingDecisionView from "./AuctionAwaitingDecisionView";
-import AuctionOfferSelectionView from "./AuctionOfferSelectionView";
-import AuctionAgreementFormationView from "./AuctionAgreementFormationView";
-import ColoredBidsAmount from "./ColoredBidsAmount";
-import CreateAuctionForm from "./CreateAuctionForm";
+import DataTable from "../DataTable";
+import StatusBadge from "../StatusBadge";
+import AuctionDetailView from "../AuctionDetailView";
+import AuctionInProgressView from "../AuctionInProgressView";
+import AuctionAwaitingDecisionView from "../AuctionAwaitingDecisionView";
+import AuctionOfferSelectionView from "../AuctionOfferSelectionView";
+import AuctionAgreementFormationView from "../AuctionAgreementFormationView";
+import ColoredBidsAmount from "../ColoredBidsAmount";
+import CreateAuctionForm from "../CreateAuctionForm";
 import { Button } from "vienna-ui";
 import { AddIcon } from "vienna.icons";
 
