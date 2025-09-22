@@ -130,9 +130,10 @@ const LogoutButton = styled.button`
 interface AppSidebarProps {
   activeItem?: string;
   onItemClick?: (url: string) => void;
+  onLogout?: () => void;
 }
 
-export default function AppSidebar({ activeItem = "/supplies", onItemClick }: AppSidebarProps) {
+export default function AppSidebar({ activeItem = "/supplies", onItemClick, onLogout }: AppSidebarProps) {
   return (
     <SidebarContainer>
       <SidebarHeader>
@@ -171,7 +172,7 @@ export default function AppSidebar({ activeItem = "/supplies", onItemClick }: Ap
         </UserInfo>
         
         <LogoutButton
-          onClick={() => console.log('Logout clicked')}
+          onClick={onLogout}
           data-testid="button-logout"
         >
           <IconPlaceholder><ArrowsLeftRightIcon style={{ transform: 'rotate(180deg)' }} /></IconPlaceholder>

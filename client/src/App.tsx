@@ -29,13 +29,18 @@ function App() {
     }
   };
 
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setLoginError(null);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <Body>
         {!isAuthenticated ? (
           <LoginForm onLogin={handleLogin} error={loginError} />
         ) : (
-          <MainApp />
+          <MainApp onLogout={handleLogout} />
         )}
       </Body>
     </QueryClientProvider>

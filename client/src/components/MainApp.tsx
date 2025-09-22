@@ -107,7 +107,11 @@ const MainSection = styled.main`
   padding: 24px;
 `;
 
-export default function MainApp() {
+interface MainAppProps {
+  onLogout?: () => void;
+}
+
+export default function MainApp({ onLogout }: MainAppProps) {
   const [activeSection, setActiveSection] = useState("/supplies");
 
   const renderContent = () => {
@@ -132,6 +136,7 @@ export default function MainApp() {
       <AppSidebar 
         activeItem={activeSection}
         onItemClick={setActiveSection}
+        onLogout={onLogout}
       />
       <MainContent>
         <MainSection>
