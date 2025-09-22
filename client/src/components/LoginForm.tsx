@@ -169,7 +169,7 @@ export default function LoginForm({ onLogin, error }: LoginFormProps) {
       <BrandingPanel>
         <BrandingContent>
           <RaiffeisenLogo />
-          <BrandingTitle>DD_TryBeforeBy</BrandingTitle>
+          <BrandingTitle>DD Try Before Buy</BrandingTitle>
           <BrandingSubtitle>
             Платформа динамического дисконтирования для эффективного управления закупками
           </BrandingSubtitle>
