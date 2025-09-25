@@ -82,8 +82,8 @@ const DocumentHeader = styled.div`
   cursor: pointer;
 `;
 
-const ChevronIconWrapper = styled.div<{ isExpanded: boolean }>`
-  transform: ${props => props.isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};
+const ChevronIconWrapper = styled.div<{ $isExpanded: boolean }>`
+  transform: ${props => props.$isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};
   transition: transform 0.2s ease;
   display: flex;
   align-items: center;
@@ -135,8 +135,8 @@ const DrawerFooter = styled.div`
   border-top: 1px solid #e0e0e0;
 `;
 
-const CollapsibleContent = styled.div<{ isOpen: boolean }>`
-  display: ${props => props.isOpen ? 'block' : 'none'};
+const CollapsibleContent = styled.div<{ $isOpen: boolean }>`
+  display: ${props => props.$isOpen ? 'block' : 'none'};
 `;
 
 const Title = styled.h2`
@@ -200,14 +200,14 @@ const TabsContainer = styled.div`
   margin-bottom: 24px;
 `;
 
-const Tab = styled.button<{ isActive: boolean }>`
+const Tab = styled.button<{ $isActive: boolean }>`
   padding: 12px 24px;
   background: none;
   border: none;
-  border-bottom: 2px solid ${props => props.isActive ? '#FEE600' : 'transparent'};
-  color: ${props => props.isActive ? '#2B2D33' : '#666'};
+  border-bottom: 2px solid ${props => props.$isActive ? '#FEE600' : 'transparent'};
+  color: ${props => props.$isActive ? '#2B2D33' : '#666'};
   font-size: 14px;
-  font-weight: ${props => props.isActive ? '600' : '400'};
+  font-weight: ${props => props.$isActive ? '600' : '400'};
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -375,7 +375,7 @@ export default function AgreementsPage() {
           {tabs.map(tab => (
             <Tab
               key={tab.id}
-              isActive={activeTab === tab.id}
+              $isActive={activeTab === tab.id}
               onClick={() => setActiveTab(tab.id)}
               data-testid={`tab-${tab.id}`}
             >
@@ -449,7 +449,7 @@ export default function AgreementsPage() {
             {selectedAgreements.map((agreement, index) => (
               <DocumentCard key={index}>
                 <DocumentHeader onClick={() => toggleDocumentExpansion(index)}>
-                  <ChevronIconWrapper isExpanded={expandedDocuments.has(index)}>
+                  <ChevronIconWrapper $isExpanded={expandedDocuments.has(index)}>
                     <ChevronIcon />
                   </ChevronIconWrapper>
                   <DocumentHeaderContent>
@@ -461,7 +461,7 @@ export default function AgreementsPage() {
                   </DocumentHeaderContent>
                 </DocumentHeader>
                 
-                <CollapsibleContent isOpen={expandedDocuments.has(index)}>
+                <CollapsibleContent $isOpen={expandedDocuments.has(index)}>
                   <DocumentDetails>
                     <DetailRow>
                       <DetailLabel>Дата ранней оплаты</DetailLabel>
