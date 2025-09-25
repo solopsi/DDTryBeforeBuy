@@ -146,6 +146,15 @@ const StyledBadge = styled.span<{ $statusType: string }>`
       `;
     }
     
+    // Регистрируется - Purple
+    if (status === "регистрируется") {
+      return `
+        background-color: #D7CDF5;
+        color: #5B4A8A;
+        border: 1px solid #C7B9F0;
+      `;
+    }
+    
     // Legacy status handling for other pages
     if (status.includes("активный") || status.includes("в процессе")) {
       return `
