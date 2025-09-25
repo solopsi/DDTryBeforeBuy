@@ -2,8 +2,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import DataTable from "../DataTable";
 import StatusBadge from "../StatusBadge";
-import { Button, Modal, Input, Hint } from "vienna-ui";
-import { AddIcon, WarningTrIcon } from "vienna.icons";
+import { Button, Modal, Input, Hint, Checkbox } from "vienna-ui";
+import { AddIcon, WarningTrIcon, IosIcon, Close16Icon, ChevronIcon } from "vienna.icons";
 
 const StatusContainer = styled.div`
   display: flex;
@@ -50,6 +50,139 @@ const RequiredIndicator = styled.span`
   font-size: 12px;
 `;
 
+const InfoSection = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background-color: hsl(216, 100%, 97%);
+  border: 1px solid hsl(216, 100%, 85%);
+  border-radius: 8px;
+`;
+
+const InfoContent = styled.div`
+  color: hsl(216, 100%, 35%);
+  font-size: 14px;
+  line-height: 1.4;
+`;
+
+const Section = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: hsl(0 0% 9%);
+`;
+
+const FieldRow = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+
+const FieldLabel = styled.label`
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(0 0% 25%);
+  margin-bottom: 8px;
+  display: block;
+`;
+
+const SearchDropdown = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid hsl(0 0% 85%);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+`;
+
+const SearchOption = styled.div`
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid hsl(0 0% 95%);
+  
+  &:hover {
+    background-color: hsl(0 0% 98%);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const CompanyName = styled.div`
+  font-weight: 500;
+  color: hsl(0 0% 9%);
+  margin-bottom: 4px;
+`;
+
+const CompanyDetails = styled.div`
+  font-size: 12px;
+  color: hsl(0 0% 45%);
+  line-height: 1.3;
+`;
+
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: hsl(216, 100%, 45%);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 16px;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+// Mock data for INN search
+const mockCompaniesData = [
+  {
+    inn: "1234221122",
+    kpp: "459514892",
+    ogrn: "5223213190630",
+    name: "ООО Несуществующая компания"
+  },
+  {
+    inn: "1234221221",
+    kpp: "836752765",
+    ogrn: "2721488172210",
+    name: "ИП Счастливое Счастье Вчерашнее"
+  },
+  {
+    inn: "7707083893",
+    kpp: "540602001",
+    ogrn: "1027700132195",
+    name: "ПАО Сбербанк"
+  },
+  {
+    inn: "7702070139",
+    kpp: "997950001",
+    ogrn: "1027739155878",
+    name: "АО Альфа-Банк"
+  },
+  {
+    inn: "1234567890",
+    kpp: "123456789",
+    ogrn: "1234567890123",
+    name: "ООО Тестовая Компания"
+  }
+];
+
 const suppliersData = [
   {
     company: "ООО \"Поставщик 1\"",
@@ -90,21 +223,70 @@ const columns = [
 
 export default function SuppliersPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [email, setEmail] = useState("");
+  const [suppliers, setSuppliers] = useState(suppliersData);
+  
+  // Form fields
+  const [inn, setInn] = useState("");
+  const [kpp, setKpp] = useState("");
+  const [ogrn, setOgrn] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [yieldRate, setYieldRate] = useState("");
+  const [hideRate, setHideRate] = useState(false);
+  
+  // Search state
+  const [searchResults, setSearchResults] = useState<typeof mockCompaniesData>([]);
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
+
+  const handleInnSearch = (value: string) => {
+    setInn(value);
+    
+    if (value.length >= 3) {
+      const results = mockCompaniesData.filter(company =>
+        company.inn.includes(value) || company.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setSearchResults(results);
+      setShowSearchDropdown(results.length > 0);
+    } else {
+      setShowSearchDropdown(false);
+    }
+  };
+
+  const selectCompany = (company: typeof mockCompaniesData[0]) => {
+    setInn(company.inn);
+    setKpp(company.kpp);
+    setOgrn(company.ogrn);
+    setCompanyName(company.name);
+    setShowSearchDropdown(false);
+  };
 
   const handleSubmit = () => {
-    // Visual simulation only - don't actually save
-    console.log('Adding supplier:', { email, yieldRate });
+    // Add new supplier with "На проверке" status
+    const newSupplier = {
+      company: companyName,
+      yieldRate: yieldRate ? `${yieldRate}%` : "—",
+      status: "На проверке"
+    };
+    
+    setSuppliers([...suppliers, newSupplier]);
+    
+    // Reset form
     setIsModalOpen(false);
-    setEmail("");
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setInn("");
+    setKpp("");
+    setOgrn("");
+    setCompanyName("");
     setYieldRate("");
+    setHideRate(false);
+    setShowSearchDropdown(false);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    setEmail("");
-    setYieldRate("");
+    resetForm();
   };
 
   return (
@@ -112,7 +294,7 @@ export default function SuppliersPage() {
       <DataTable
         title="Поставщики"
         columns={columns}
-        data={suppliersData}
+        data={suppliers}
         onRowSelect={(rows) => console.log('Selected suppliers:', rows)}
         actions={
           <Button 
@@ -133,49 +315,109 @@ export default function SuppliersPage() {
         data-testid="modal-add-supplier"
       >
         <ModalContainer>
-          <ModalTitle>Добавить поставщика</ModalTitle>
+          <BackButton onClick={handleCancel}>
+            <ChevronIcon style={{ width: '16px', height: '16px' }} />
+            Список поставщиков
+          </BackButton>
+          
+          <ModalTitle>Новый поставщик</ModalTitle>
           
           <ModalContent>
-            <FormField style={{ flexDirection: 'row', alignItems: 'center', gap: '8px' }}>
-              <Input
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                data-testid="input-supplier-email"
-                required
-                style={{ flex: 1 }}
-              />
-              <RequiredIndicator style={{ transform: 'translateY(-15px)' }}>*</RequiredIndicator>
-            </FormField>
-            
-            <FormField>
-              <Input
-                placeholder="Ставка доходности"
-                value={yieldRate}
-                onChange={(e) => setYieldRate(e.target.value)}
-                data-testid="input-supplier-yield-rate"
-              />
-              <Hint design="dark">
-                Ввод ставки не обязателен
-              </Hint>
-            </FormField>
+            <Section>
+              <SectionTitle>Основная информация</SectionTitle>
+              
+              <InfoSection>
+                <IosIcon style={{ width: '20px', height: '20px', color: 'hsl(216, 100%, 45%)', flexShrink: 0, marginTop: '2px' }} />
+                <InfoContent>
+                  После проверки поставщика вы сможете прислать ему приглашение на платформу
+                </InfoContent>
+              </InfoSection>
+
+              <FieldRow>
+                <FormField style={{ flex: 1, position: 'relative' }}>
+                  <FieldLabel>ИНН</FieldLabel>
+                  <Input
+                    placeholder="10 цифр ИНН"
+                    value={inn}
+                    onChange={(e) => handleInnSearch(e.target.value)}
+                    data-testid="input-supplier-inn"
+                  />
+                  {showSearchDropdown && (
+                    <SearchDropdown>
+                      {searchResults.map((company, index) => (
+                        <SearchOption key={index} onClick={() => selectCompany(company)}>
+                          <CompanyName>ИНН: {company.inn} КПП: {company.kpp}</CompanyName>
+                          <CompanyDetails>ОГРН: {company.ogrn}</CompanyDetails>
+                          <CompanyDetails>{company.name}</CompanyDetails>
+                        </SearchOption>
+                      ))}
+                    </SearchDropdown>
+                  )}
+                </FormField>
+                
+                <FormField style={{ flex: 1 }}>
+                  <FieldLabel>КПП</FieldLabel>
+                  <Input
+                    placeholder=""
+                    value={kpp}
+                    onChange={(e) => setKpp(e.target.value)}
+                    data-testid="input-supplier-kpp"
+                  />
+                </FormField>
+
+                <FormField style={{ flex: 1 }}>
+                  <FieldLabel>ОГРН</FieldLabel>
+                  <Input
+                    placeholder=""
+                    value={ogrn}
+                    onChange={(e) => setOgrn(e.target.value)}
+                    data-testid="input-supplier-ogrn"
+                  />
+                </FormField>
+              </FieldRow>
+
+              <FormField>
+                <FieldLabel>Наименование</FieldLabel>
+                <Input
+                  placeholder=""
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  data-testid="input-supplier-name"
+                />
+              </FormField>
+            </Section>
+
+            <Section>
+              <SectionTitle>Условия сотрудничества</SectionTitle>
+              
+              <FormField>
+                <FieldLabel>Ставка доходности</FieldLabel>
+                <Input
+                  placeholder="% годовых"
+                  value={yieldRate}
+                  onChange={(e) => setYieldRate(e.target.value)}
+                  data-testid="input-supplier-yield-rate"
+                />
+              </FormField>
+
+              <Checkbox
+                checked={hideRate}
+                onChange={() => setHideRate(!hideRate)}
+                data-testid="checkbox-hide-rate"
+              >
+                Поставщик не увидит ставку
+              </Checkbox>
+            </Section>
           </ModalContent>
 
           <ModalFooter>
             <Button 
-              design="outline" 
-              onClick={handleCancel}
-              data-testid="button-cancel-supplier"
-            >
-              Отмена
-            </Button>
-            <Button 
-              design="primary" 
+              style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
               onClick={handleSubmit}
-              disabled={!email.trim()}
+              disabled={!inn.trim() || !companyName.trim()}
               data-testid="button-submit-supplier"
             >
-              Добавить
+              Отправить на проверку
             </Button>
           </ModalFooter>
         </ModalContainer>
