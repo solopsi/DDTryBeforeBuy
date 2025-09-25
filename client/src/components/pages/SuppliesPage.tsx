@@ -494,6 +494,8 @@ export default function SuppliesPage() {
         return allSuppliesData;
       case "awaiting-response":
         return awaitingResponseData;
+      case "with-error":
+        return []; // Пустой массив для вкладки "С ошибкой"
       case "on-shipment":
         return currentSuppliesData;
       default:
