@@ -203,6 +203,24 @@ const suppliersData = [
     company: "ООО \"Поставщик 3\"",
     yieldRate: "21%",
     status: "Приглашение отправлено"
+  },
+  {
+    company: "АО Кредиторский Кредитор",
+    yieldRate: "1.00%",
+    status: "Ждет приглашения",
+    inn: "083422122",
+    kpp: "157598698",
+    ogrn: "8786069012582",
+    email: "info@kreditor.com"
+  },
+  {
+    company: "ООО Финансовые Решения",
+    yieldRate: "2.50%",
+    status: "Ждет приглашения", 
+    inn: "123456789",
+    kpp: "987654321",
+    ogrn: "1234567890123",
+    email: "contact@finresh.ru"
   }
 ];
 
@@ -223,6 +241,8 @@ const columns = [
 
 export default function SuppliersPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedSupplier, setSelectedSupplier] = useState<any>(null);
   const [suppliers, setSuppliers] = useState(suppliersData);
   
   // Form fields
@@ -232,6 +252,10 @@ export default function SuppliersPage() {
   const [companyName, setCompanyName] = useState("");
   const [yieldRate, setYieldRate] = useState("");
   const [hideRate, setHideRate] = useState(false);
+  
+  // Detail form fields
+  const [supplierEmail, setSupplierEmail] = useState("");
+  const [supplierYieldRate, setSupplierYieldRate] = useState("");
   
   // Search state
   const [searchResults, setSearchResults] = useState<typeof mockCompaniesData>([]);
@@ -295,6 +319,38 @@ export default function SuppliersPage() {
     resetForm();
   };
 
+  const handleSupplierDoubleClick = (supplier: any) => {
+    if (supplier.status === "Ждет приглашения") {
+      setSelectedSupplier(supplier);
+      setSupplierEmail(supplier.email || "");
+      setSupplierYieldRate(supplier.yieldRate.replace('%', '') || "");
+      setIsDetailModalOpen(true);
+    }
+  };
+
+  const handleDetailModalClose = () => {
+    setIsDetailModalOpen(false);
+    setSelectedSupplier(null);
+    setSupplierEmail("");
+    setSupplierYieldRate("");
+  };
+
+  const handleSendInvitation = () => {
+    console.log('Sending invitation to:', supplierEmail);
+    // Simulation only
+  };
+
+  const handleSaveYieldRate = () => {
+    console.log('Saving yield rate:', supplierYieldRate);
+    // Update supplier in the list
+    const updatedSuppliers = suppliers.map(s => 
+      s === selectedSupplier 
+        ? { ...s, yieldRate: `${supplierYieldRate}%` }
+        : s
+    );
+    setSuppliers(updatedSuppliers);
+  };
+
   return (
     <>
       <DataTable
@@ -302,6 +358,7 @@ export default function SuppliersPage() {
         columns={columns}
         data={suppliers}
         onRowSelect={(rows) => console.log('Selected suppliers:', rows)}
+        onRowClick={handleSupplierDoubleClick}
         actions={
           <Button 
             data-testid="button-add-supplier"
@@ -429,6 +486,135 @@ export default function SuppliersPage() {
               Отправить на проверку
             </Button>
           </ModalFooter>
+        </ModalContainer>
+      </Modal>
+
+      {/* Supplier Detail Modal */}
+      <Modal 
+        isOpen={isDetailModalOpen} 
+        onClose={handleDetailModalClose}
+        data-testid="modal-supplier-detail"
+      >
+        <ModalContainer>
+          <BackButton onClick={handleDetailModalClose}>
+            <ChevronIcon style={{ width: '16px', height: '16px' }} />
+            Список поставщиков
+          </BackButton>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+            <ModalTitle>Поставщик</ModalTitle>
+            <StatusBadge status="Ждет приглашения" />
+            <WarningTrIcon style={{ width: '16px', height: '16px', color: 'hsl(45, 100%, 50%)' }} />
+          </div>
+          
+          <ModalContent>
+            <Section>
+              <SectionTitle>Основная информация</SectionTitle>
+
+              <FieldRow>
+                <FormField style={{ flex: 1 }}>
+                  <FieldLabel>ИНН</FieldLabel>
+                  <Input
+                    value={selectedSupplier?.inn || ""}
+                    disabled={true}
+                    data-testid="input-detail-inn"
+                  />
+                </FormField>
+                
+                <FormField style={{ flex: 1 }}>
+                  <FieldLabel>КПП</FieldLabel>
+                  <Input
+                    value={selectedSupplier?.kpp || ""}
+                    disabled={true}
+                    data-testid="input-detail-kpp"
+                  />
+                </FormField>
+
+                <FormField style={{ flex: 1 }}>
+                  <FieldLabel>ОГРН</FieldLabel>
+                  <Input
+                    value={selectedSupplier?.ogrn || ""}
+                    disabled={true}
+                    data-testid="input-detail-ogrn"
+                  />
+                </FormField>
+              </FieldRow>
+
+              <FormField>
+                <FieldLabel>Наименование</FieldLabel>
+                <Input
+                  value={selectedSupplier?.company || ""}
+                  disabled={true}
+                  data-testid="input-detail-name"
+                />
+              </FormField>
+            </Section>
+
+            <Section>
+              <SectionTitle>Приглашение поставщика</SectionTitle>
+              
+              <FormField>
+                <FieldLabel>Электронная почта</FieldLabel>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
+                  <Input
+                    placeholder="hpqek@foo.bar"
+                    value={supplierEmail}
+                    onChange={(e) => setSupplierEmail(e.target.value)}
+                    data-testid="input-supplier-email"
+                    style={{ flex: 1 }}
+                  />
+                  <Button 
+                    style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
+                    onClick={handleSendInvitation}
+                    disabled={!supplierEmail.trim()}
+                    data-testid="button-send-invitation"
+                  >
+                    Отправить приглашение
+                  </Button>
+                </div>
+              </FormField>
+
+              <InfoSection>
+                <InfoRingIcon style={{ width: '20px', height: '20px', color: 'hsl(216, 100%, 45%)', flexShrink: 0, marginTop: '2px' }} />
+                <InfoContent>
+                  Время действия приглашения истекает, отправьте еще раз приглашение поставщику
+                </InfoContent>
+              </InfoSection>
+            </Section>
+
+            <Section>
+              <SectionTitle>Условия сотрудничества</SectionTitle>
+              
+              <FormField>
+                <FieldLabel>Ставка доходности</FieldLabel>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
+                  <Input
+                    placeholder="% годовых"
+                    value={supplierYieldRate}
+                    onChange={(e) => handleYieldRateChange(e.target.value)}
+                    data-testid="input-detail-yield-rate"
+                    style={{ flex: 1 }}
+                  />
+                  <Button 
+                    style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
+                    onClick={handleSaveYieldRate}
+                    disabled={!supplierYieldRate.trim()}
+                    data-testid="button-save-yield-rate"
+                  >
+                    Сохранить ставку
+                  </Button>
+                </div>
+              </FormField>
+
+              <Checkbox
+                checked={hideRate}
+                onChange={() => setHideRate(!hideRate)}
+                data-testid="checkbox-detail-hide-rate"
+              >
+                Поставщик не увидит ставку
+              </Checkbox>
+            </Section>
+          </ModalContent>
         </ModalContainer>
       </Modal>
     </>
