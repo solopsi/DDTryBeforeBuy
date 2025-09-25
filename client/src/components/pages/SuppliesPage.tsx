@@ -434,6 +434,7 @@ const allSuppliesColumns = [
 export default function SuppliesPage() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("on-shipment");
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
 
   // Get data and columns based on active tab
   const currentData = activeTab === "all-supplies" ? allSuppliesData : suppliesData;
@@ -443,58 +444,101 @@ export default function SuppliesPage() {
     if (activeTab !== "all-supplies") return null;
 
     return (
-      <FiltersSection>
-        <FilterGroup>
-          <FilterLabel>Поставщик</FilterLabel>
-          <Select
-            placeholder="Все поставщики"
-            data-testid="filter-supplier"
+      <>
+        <FiltersSection>
+          <FilterGroup>
+            <FilterLabel>Поставщик</FilterLabel>
+            <Select
+              placeholder="Все поставщики"
+              data-testid="filter-supplier"
+            >
+              <Select.Option value="all">Все поставщики</Select.Option>
+              <Select.Option value="testov">ИП Тестов Тест Тестович</Select.Option>
+              <Select.Option value="test-data">ООО Тестовые данные</Select.Option>
+              <Select.Option value="test-company">АО Тестовая компания</Select.Option>
+              <Select.Option value="moskovoe">ПАО Москвов общество</Select.Option>
+            </Select>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterLabel>Статус</FilterLabel>
+            <Select
+              placeholder="Все статусы"
+              data-testid="filter-status"
+            >
+              <Select.Option value="all">Все статусы</Select.Option>
+              <Select.Option value="signed">Подписана</Select.Option>
+              <Select.Option value="awaiting-signature">Ждет подписи</Select.Option>
+              <Select.Option value="overdue">Просрочена</Select.Option>
+              <Select.Option value="under-review">На рассмотрении</Select.Option>
+              <Select.Option value="rejected">Отклонена</Select.Option>
+              <Select.Option value="awaiting-response">Ждет ответа</Select.Option>
+            </Select>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterLabel>Сумма оплаты</FilterLabel>
+            <AmountRangeGroup>
+              <Input
+                placeholder="От"
+                style={{ width: '100px' }}
+                data-testid="filter-amount-from"
+              />
+              <span>—</span>
+              <Input
+                placeholder="До"
+                style={{ width: '100px' }}
+                data-testid="filter-amount-to"
+              />
+            </AmountRangeGroup>
+          </FilterGroup>
+
+          <FilterButton 
+            onClick={() => setShowMoreFilters(!showMoreFilters)}
+            data-testid="button-more-filters"
           >
-            <Select.Option value="all">Все поставщики</Select.Option>
-            <Select.Option value="testov">ИП Тестов Тест Тестович</Select.Option>
-            <Select.Option value="test-data">ООО Тестовые данные</Select.Option>
-            <Select.Option value="test-company">АО Тестовая компания</Select.Option>
-            <Select.Option value="moskovoe">ПАО Москвов общество</Select.Option>
-          </Select>
-        </FilterGroup>
+            {showMoreFilters ? 'Скрыть фильтры' : 'Еще фильтры'}
+          </FilterButton>
+        </FiltersSection>
+        
+        {showMoreFilters && (
+          <FiltersSection>
+            <FilterGroup>
+              <FilterLabel>Дата оплаты</FilterLabel>
+              <AmountRangeGroup>
+                <Input
+                  placeholder="ДД.ММ.ГГГГ"
+                  style={{ width: '120px' }}
+                  data-testid="filter-payment-date-from"
+                />
+                <span>—</span>
+                <Input
+                  placeholder="ДД.ММ.ГГГГ"
+                  style={{ width: '120px' }}
+                  data-testid="filter-payment-date-to"
+                />
+              </AmountRangeGroup>
+            </FilterGroup>
 
-        <FilterGroup>
-          <FilterLabel>Статус</FilterLabel>
-          <Select
-            placeholder="Все статусы"
-            data-testid="filter-status"
-          >
-            <Select.Option value="all">Все статусы</Select.Option>
-            <Select.Option value="signed">Подписана</Select.Option>
-            <Select.Option value="awaiting-signature">Ждет подписи</Select.Option>
-            <Select.Option value="overdue">Просрочена</Select.Option>
-            <Select.Option value="under-review">На рассмотрении</Select.Option>
-            <Select.Option value="rejected">Отклонена</Select.Option>
-            <Select.Option value="awaiting-response">Ждет ответа</Select.Option>
-          </Select>
-        </FilterGroup>
-
-        <FilterGroup>
-          <FilterLabel>Сумма оплаты</FilterLabel>
-          <AmountRangeGroup>
-            <Input
-              placeholder="От"
-              style={{ width: '100px' }}
-              data-testid="filter-amount-from"
-            />
-            <span>—</span>
-            <Input
-              placeholder="До"
-              style={{ width: '100px' }}
-              data-testid="filter-amount-to"
-            />
-          </AmountRangeGroup>
-        </FilterGroup>
-
-        <FilterButton data-testid="button-more-filters">
-          Еще фильтры
-        </FilterButton>
-      </FiltersSection>
+            <FilterGroup>
+              <FilterLabel>Дата ранней оплаты</FilterLabel>
+              <AmountRangeGroup>
+                <Input
+                  placeholder="ДД.ММ.ГГГГ"
+                  style={{ width: '120px' }}
+                  data-testid="filter-early-payment-date-from"
+                />
+                <span>—</span>
+                <Input
+                  placeholder="ДД.ММ.ГГГГ"
+                  style={{ width: '120px' }}
+                  data-testid="filter-early-payment-date-to"
+                />
+              </AmountRangeGroup>
+            </FilterGroup>
+          </FiltersSection>
+        )}
+      </>
     );
   };
 
