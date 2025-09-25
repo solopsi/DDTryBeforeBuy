@@ -441,7 +441,7 @@ export default function SuppliesPage() {
   const currentColumns = activeTab === "all-supplies" ? allSuppliesColumns : columns;
 
   const renderFilters = () => {
-    if (activeTab !== "all-supplies") return null;
+    if (activeTab !== "all-supplies" && activeTab !== "on-shipment") return null;
 
     return (
       <>
