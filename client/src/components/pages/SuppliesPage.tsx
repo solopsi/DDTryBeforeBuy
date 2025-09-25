@@ -851,6 +851,7 @@ export default function SuppliesPage() {
       {renderFilters()}
 
       <DataTable
+        key={activeTab}
         title=""
         columns={currentColumns}
         data={currentData}
