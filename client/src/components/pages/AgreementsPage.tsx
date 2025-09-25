@@ -190,6 +190,28 @@ const StyledBadge = styled.span<{ color?: string }>`
   };
 `;
 
+const TabsContainer = styled.div`
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 24px;
+`;
+
+const Tab = styled.button<{ isActive: boolean }>`
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid ${props => props.isActive ? '#FEE600' : 'transparent'};
+  color: ${props => props.isActive ? '#2B2D33' : '#666'};
+  font-size: 14px;
+  font-weight: ${props => props.isActive ? '600' : '400'};
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #2B2D33;
+  }
+`;
+
 //todo: remove mock functionality
 const agreementsData = [
   {
@@ -252,6 +274,27 @@ export default function AgreementsPage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [signingMethod, setSigningMethod] = useState('qes');
   const [expandedDocuments, setExpandedDocuments] = useState<Set<number>>(new Set());
+  const [activeTab, setActiveTab] = useState('outgoing');
+  const [allAgreements, setAllAgreements] = useState(agreementsData);
+
+  const tabs = [
+    { id: 'outgoing', label: 'Исходящие' },
+    { id: 'incoming', label: 'Входящие' },
+    { id: 'all', label: 'Все соглашения' }
+  ];
+
+  const getFilteredAgreements = () => {
+    switch (activeTab) {
+      case 'outgoing':
+        return allAgreements.filter(agreement => agreement.status === 'Ждет вашей подписи');
+      case 'incoming': 
+        return allAgreements.filter(agreement => agreement.status === 'Ждет подписи поставщика');
+      case 'all':
+        return allAgreements;
+      default:
+        return allAgreements;
+    }
+  };
 
   const handleRowSelect = (rows: any[]) => {
     setSelectedAgreements(rows);
@@ -284,9 +327,20 @@ export default function AgreementsPage() {
   const handleFinalSignAndSend = () => {
     console.log('Final signing and sending agreements:', selectedAgreements);
     console.log('Signing method:', signingMethod);
+    
+    // Update status of signed agreements to "Подписано"
+    const updatedAgreements = allAgreements.map(agreement => {
+      const isSelected = selectedAgreements.some(selected => 
+        selected.agreementDate === agreement.agreementDate && 
+        selected.supplier === agreement.supplier
+      );
+      return isSelected ? { ...agreement, status: 'Подписано' } : agreement;
+    });
+    
+    setAllAgreements(updatedAgreements);
     setIsDrawerOpen(false);
-    // Reset selection after signing
     setSelectedAgreements([]);
+    setActiveTab('all'); // Switch to "Все соглашения" tab
   };
 
   const toggleDocumentExpansion = (index: number) => {
@@ -310,12 +364,29 @@ export default function AgreementsPage() {
 
   return (
     <>
-      <DataTable
-        title="Соглашения"
-        columns={columns}
-        data={agreementsData}
-        onRowSelect={handleRowSelect}
-      />
+      <div>
+        <h1 style={{ fontSize: '24px', fontWeight: '600', margin: '0 0 24px 0' }}>Соглашения</h1>
+        
+        <TabsContainer>
+          {tabs.map(tab => (
+            <Tab
+              key={tab.id}
+              isActive={activeTab === tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              data-testid={`tab-${tab.id}`}
+            >
+              {tab.label}
+            </Tab>
+          ))}
+        </TabsContainer>
+        
+        <DataTable
+          title=""
+          columns={columns}
+          data={getFilteredAgreements()}
+          onRowSelect={handleRowSelect}
+        />
+      </div>
       
       {selectedAgreements.length > 0 && (
         <BottomActionBar>
