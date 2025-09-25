@@ -72,7 +72,6 @@ const DocumentCard = styled.div`
   margin-bottom: 16px;
   padding: 16px;
   background: white;
-  min-height: 200px;
 `;
 
 const DocumentHeader = styled.div`
