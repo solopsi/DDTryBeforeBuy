@@ -115,12 +115,12 @@ const DetailRow = styled.div`
 `;
 
 const DetailLabel = styled.span`
-  font-size: 12px;
+  font-size: 16px;
   color: #666;
 `;
 
 const DetailValue = styled.span`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
 `;
 
