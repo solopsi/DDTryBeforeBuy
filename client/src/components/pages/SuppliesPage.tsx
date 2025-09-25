@@ -4,6 +4,8 @@ import DataTable from "../DataTable";
 import StatusBadge from "../StatusBadge";
 import FileUploadModal from "../FileUploadModal";
 import { Button } from "vienna-ui/dist/Button";
+import { Select } from "vienna-ui/dist/Select";
+import { Input } from "vienna-ui/dist/Input";
 import { DownloadIcon } from "vienna.icons";
 
 // Styled components for tabs
@@ -48,6 +50,51 @@ const Title = styled.h1`
   font-size: 24px;
   font-weight: 600;
   margin: 0;
+`;
+
+const FiltersSection = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: hsl(0 0% 98%);
+  border: 1px solid hsl(0 0% 93%);
+  border-radius: 6px;
+`;
+
+const FilterGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 150px;
+`;
+
+const FilterLabel = styled.label`
+  font-size: 12px;
+  color: hsl(0 0% 64%);
+  margin-bottom: 4px;
+`;
+
+const AmountRangeGroup = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+`;
+
+const FilterButton = styled.button`
+  background: none;
+  border: 1px solid hsl(0 0% 80%);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  color: hsl(0 0% 64%);
+  
+  &:hover {
+    background: hsl(0 0% 96%);
+    color: hsl(0 0% 8%);
+  }
 `;
 
 //todo: remove mock functionality
@@ -162,6 +209,197 @@ const suppliesData = [
   }
 ];
 
+// Data for "Все поставки" tab
+const allSuppliesData = [
+  {
+    supplier: "ИП Тестов Тест Тестович",
+    discount: "—",
+    invoiceDate: "23.09.2025",
+    invoiceNumber: "invoice-j11/360",
+    paymentDate: "09.10.2025",
+    amount: "621 413,00 ₽",
+    earlyPaymentAmount: "614 518,00 ₽", 
+    earlyPaymentDate: "25.09.2025",
+    status: "Подписана"
+  },
+  {
+    supplier: "ИП Тестов Тест Тестович",
+    discount: "—",
+    invoiceDate: "21.09.2025",
+    invoiceNumber: "invoice-no1/684",
+    paymentDate: "11.10.2025",
+    amount: "756 183,00 ₽",
+    earlyPaymentAmount: "745 478,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Подписана"
+  },
+  {
+    supplier: "ИП Тестов Тест Тестович",
+    discount: "—",
+    invoiceDate: "24.09.2025",
+    invoiceNumber: "invoice-fu/603",
+    paymentDate: "13.10.2025",
+    amount: "521 282,00 ₽",
+    earlyPaymentAmount: "512 206,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Ждет подписи"
+  },
+  {
+    supplier: "ООО Тестовые данные",
+    discount: "9,00 %",
+    invoiceDate: "23.09.2025",
+    invoiceNumber: "invoice-vmi/839",
+    paymentDate: "14.10.2025",
+    amount: "234 459,00 ₽",
+    earlyPaymentAmount: "228 212,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Просрочена"
+  },
+  {
+    supplier: "ООО Тестовые данные",
+    discount: "9,00 %",
+    invoiceDate: "22.09.2025",
+    invoiceNumber: "invoice-4rif/190",
+    paymentDate: "12.10.2025",
+    amount: "784 492,00 ₽",
+    earlyPaymentAmount: "—",
+    earlyPaymentDate: "—",
+    status: "Ждет ответа"
+  },
+  {
+    supplier: "ООО Тестовые данные",
+    discount: "9,00 %",
+    invoiceDate: "25.09.2025",
+    invoiceNumber: "invoice-uuf/715",
+    paymentDate: "09.10.2025",
+    amount: "369 527,00 ₽",
+    earlyPaymentAmount: "367 895,00 ₽",
+    earlyPaymentDate: "26.09.2025",
+    status: "На рассмотрении"
+  },
+  {
+    supplier: "ООО Тестовые данные",
+    discount: "9,00 %",
+    invoiceDate: "25.09.2025",
+    invoiceNumber: "invoice-7ap/645",
+    paymentDate: "11.10.2025",
+    amount: "949 347,00 ₽",
+    earlyPaymentAmount: "941 456,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Отклонена"
+  },
+  {
+    supplier: "АО Тестовая компания",
+    discount: "—",
+    invoiceDate: "20.09.2025",
+    invoiceNumber: "invoice-j12/711",
+    paymentDate: "13.10.2025",
+    amount: "952 192,00 ₽",
+    earlyPaymentAmount: "948 814,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Ждет ответа"
+  },
+  {
+    supplier: "АО Тестовая компания",
+    discount: "—",
+    invoiceDate: "23.09.2025",
+    invoiceNumber: "invoice-wi7/575",
+    paymentDate: "10.10.2025",
+    amount: "303 627,00 ₽",
+    earlyPaymentAmount: "299 505,00 ₽",
+    earlyPaymentDate: "26.09.2025",
+    status: "Просрочена"
+  },
+  {
+    supplier: "АО Тестовая компания",
+    discount: "—",
+    invoiceDate: "22.09.2025",
+    invoiceNumber: "invoice-fu/471",
+    paymentDate: "14.10.2025",
+    amount: "792 230,00 ₽",
+    earlyPaymentAmount: "789 082,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Ждет подписи"
+  },
+  {
+    supplier: "ПАО Москвов общество",
+    discount: "6,00 %",
+    invoiceDate: "23.09.2025",
+    invoiceNumber: "invoice-cle/700",
+    paymentDate: "15.10.2025",
+    amount: "464 056,00 ₽",
+    earlyPaymentAmount: "—",
+    earlyPaymentDate: "—",
+    status: "Ждет ответа"
+  },
+  {
+    supplier: "ПАО Москвов общество",
+    discount: "6,00 %",
+    invoiceDate: "24.09.2025",
+    invoiceNumber: "invoice-rf3/323",
+    paymentDate: "09.10.2025",
+    amount: "838 781,00 ₽",
+    earlyPaymentAmount: "—",
+    earlyPaymentDate: "—",
+    status: "Ждет ответа"
+  },
+  {
+    supplier: "ПАО Москвов общество",
+    discount: "6,00 %",
+    invoiceDate: "24.09.2025",
+    invoiceNumber: "invoice-l57/319",
+    paymentDate: "16.10.2025",
+    amount: "246 045,00 ₽",
+    earlyPaymentAmount: "237 061,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Ждет ответа"
+  },
+  {
+    supplier: "ИП Москв Мск Москвич",
+    discount: "7,00 %",
+    invoiceDate: "19.09.2025",
+    invoiceNumber: "invoice-qz/870",
+    paymentDate: "15.10.2025",
+    amount: "621 203,00 ₽",
+    earlyPaymentAmount: "—",
+    earlyPaymentDate: "—",
+    status: "Ждет ответа"
+  },
+  {
+    supplier: "ИП Москв Мск Москвич",
+    discount: "7,00 %",
+    invoiceDate: "19.09.2025",
+    invoiceNumber: "invoice-nj/326",
+    paymentDate: "10.10.2025",
+    amount: "611 156,00 ₽",
+    earlyPaymentAmount: "605 980,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Ждет подписи"
+  },
+  {
+    supplier: "ИП Москв Мск Москвич",
+    discount: "7,00 %",
+    invoiceDate: "23.09.2025",
+    invoiceNumber: "invoice-r41/333",
+    paymentDate: "12.10.2025",
+    amount: "131 635,00 ₽",
+    earlyPaymentAmount: "122 519,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Просрочена"
+  },
+  {
+    supplier: "ИП Москв Мск Москвич",
+    discount: "7,00 %",
+    invoiceDate: "23.09.2025",
+    invoiceNumber: "invoice-urd/996",
+    paymentDate: "11.10.2025",
+    amount: "500 622,00 ₽",
+    earlyPaymentAmount: "498 053,00 ₽",
+    earlyPaymentDate: "25.09.2025",
+    status: "Подписана"
+  }
+];
+
 const columns = [
   { key: 'supplier', header: 'Поставщик' },
   { key: 'discount', header: 'Ставка доходности' },
@@ -176,9 +414,131 @@ const columns = [
   },
 ];
 
+// Columns for "Все поставки" view
+const allSuppliesColumns = [
+  { key: 'supplier', header: 'Поставщик' },
+  { key: 'discount', header: 'Ставка доходности' },
+  { key: 'invoiceDate', header: 'Дата счета' },
+  { key: 'invoiceNumber', header: '№ счета' },
+  { key: 'paymentDate', header: 'Дата оплаты' },
+  { key: 'amount', header: 'Сумма оплаты' },
+  { key: 'earlyPaymentAmount', header: 'Сумма ранней оплаты' },
+  { key: 'earlyPaymentDate', header: 'Дата ранней оплаты' },
+  { 
+    key: 'status', 
+    header: 'Статус',
+    render: (value: string) => <StatusBadge status={value} />
+  },
+];
+
 export default function SuppliesPage() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("on-shipment");
+
+  // Get data and columns based on active tab
+  const currentData = activeTab === "all-supplies" ? allSuppliesData : suppliesData;
+  const currentColumns = activeTab === "all-supplies" ? allSuppliesColumns : columns;
+
+  const renderFilters = () => {
+    if (activeTab !== "all-supplies") return null;
+
+    return (
+      <FiltersSection>
+        <FilterGroup>
+          <FilterLabel>Поставщик</FilterLabel>
+          <Select
+            placeholder="Все поставщики"
+            data-testid="filter-supplier"
+          >
+            <Select.Option value="all">Все поставщики</Select.Option>
+            <Select.Option value="testov">ИП Тестов Тест Тестович</Select.Option>
+            <Select.Option value="test-data">ООО Тестовые данные</Select.Option>
+            <Select.Option value="test-company">АО Тестовая компания</Select.Option>
+            <Select.Option value="moskovoe">ПАО Москвов общество</Select.Option>
+          </Select>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterLabel>Статус</FilterLabel>
+          <Select
+            placeholder="Все статусы"
+            data-testid="filter-status"
+          >
+            <Select.Option value="all">Все статусы</Select.Option>
+            <Select.Option value="signed">Подписана</Select.Option>
+            <Select.Option value="awaiting-signature">Ждет подписи</Select.Option>
+            <Select.Option value="overdue">Просрочена</Select.Option>
+            <Select.Option value="under-review">На рассмотрении</Select.Option>
+            <Select.Option value="rejected">Отклонена</Select.Option>
+            <Select.Option value="awaiting-response">Ждет ответа</Select.Option>
+          </Select>
+        </FilterGroup>
+
+        <FilterGroup>
+          <FilterLabel>Сумма оплаты</FilterLabel>
+          <AmountRangeGroup>
+            <Input
+              placeholder="От"
+              style={{ width: '100px' }}
+              data-testid="filter-amount-from"
+            />
+            <span>—</span>
+            <Input
+              placeholder="До"
+              style={{ width: '100px' }}
+              data-testid="filter-amount-to"
+            />
+          </AmountRangeGroup>
+        </FilterGroup>
+
+        <FilterButton data-testid="button-more-filters">
+          Еще фильтры
+        </FilterButton>
+      </FiltersSection>
+    );
+  };
+
+  const renderActions = () => {
+    if (activeTab === "all-supplies") {
+      return (
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <Button 
+            design="primary"
+            data-testid="button-delete-supplies"
+          >
+            Удалить поставки на отправку
+          </Button>
+          <Button 
+            design="outline"
+            data-testid="button-upload-supplies"
+          >
+            Загрузить
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <Button 
+          design="primary"
+          data-testid="button-notify-suppliers"
+        >
+          Удалить поставки на отправку
+        </Button>
+        <Button 
+          design="outline" 
+          onClick={() => setIsUploadModalOpen(true)}
+          data-testid="button-load-supplies"
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <DownloadIcon style={{ width: '16px', height: '16px' }} />
+            Загрузить
+          </div>
+        </Button>
+      </div>
+    );
+  };
 
   return (
     <PageContainer>
@@ -216,31 +576,14 @@ export default function SuppliesPage() {
         </TabNavigation>
       </TitleSection>
 
+      {renderFilters()}
+
       <DataTable
-        title="" // Remove title since we have it above
-        columns={columns}
-        data={suppliesData}
+        title=""
+        columns={currentColumns}
+        data={currentData}
         onRowSelect={(rows) => console.log('Selected supplies:', rows)}
-        actions={
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <Button 
-              design="primary"
-              data-testid="button-notify-suppliers"
-            >
-              Удалить поставки на отправку
-            </Button>
-            <Button 
-              design="outline" 
-              onClick={() => setIsUploadModalOpen(true)}
-              data-testid="button-load-supplies"
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                <DownloadIcon style={{ width: '16px', height: '16px' }} />
-                Загрузить
-              </div>
-            </Button>
-          </div>
-        }
+        actions={renderActions()}
       />
       
       <FileUploadModal 
