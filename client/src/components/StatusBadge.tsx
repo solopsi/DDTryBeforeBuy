@@ -101,7 +101,7 @@ const StyledBadge = styled.span<{ $statusType: string }>`
     
     if (status.includes("ждет") || status.includes("отправлено")) {
       return `
-        background-color: hsl(45, 60%, 90%);
+        background-color: #F0ECEC;
         color: hsl(45, 60%, 25%);
         border: 1px solid hsl(45, 60%, 80%);
       `;
