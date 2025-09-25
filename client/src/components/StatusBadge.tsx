@@ -82,6 +82,43 @@ const StyledBadge = styled.span<{ $statusType: string }>`
       `;
     }
     
+    // Supply-specific statuses
+    // Подписана - Green
+    if (status === "подписана") {
+      return `
+        background-color: #C3EBD7;
+        color: #2D5A3D;
+        border: 1px solid #A8D4BD;
+      `;
+    }
+    
+    // Ждет подписи - Orange
+    if (status === "ждет подписи") {
+      return `
+        background-color: #F5E1CD;
+        color: #8B5A2B;
+        border: 1px solid #E6C7A3;
+      `;
+    }
+    
+    // Просрочена - Red
+    if (status === "просрочена") {
+      return `
+        background-color: #FFD5D2;
+        color: #B33A31;
+        border: 1px solid #F4B3AE;
+      `;
+    }
+    
+    // Ждет отправки - Gray
+    if (status === "ждет отправки") {
+      return `
+        background-color: #F0ECEC;
+        color: #6B6B6B;
+        border: 1px solid #D9D9D9;
+      `;
+    }
+    
     // Legacy status handling for other pages
     if (status.includes("активный") || status.includes("в процессе")) {
       return `
@@ -99,7 +136,7 @@ const StyledBadge = styled.span<{ $statusType: string }>`
       `;
     }
     
-    if (status.includes("ждет") || status.includes("отправлено")) {
+    if (status.includes("отправлено")) {
       return `
         background-color: #F0ECEC;
         color: hsl(45, 60%, 25%);
