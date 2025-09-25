@@ -447,10 +447,9 @@ export default function SuppliesPage() {
   const currentColumns = activeTab === "all-supplies" ? allSuppliesColumns : columns;
 
   const renderFilters = () => {
-    if (activeTab !== "all-supplies" && activeTab !== "on-shipment") return null;
-
-    return (
-      <>
+    // На отправку - Поставщик, Сумма оплаты, Дата оплаты
+    if (activeTab === "on-shipment") {
+      return (
         <FiltersSection>
           <FilterGroup>
             <FilterLabel>Поставщик</FilterLabel>
@@ -459,26 +458,6 @@ export default function SuppliesPage() {
               data-testid="filter-supplier"
             >
               <Select.Option value="all">Все поставщики</Select.Option>
-              <Select.Option value="testov">ИП Тестов Тест Тестович</Select.Option>
-              <Select.Option value="test-data">ООО Тестовые данные</Select.Option>
-              <Select.Option value="test-company">АО Тестовая компания</Select.Option>
-              <Select.Option value="moskovoe">ПАО Москвов общество</Select.Option>
-            </Select>
-          </FilterGroup>
-
-          <FilterGroup>
-            <FilterLabel>Статус</FilterLabel>
-            <Select
-              placeholder="Все статусы"
-              data-testid="filter-status"
-            >
-              <Select.Option value="all">Все статусы</Select.Option>
-              <Select.Option value="signed">Подписана</Select.Option>
-              <Select.Option value="awaiting-signature">Ждет подписи</Select.Option>
-              <Select.Option value="overdue">Просрочена</Select.Option>
-              <Select.Option value="under-review">На рассмотрении</Select.Option>
-              <Select.Option value="rejected">Отклонена</Select.Option>
-              <Select.Option value="awaiting-response">Ждет ответа</Select.Option>
             </Select>
           </FilterGroup>
 
@@ -499,53 +478,223 @@ export default function SuppliesPage() {
             </AmountRangeGroup>
           </FilterGroup>
 
-          <FilterButton 
-            onClick={() => setShowMoreFilters(!showMoreFilters)}
-            data-testid="button-more-filters"
-          >
-            {showMoreFilters ? 'Скрыть фильтры' : 'Еще фильтры'}
+          <FilterGroup>
+            <FilterLabel>Дата оплаты</FilterLabel>
+            <Input
+              placeholder="ДД.ММ.ГГГГ"
+              style={{ width: '140px' }}
+              data-testid="filter-payment-date"
+            />
+          </FilterGroup>
+
+          <FilterButton data-testid="button-reset-filters">
+            Сбросить
           </FilterButton>
         </FiltersSection>
-        
-        {showMoreFilters && (
+      );
+    }
+
+    // Ждут вашего ответа - Поставщик, Сумма оплаты, Дата оплаты
+    if (activeTab === "awaiting-response") {
+      return (
+        <FiltersSection>
+          <FilterGroup>
+            <FilterLabel>Поставщик</FilterLabel>
+            <Select
+              placeholder="Все поставщики"
+              data-testid="filter-supplier"
+            >
+              <Select.Option value="all">Все поставщики</Select.Option>
+            </Select>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterLabel>Сумма оплаты</FilterLabel>
+            <AmountRangeGroup>
+              <Input
+                placeholder="От"
+                style={{ width: '100px' }}
+                data-testid="filter-amount-from"
+              />
+              <span>—</span>
+              <Input
+                placeholder="До"
+                style={{ width: '100px' }}
+                data-testid="filter-amount-to"
+              />
+            </AmountRangeGroup>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterLabel>Дата оплаты</FilterLabel>
+            <Input
+              placeholder="ДД.ММ.ГГГГ"
+              style={{ width: '140px' }}
+              data-testid="filter-payment-date"
+            />
+          </FilterGroup>
+
+          <FilterButton data-testid="button-reset-filters">
+            Сбросить
+          </FilterButton>
+        </FiltersSection>
+      );
+    }
+
+    // С ошибкой - Причина ошибки, Дата загрузки
+    if (activeTab === "with-error") {
+      return (
+        <FiltersSection>
+          <FilterGroup>
+            <FilterLabel>Причина ошибки</FilterLabel>
+            <Select
+              placeholder="Все ошибки"
+              data-testid="filter-error-reason"
+            >
+              <Select.Option value="all">Все ошибки</Select.Option>
+              <Select.Option value="payment-amount-error">Ошибка в сумме оплаты</Select.Option>
+              <Select.Option value="payment-date-expired">Истекла дата оплаты</Select.Option>
+              <Select.Option value="invoice-date-not-arrived">Дата счета не наступила</Select.Option>
+              <Select.Option value="contract-date-not-arrived">Дата договора не наступила</Select.Option>
+              <Select.Option value="supplier-not-found">Поставщик не найден</Select.Option>
+            </Select>
+          </FilterGroup>
+
+          <FilterGroup>
+            <FilterLabel>Дата загрузки</FilterLabel>
+            <Input
+              placeholder="ДД.ММ.ГГГГ"
+              style={{ width: '140px' }}
+              data-testid="filter-upload-date"
+            />
+          </FilterGroup>
+
+          <FilterButton data-testid="button-reset-filters">
+            Сбросить
+          </FilterButton>
+        </FiltersSection>
+      );
+    }
+
+    // Все поставки - Полный набор фильтров
+    if (activeTab === "all-supplies") {
+      return (
+        <>
           <FiltersSection>
             <FilterGroup>
-              <FilterLabel>Дата оплаты</FilterLabel>
+              <FilterLabel>Поставщик</FilterLabel>
+              <Select
+                placeholder="Все поставщики"
+                data-testid="filter-supplier"
+              >
+                <Select.Option value="all">Все поставщики</Select.Option>
+                <Select.Option value="testov">ИП Тестов Тест Тестович</Select.Option>
+                <Select.Option value="test-data">ООО Тестовые данные</Select.Option>
+                <Select.Option value="test-company">АО Тестовая компания</Select.Option>
+                <Select.Option value="moskovoe">ПАО Москвов общество</Select.Option>
+              </Select>
+            </FilterGroup>
+
+            <FilterGroup>
+              <FilterLabel>Статус</FilterLabel>
+              <Select
+                placeholder="Все статусы"
+                data-testid="filter-status"
+              >
+                <Select.Option value="all">Все статусы</Select.Option>
+                <Select.Option value="signed">Подписана</Select.Option>
+                <Select.Option value="awaiting-signature">Ждет подписи</Select.Option>
+                <Select.Option value="overdue">Просрочена</Select.Option>
+                <Select.Option value="under-review">На рассмотрении</Select.Option>
+                <Select.Option value="rejected">Отклонена</Select.Option>
+                <Select.Option value="awaiting-response">Ждет ответа</Select.Option>
+              </Select>
+            </FilterGroup>
+
+            <FilterGroup>
+              <FilterLabel>Сумма оплаты</FilterLabel>
               <AmountRangeGroup>
                 <Input
-                  placeholder="ДД.ММ.ГГГГ"
-                  style={{ width: '120px' }}
-                  data-testid="filter-payment-date-from"
+                  placeholder="От"
+                  style={{ width: '100px' }}
+                  data-testid="filter-amount-from"
                 />
                 <span>—</span>
                 <Input
-                  placeholder="ДД.ММ.ГГГГ"
-                  style={{ width: '120px' }}
-                  data-testid="filter-payment-date-to"
+                  placeholder="До"
+                  style={{ width: '100px' }}
+                  data-testid="filter-amount-to"
                 />
               </AmountRangeGroup>
             </FilterGroup>
 
             <FilterGroup>
-              <FilterLabel>Дата ранней оплаты</FilterLabel>
-              <AmountRangeGroup>
-                <Input
-                  placeholder="ДД.ММ.ГГГГ"
-                  style={{ width: '120px' }}
-                  data-testid="filter-early-payment-date-from"
-                />
-                <span>—</span>
-                <Input
-                  placeholder="ДД.ММ.ГГГГ"
-                  style={{ width: '120px' }}
-                  data-testid="filter-early-payment-date-to"
-                />
-              </AmountRangeGroup>
+              <FilterLabel>Дата</FilterLabel>
+              <Select
+                placeholder="Оплаты"
+                data-testid="filter-date-type"
+                style={{ width: '120px' }}
+              >
+                <Select.Option value="payment">Оплаты</Select.Option>
+                <Select.Option value="early-payment">Ранней оплаты</Select.Option>
+              </Select>
+              <Input
+                placeholder="ДД.ММ.ГГГГ"
+                style={{ width: '140px', marginLeft: '8px' }}
+                data-testid="filter-date"
+              />
             </FilterGroup>
+
+            <FilterButton 
+              onClick={() => setShowMoreFilters(!showMoreFilters)}
+              data-testid="button-more-filters"
+            >
+              {showMoreFilters ? 'Скрыть фильтры' : 'Еще фильтры'}
+            </FilterButton>
           </FiltersSection>
-        )}
-      </>
-    );
+          
+          {showMoreFilters && (
+            <FiltersSection>
+              <FilterGroup>
+                <FilterLabel>Дата оплаты</FilterLabel>
+                <AmountRangeGroup>
+                  <Input
+                    placeholder="ДД.ММ.ГГГГ"
+                    style={{ width: '120px' }}
+                    data-testid="filter-payment-date-from"
+                  />
+                  <span>—</span>
+                  <Input
+                    placeholder="ДД.ММ.ГГГГ"
+                    style={{ width: '120px' }}
+                    data-testid="filter-payment-date-to"
+                  />
+                </AmountRangeGroup>
+              </FilterGroup>
+
+              <FilterGroup>
+                <FilterLabel>Дата ранней оплаты</FilterLabel>
+                <AmountRangeGroup>
+                  <Input
+                    placeholder="ДД.ММ.ГГГГ"
+                    style={{ width: '120px' }}
+                    data-testid="filter-early-payment-date-from"
+                  />
+                  <span>—</span>
+                  <Input
+                    placeholder="ДД.ММ.ГГГГ"
+                    style={{ width: '120px' }}
+                    data-testid="filter-early-payment-date-to"
+                  />
+                </AmountRangeGroup>
+              </FilterGroup>
+            </FiltersSection>
+          )}
+        </>
+      );
+    }
+
+    return null;
   };
 
   const renderActions = () => {
