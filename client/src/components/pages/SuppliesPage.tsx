@@ -3,6 +3,8 @@ import styled from "styled-components";
 import DataTable from "../DataTable";
 import StatusBadge from "../StatusBadge";
 import FileUploadModal from "../FileUploadModal";
+import DeleteConfirmModal from "../DeleteConfirmModal";
+import Loader from "../Loader";
 import { Button } from "vienna-ui/dist/Button";
 import { Select } from "vienna-ui/dist/Select";
 import { Input } from "vienna-ui/dist/Input";
@@ -439,12 +441,35 @@ const allSuppliesColumns = [
 
 export default function SuppliesPage() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("on-shipment");
   const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [currentSuppliesData, setCurrentSuppliesData] = useState(suppliesData);
 
   // Get data and columns based on active tab
-  const currentData = activeTab === "all-supplies" ? allSuppliesData : suppliesData;
+  const currentData = activeTab === "all-supplies" ? allSuppliesData : currentSuppliesData;
   const currentColumns = activeTab === "all-supplies" ? allSuppliesColumns : columns;
+
+  const handleDeleteSupplies = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    setIsDeleteModalOpen(false);
+    setActiveTab("on-shipment");
+    setIsLoading(true);
+    
+    // Simulate deletion process with 1.5 second delay
+    setTimeout(() => {
+      setCurrentSuppliesData([]);
+      setIsLoading(false);
+    }, 1500);
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteModalOpen(false);
+  };
 
   const renderFilters = () => {
     // На отправку - Поставщик, Сумма оплаты, Дата оплаты
@@ -687,6 +712,7 @@ export default function SuppliesPage() {
         <div style={{ display: 'flex', gap: '8px' }}>
           <Button 
             design="primary"
+            onClick={handleDeleteSupplies}
             data-testid="button-delete-supplies"
           >
             Удалить поставки на отправку
@@ -709,6 +735,7 @@ export default function SuppliesPage() {
       <div style={{ display: 'flex', gap: '8px' }}>
         <Button 
           design="primary"
+          onClick={handleDeleteSupplies}
           data-testid="button-delete-supplies"
         >
           Удалить поставки на отправку
@@ -778,6 +805,17 @@ export default function SuppliesPage() {
       <FileUploadModal 
         isOpen={isUploadModalOpen}
         onClose={() => setIsUploadModalOpen(false)}
+      />
+      
+      <DeleteConfirmModal 
+        isOpen={isDeleteModalOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+      />
+      
+      <Loader 
+        isVisible={isLoading}
+        text="Удаление поставок..."
       />
     </PageContainer>
   );
