@@ -503,12 +503,6 @@ export default function SuppliesPage() {
       return (
         <div style={{ display: 'flex', gap: '8px' }}>
           <Button 
-            design="primary"
-            data-testid="button-delete-supplies"
-          >
-            Удалить поставки на отправку
-          </Button>
-          <Button 
             design="outline"
             data-testid="button-upload-supplies"
           >
@@ -520,12 +514,6 @@ export default function SuppliesPage() {
 
     return (
       <div style={{ display: 'flex', gap: '8px' }}>
-        <Button 
-          design="primary"
-          data-testid="button-notify-suppliers"
-        >
-          Удалить поставки на отправку
-        </Button>
         <Button 
           design="outline" 
           onClick={() => setIsUploadModalOpen(true)}
