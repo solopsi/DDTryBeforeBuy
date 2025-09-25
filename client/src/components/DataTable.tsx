@@ -255,51 +255,6 @@ export default function DataTable({
         {actions}
       </Header>
 
-      {showFilters && (
-        <FilterSection>
-          <FilterSelect data-testid="select-supplier">
-            <option value="all">Все поставщики</option>
-            <option value="test">ИП Тестов</option>
-            <option value="moscow">АО Тестовая компания</option>
-          </FilterSelect>
-
-          <FilterSelect 
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            data-testid="select-status"
-          >
-            <option value="all">Все статусы</option>
-            <option value="На проверке">На проверке</option>
-            <option value="Ждет приглашения">Ждет приглашения</option>
-            <option value="Приглашен">Приглашен</option>
-            <option value="Регистрируется">Регистрируется</option>
-            <option value="Активный">Активный</option>
-            <option value="Отклонен">Отклонен</option>
-            <option value="Неактивен">Неактивен</option>
-          </FilterSelect>
-
-          <FilterGroupSmall>
-            <FilterDateInput 
-              placeholder="ДД.ММ.ГГГГ"
-              data-testid="input-date-from"
-            />
-            <DateSeparator>—</DateSeparator>
-            <FilterDateInput 
-              placeholder="ДД.ММ.ГГГГ"
-              data-testid="input-date-to"
-            />
-          </FilterGroupSmall>
-
-          <Button 
-            design="outline" 
-            size="s" 
-            onClick={handleClearFilters}
-            data-testid="button-clear-filters"
-          >
-            Сбросить
-          </Button>
-        </FilterSection>
-      )}
 
       <TableContainer>
         <CustomTable>
