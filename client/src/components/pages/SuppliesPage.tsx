@@ -628,22 +628,6 @@ export default function SuppliesPage() {
               </AmountRangeGroup>
             </FilterGroup>
 
-            <FilterGroup>
-              <FilterLabel>Дата</FilterLabel>
-              <Select
-                placeholder="Оплаты"
-                data-testid="filter-date-type"
-                style={{ width: '120px' }}
-              >
-                <Select.Option value="payment">Оплаты</Select.Option>
-                <Select.Option value="early-payment">Ранней оплаты</Select.Option>
-              </Select>
-              <Input
-                placeholder="ДД.ММ.ГГГГ"
-                style={{ width: '140px', marginLeft: '8px' }}
-                data-testid="filter-date"
-              />
-            </FilterGroup>
 
             <FilterButton 
               onClick={() => setShowMoreFilters(!showMoreFilters)}
