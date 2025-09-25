@@ -218,7 +218,7 @@ export default function FileUploadModal({ isOpen, onClose }: FileUploadModalProp
         >
           <UploadIcon><DownloadIcon /></UploadIcon>
           <UploadText>Перетащите файлы сюда или нажмите для выбора</UploadText>
-          <UploadSubtext>Поддерживаются форматы: Excel (.xlsx, .xls), CSV</UploadSubtext>
+          <UploadSubtext>Один файл в формате XLSX, до 1Мб</UploadSubtext>
         </UploadArea>
 
         <HiddenInput
