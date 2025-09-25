@@ -220,39 +220,39 @@ const suppliesData = [
 // Data for "Awaiting Response" tab
 const awaitingResponseData = [
   {
-    supplier: "ООО Северная торговля",
-    discount: "4,50 %",
-    invoiceDate: "01.09.2025",
-    invoiceNumber: "invoice-str825",
-    paymentDate: "18.09.2025",
-    amount: "1 245 890,00 ₽",
+    supplier: "ООО Мегаснаб",
+    discount: "3,20 %",
+    invoiceDate: "10.09.2025",
+    invoiceNumber: "invoice-mega401",
+    paymentDate: "27.09.2025",
+    amount: "892 345,00 ₽",
     status: "Ждет ответ"
   },
   {
-    supplier: "АО Волжский машиностроительный завод",
-    discount: "2,75 %",
-    invoiceDate: "03.09.2025",
-    invoiceNumber: "invoice-vmz739",
-    paymentDate: "20.09.2025",
-    amount: "2 134 567,00 ₽",
+    supplier: "АО Промышленные товары",
+    discount: "2,80 %",
+    invoiceDate: "12.09.2025",
+    invoiceNumber: "invoice-prom502",
+    paymentDate: "29.09.2025",
+    amount: "1 567 890,00 ₽",
     status: "Ждет ответ"
   },
   {
-    supplier: "ПАО Энергосистемы",
-    discount: "1,95 %",
-    invoiceDate: "07.09.2025",
-    invoiceNumber: "invoice-ens812",
-    paymentDate: "24.09.2025",
-    amount: "1 567 223,00 ₽",
+    supplier: "ПАО Стройматериалы Плюс",
+    discount: "1,75 %",
+    invoiceDate: "14.09.2025",
+    invoiceNumber: "invoice-stroy603",
+    paymentDate: "01.10.2025",
+    amount: "2 234 567,00 ₽",
     status: "Ждет ответ"
   },
   {
-    supplier: "АО Дальневосточная компания",
-    discount: "4,10 %",
-    invoiceDate: "09.09.2025",
-    invoiceNumber: "invoice-dvk385",
-    paymentDate: "26.09.2025",
-    amount: "1 789 456,00 ₽",
+    supplier: "ООО Транспортные решения",
+    discount: "4,25 %",
+    invoiceDate: "16.09.2025",
+    invoiceNumber: "invoice-trans704",
+    paymentDate: "03.10.2025",
+    amount: "1 123 456,00 ₽",
     status: "Ждет ответ"
   }
 ];
