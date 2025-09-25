@@ -46,6 +46,12 @@ const TitleSection = styled.div`
   gap: 12px;
 `;
 
+const TitleRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 600;
@@ -587,7 +593,10 @@ export default function SuppliesPage() {
   return (
     <PageContainer>
       <TitleSection>
-        <Title>Поставки</Title>
+        <TitleRow>
+          <Title>Поставки</Title>
+          {renderActions()}
+        </TitleRow>
         <TabNavigation>
           <TabButton 
             $active={activeTab === "on-shipment"}
@@ -627,7 +636,6 @@ export default function SuppliesPage() {
         columns={currentColumns}
         data={currentData}
         onRowSelect={(rows) => console.log('Selected supplies:', rows)}
-        actions={renderActions()}
       />
       
       <FileUploadModal 
