@@ -257,6 +257,70 @@ const awaitingResponseData = [
   }
 ];
 
+// Data for "С ошибкой" tab
+const errorSuppliesData = [
+  {
+    supplier: "ООО Стройтехника",
+    uploadDate: "15.09.2025",
+    uploadTime: "14:32",
+    invoiceDate: "10.09.2025",
+    invoiceNumber: "invoice-st-401",
+    amount: "567 890,00 ₽",
+    paymentDate: "28.09.2025",
+    errorReason: "Неверный формат файла"
+  },
+  {
+    supplier: "АО Металлургический комбинат",
+    uploadDate: "16.09.2025", 
+    uploadTime: "09:15",
+    invoiceDate: "12.09.2025",
+    invoiceNumber: "invoice-mk-502",
+    amount: "1 234 567,00 ₽",
+    paymentDate: "30.09.2025",
+    errorReason: "Дублирующий номер счета"
+  },
+  {
+    supplier: "ИП Иванов Сергей Петрович",
+    uploadDate: "17.09.2025",
+    uploadTime: "16:45",
+    invoiceDate: "14.09.2025", 
+    invoiceNumber: "invoice-isp-603",
+    amount: "345 678,00 ₽",
+    paymentDate: "02.10.2025",
+    errorReason: "Отсутствует подпись"
+  },
+  {
+    supplier: "ООО Логистические системы",
+    uploadDate: "18.09.2025",
+    uploadTime: "11:20",
+    invoiceDate: "15.09.2025",
+    invoiceNumber: "invoice-ls-704",
+    amount: "789 123,00 ₽", 
+    paymentDate: "05.10.2025",
+    errorReason: "Превышен лимит суммы"
+  },
+  {
+    supplier: "АО Энергокомплекс",
+    uploadDate: "19.09.2025",
+    uploadTime: "13:55",
+    invoiceDate: "16.09.2025",
+    invoiceNumber: "invoice-ek-805",
+    amount: "456 789,00 ₽",
+    paymentDate: "07.10.2025", 
+    errorReason: "Неверная дата оплаты"
+  },
+  {
+    supplier: "ПАО Химпром",
+    uploadDate: "20.09.2025",
+    uploadTime: "08:30",
+    invoiceDate: "17.09.2025",
+    invoiceNumber: "invoice-hp-906",
+    amount: "987 654,00 ₽",
+    paymentDate: "08.10.2025",
+    errorReason: "Некорректные банковские данные"
+  }
+];
+
 // Data for "Все поставки" tab
 const allSuppliesData = [
   {
@@ -479,6 +543,18 @@ const allSuppliesColumns = [
   },
 ];
 
+// Columns for "С ошибкой" view
+const errorSuppliesColumns = [
+  { key: 'supplier', header: 'Поставщик' },
+  { key: 'uploadDate', header: 'Дата загрузки' },
+  { key: 'uploadTime', header: 'Время загрузки' },
+  { key: 'invoiceDate', header: 'Дата счета' },
+  { key: 'invoiceNumber', header: '№ счета' },
+  { key: 'amount', header: 'Сумма оплаты' },
+  { key: 'paymentDate', header: 'Дата оплаты' },
+  { key: 'errorReason', header: 'Причина ошибки' },
+];
+
 export default function SuppliesPage() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -495,16 +571,27 @@ export default function SuppliesPage() {
       case "awaiting-response":
         return awaitingResponseData;
       case "with-error":
-        return []; // Пустой массив для вкладки "С ошибкой"
+        return errorSuppliesData;
       case "on-shipment":
         return currentSuppliesData;
       default:
         return currentSuppliesData;
     }
   };
+
+  const getCurrentColumns = () => {
+    switch (activeTab) {
+      case "all-supplies":
+        return allSuppliesColumns;
+      case "with-error":
+        return errorSuppliesColumns;
+      default:
+        return columns;
+    }
+  };
   
   const currentData = getCurrentData();
-  const currentColumns = activeTab === "all-supplies" ? allSuppliesColumns : columns;
+  const currentColumns = getCurrentColumns();
 
   const handleDeleteSupplies = () => {
     setIsDeleteModalOpen(true);
@@ -856,6 +943,7 @@ export default function SuppliesPage() {
         columns={currentColumns}
         data={currentData}
         onRowSelect={(rows) => console.log('Selected supplies:', rows)}
+        showCheckboxes={activeTab !== "with-error"}
       />
       
       <FileUploadModal 
