@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DataTable from "../DataTable";
 import StatusBadge from "../StatusBadge";
 import { Button, Drawer } from "vienna-ui";
-import { DocumentIcon, AddIcon, ChevronIcon } from "vienna.icons";
+import { DocumentIcon, ChevronIcon } from "vienna.icons";
 
 const BottomActionBar = styled.div`
   position: fixed;
@@ -362,9 +362,6 @@ export default function AgreementsPage() {
                   checked={signingMethod === 'qes'}
                   onChange={(e) => setSigningMethod(e.target.value)}
                 />
-                <StyledBadge color="yellow" style={{ marginRight: '8px' }}>
-                  <AddIcon />
-                </StyledBadge>
                 Подписант/ЭП Подписант
               </RadioLabel>
             </RadioContainer>
