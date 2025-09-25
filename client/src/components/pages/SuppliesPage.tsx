@@ -78,6 +78,87 @@ const suppliesData = [
     paymentDate: "17.09.2025",
     amount: "998 160,00 ₽",
     status: "Ждет отправки"
+  },
+  {
+    supplier: "ООО Северная торговля",
+    discount: "4,50 %",
+    invoiceDate: "01.09.2025",
+    invoiceNumber: "invoice-str825",
+    paymentDate: "18.09.2025",
+    amount: "1 245 890,00 ₽",
+    status: "Ждет отправки"
+  },
+  {
+    supplier: "ИП Петрова Анна Сергеевна",
+    discount: "—",
+    invoiceDate: "02.09.2025", 
+    invoiceNumber: "invoice-pas461",
+    paymentDate: "19.09.2025",
+    amount: "356 720,00 ₽",
+    status: "Ждет отправки"
+  },
+  {
+    supplier: "АО Волжский машиностроительный завод",
+    discount: "2,75 %",
+    invoiceDate: "03.09.2025",
+    invoiceNumber: "invoice-vmz739",
+    paymentDate: "20.09.2025",
+    amount: "2 134 567,00 ₽",
+    status: "Ждет отправки"
+  },
+  {
+    supplier: "ООО Сибирские ресурсы",
+    discount: "1,80 %",
+    invoiceDate: "04.09.2025",
+    invoiceNumber: "invoice-sir294",
+    paymentDate: "21.09.2025",
+    amount: "789 234,00 ₽",
+    status: "Ждет отправки"
+  },
+  {
+    supplier: "ЗАО Технологии будущего",
+    discount: "—",
+    invoiceDate: "05.09.2025",
+    invoiceNumber: "invoice-tbz156",
+    paymentDate: "22.09.2025", 
+    amount: "467 891,00 ₽",
+    status: "Ждет отправки"
+  },
+  {
+    supplier: "ИП Сидоров Михаил Игоревич",
+    discount: "3,25 %",
+    invoiceDate: "06.09.2025",
+    invoiceNumber: "invoice-smi673",
+    paymentDate: "23.09.2025",
+    amount: "623 445,00 ₽",
+    status: "Ждет отправки"
+  },
+  {
+    supplier: "ПАО Энергосистемы",
+    discount: "1,95 %",
+    invoiceDate: "07.09.2025",
+    invoiceNumber: "invoice-ens812",
+    paymentDate: "24.09.2025",
+    amount: "1 567 223,00 ₽",
+    status: "Ждет отправки"
+  },
+  {
+    supplier: "ООО Логистические решения",
+    discount: "—",
+    invoiceDate: "08.09.2025",
+    invoiceNumber: "invoice-lrs948",
+    paymentDate: "25.09.2025",
+    amount: "892 156,00 ₽",
+    status: "Ждет отправки"
+  },
+  {
+    supplier: "АО Дальневосточная компания",
+    discount: "4,10 %",
+    invoiceDate: "09.09.2025",
+    invoiceNumber: "invoice-dvk385",
+    paymentDate: "26.09.2025",
+    amount: "1 789 456,00 ₽",
+    status: "Ждет отправки"
   }
 ];
 
