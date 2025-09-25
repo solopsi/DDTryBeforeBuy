@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DataTable from "../DataTable";
 import StatusBadge from "../StatusBadge";
 import { Button, Drawer } from "vienna-ui";
-import { DocumentIcon, AddIcon } from "vienna.icons";
+import { DocumentIcon, AddIcon, ChevronIcon } from "vienna.icons";
 
 const BottomActionBar = styled.div`
   position: fixed;
@@ -77,9 +77,23 @@ const DocumentCard = styled.div`
 const DocumentHeader = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 12px;
   cursor: pointer;
+`;
+
+const ChevronIconWrapper = styled.div<{ isExpanded: boolean }>`
+  transform: ${props => props.isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+`;
+
+const DocumentHeaderContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
 `;
 
 const CompanyName = styled.span`
@@ -363,10 +377,16 @@ export default function AgreementsPage() {
             {selectedAgreements.map((agreement, index) => (
               <DocumentCard key={index}>
                 <DocumentHeader onClick={() => toggleDocumentExpansion(index)}>
-                  <CompanyName>{agreement.supplier}</CompanyName>
-                  <StyledBadge color="blue">
-                    Соглашение от {formatDateForDisplay(agreement.agreementDate)}
-                  </StyledBadge>
+                  <ChevronIconWrapper isExpanded={expandedDocuments.has(index)}>
+                    <ChevronIcon />
+                  </ChevronIconWrapper>
+                  <DocumentHeaderContent>
+                    <CompanyName>{agreement.supplier}</CompanyName>
+                    <StyledBadge color="blue">
+                      <DocumentIcon style={{ marginRight: '6px' }} />
+                      Соглашение от {formatDateForDisplay(agreement.agreementDate)}
+                    </StyledBadge>
+                  </DocumentHeaderContent>
                 </DocumentHeader>
                 
                 <CollapsibleContent isOpen={expandedDocuments.has(index)}>
