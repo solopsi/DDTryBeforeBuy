@@ -335,10 +335,11 @@ export default function AgreementsPage() {
             <Title>Документы на подпись</Title>
           </DrawerHeader>
 
+          <SectionTitle>
+            Выберите способ подписи
+          </SectionTitle>
+          
           <SigningMethodSection>
-            <SectionTitle>
-              Выберите способ подписи
-            </SectionTitle>
             <RadioContainer>
               <RadioLabel>
                 <RadioInput
