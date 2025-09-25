@@ -83,7 +83,7 @@ const suppliesData = [
 
 const columns = [
   { key: 'supplier', header: 'Поставщик' },
-  { key: 'discount', header: 'Ставка дисконта' },
+  { key: 'discount', header: 'Ставка доходности' },
   { key: 'invoiceDate', header: 'Дата счета' },
   { key: 'invoiceNumber', header: '№ счета' },
   { key: 'paymentDate', header: 'Дата оплаты' },
