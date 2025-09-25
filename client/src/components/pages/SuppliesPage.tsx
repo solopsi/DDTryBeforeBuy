@@ -8,7 +8,7 @@ import Loader from "../Loader";
 import { Button } from "vienna-ui/dist/Button";
 import { Select } from "vienna-ui/dist/Select";
 import { Input } from "vienna-ui/dist/Input";
-import { DownloadIcon } from "vienna.icons";
+import { DownloadIcon, SettingsIcon } from "vienna.icons";
 
 // Styled components for tabs
 const TabNavigation = styled.div`
@@ -103,6 +103,65 @@ const FilterButton = styled.button`
     background: hsl(0 0% 96%);
     color: hsl(0 0% 8%);
   }
+`;
+
+// Bottom action bar styled components
+const BottomActionBar = styled.div`
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: hsl(0 0% 9%);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  z-index: 1000;
+  min-width: 500px;
+`;
+
+const ActionIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: hsl(45 100% 50%);
+  border-radius: 4px;
+  color: hsl(0 0% 9%);
+  flex-shrink: 0;
+`;
+
+const ActionContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+`;
+
+const ActionInfo = styled.div`
+  display: flex;
+  gap: 24px;
+`;
+
+const InfoItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+const InfoLabel = styled.span`
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+`;
+
+const InfoValue = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
 `;
 
 //todo: remove mock functionality
@@ -560,8 +619,11 @@ export default function SuppliesPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("on-shipment");
+  const [previousTab, setPreviousTab] = useState("on-shipment");
   const [showMoreFilters, setShowMoreFilters] = useState(false);
   const [currentSuppliesData, setCurrentSuppliesData] = useState(suppliesData);
+  const [selectedSupplies, setSelectedSupplies] = useState<any[]>([]);
+  const [isConfigureModalOpen, setIsConfigureModalOpen] = useState(false);
 
   // Get data and columns based on active tab
   const getCurrentData = () => {
@@ -605,12 +667,54 @@ export default function SuppliesPage() {
     // Simulate deletion process with 1.5 second delay
     setTimeout(() => {
       setCurrentSuppliesData([]);
+      setSelectedSupplies([]); // Clear selected supplies after deletion
       setIsLoading(false);
     }, 1500);
   };
 
   const handleCancelDelete = () => {
     setIsDeleteModalOpen(false);
+  };
+
+  // Handler for selecting supplies in "На отправку" tab
+  const handleSuppliesSelect = (selectedRows: any[]) => {
+    setSelectedSupplies(selectedRows);
+  };
+
+  // Calculate total payment amount
+  const calculateTotalPayment = () => {
+    return selectedSupplies.reduce((total, supply) => {
+      const amount = parseFloat(supply.amount.replace(/[^\d,]/g, '').replace(',', '.'));
+      return total + amount;
+    }, 0);
+  };
+
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('ru-RU', {
+      style: 'currency',
+      currency: 'RUB',
+      minimumFractionDigits: 2
+    }).format(amount).replace('₽', '₽');
+  };
+
+  // Open configure modal
+  const handleConfigureBeforeSend = () => {
+    setIsConfigureModalOpen(true);
+  };
+
+  // Close configure modal
+  const handleCloseConfigureModal = () => {
+    setIsConfigureModalOpen(false);
+  };
+
+  // Clear selected supplies when tab changes away from "on-shipment"
+  const handleTabChange = (tabId: string) => {
+    if (previousTab === "on-shipment" && tabId !== "on-shipment") {
+      setSelectedSupplies([]);
+    }
+    setPreviousTab(activeTab);
+    setActiveTab(tabId);
   };
 
   const renderFilters = () => {
@@ -906,28 +1010,28 @@ export default function SuppliesPage() {
         <TabNavigation>
           <TabButton 
             $active={activeTab === "on-shipment"}
-            onClick={() => setActiveTab("on-shipment")}
+            onClick={() => handleTabChange("on-shipment")}
             data-testid="nav-not-shipped"
           >
             На отправку
           </TabButton>
           <TabButton 
             $active={activeTab === "awaiting-response"}
-            onClick={() => setActiveTab("awaiting-response")}
+            onClick={() => handleTabChange("awaiting-response")}
             data-testid="nav-awaiting-response"
           >
             Ждет вашего ответа
           </TabButton>
           <TabButton 
             $active={activeTab === "with-error"}
-            onClick={() => setActiveTab("with-error")}
+            onClick={() => handleTabChange("with-error")}
             data-testid="nav-with-error"
           >
             С ошибкой
           </TabButton>
           <TabButton 
             $active={activeTab === "all-supplies"}
-            onClick={() => setActiveTab("all-supplies")}
+            onClick={() => handleTabChange("all-supplies")}
             data-testid="nav-all-supplies"
           >
             Все поставки
@@ -942,8 +1046,8 @@ export default function SuppliesPage() {
         title=""
         columns={currentColumns}
         data={currentData}
-        onRowSelect={(rows) => console.log('Selected supplies:', rows)}
-        showCheckboxes={activeTab !== "with-error"}
+        onRowSelect={activeTab === "on-shipment" ? handleSuppliesSelect : undefined}
+        showCheckboxes={activeTab === "on-shipment"}
       />
       
       <FileUploadModal 
@@ -961,6 +1065,34 @@ export default function SuppliesPage() {
         isVisible={isLoading}
         text="Удаление поставок..."
       />
+      
+      {/* Bottom action bar for selected supplies */}
+      {selectedSupplies.length > 0 && activeTab === "on-shipment" && (
+        <BottomActionBar>
+          <ActionContent>
+            <ActionIcon>
+              <SettingsIcon />
+            </ActionIcon>
+            <Button
+              style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
+              onClick={handleConfigureBeforeSend}
+              data-testid="button-configure-before-send"
+            >
+              Настроить перед отправкой
+            </Button>
+            <ActionInfo>
+              <InfoItem>
+                <InfoLabel>Количество</InfoLabel>
+                <InfoValue data-testid="text-selected-count">{selectedSupplies.length}</InfoValue>
+              </InfoItem>
+              <InfoItem>
+                <InfoLabel>Оплата</InfoLabel>
+                <InfoValue data-testid="text-selected-total">{formatCurrency(calculateTotalPayment())}</InfoValue>
+              </InfoItem>
+            </ActionInfo>
+          </ActionContent>
+        </BottomActionBar>
+      )}
     </PageContainer>
   );
 }
