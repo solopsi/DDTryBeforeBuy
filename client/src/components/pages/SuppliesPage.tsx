@@ -217,6 +217,46 @@ const suppliesData = [
   }
 ];
 
+// Data for "Awaiting Response" tab
+const awaitingResponseData = [
+  {
+    supplier: "ООО Северная торговля",
+    discount: "4,50 %",
+    invoiceDate: "01.09.2025",
+    invoiceNumber: "invoice-str825",
+    paymentDate: "18.09.2025",
+    amount: "1 245 890,00 ₽",
+    status: "Ждет ответ"
+  },
+  {
+    supplier: "АО Волжский машиностроительный завод",
+    discount: "2,75 %",
+    invoiceDate: "03.09.2025",
+    invoiceNumber: "invoice-vmz739",
+    paymentDate: "20.09.2025",
+    amount: "2 134 567,00 ₽",
+    status: "Ждет ответ"
+  },
+  {
+    supplier: "ПАО Энергосистемы",
+    discount: "1,95 %",
+    invoiceDate: "07.09.2025",
+    invoiceNumber: "invoice-ens812",
+    paymentDate: "24.09.2025",
+    amount: "1 567 223,00 ₽",
+    status: "Ждет ответ"
+  },
+  {
+    supplier: "АО Дальневосточная компания",
+    discount: "4,10 %",
+    invoiceDate: "09.09.2025",
+    invoiceNumber: "invoice-dvk385",
+    paymentDate: "26.09.2025",
+    amount: "1 789 456,00 ₽",
+    status: "Ждет ответ"
+  }
+];
+
 // Data for "Все поставки" tab
 const allSuppliesData = [
   {
@@ -448,7 +488,20 @@ export default function SuppliesPage() {
   const [currentSuppliesData, setCurrentSuppliesData] = useState(suppliesData);
 
   // Get data and columns based on active tab
-  const currentData = activeTab === "all-supplies" ? allSuppliesData : currentSuppliesData;
+  const getCurrentData = () => {
+    switch (activeTab) {
+      case "all-supplies":
+        return allSuppliesData;
+      case "awaiting-response":
+        return awaitingResponseData;
+      case "on-shipment":
+        return currentSuppliesData;
+      default:
+        return currentSuppliesData;
+    }
+  };
+  
+  const currentData = getCurrentData();
   const currentColumns = activeTab === "all-supplies" ? allSuppliesColumns : columns;
 
   const handleDeleteSupplies = () => {

@@ -128,6 +128,15 @@ const StyledBadge = styled.span<{ $statusType: string }>`
       `;
     }
     
+    // Ждет ответ/ответа - Orange
+    if (status.includes("ждет ответ")) {
+      return `
+        background-color: #F5E1CD;
+        color: #8B5A2B;
+        border: 1px solid #E6C7A3;
+      `;
+    }
+    
     // Legacy status handling for other pages
     if (status.includes("активный") || status.includes("в процессе")) {
       return `
