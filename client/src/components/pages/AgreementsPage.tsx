@@ -112,16 +112,20 @@ const DetailRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  line-height: 20px;
+  min-height: 20px;
 `;
 
 const DetailLabel = styled.span`
   font-size: 16px;
   color: #666;
+  line-height: 20px;
 `;
 
 const DetailValue = styled.span`
   font-size: 16px;
   font-weight: 500;
+  line-height: 20px;
 `;
 
 const DrawerFooter = styled.div`
