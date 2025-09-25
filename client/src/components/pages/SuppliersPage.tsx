@@ -383,6 +383,7 @@ export default function SuppliersPage() {
           </Button>
         }
         showFilters={true}
+        showCheckboxes={false}
       />
 
       <Modal 
