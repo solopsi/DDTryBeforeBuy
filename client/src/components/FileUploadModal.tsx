@@ -109,6 +109,35 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
+const TemplateSection = styled.div`
+  margin-bottom: 24px;
+  padding: 16px;
+  background: hsl(210 40% 98%);
+  border: 1px solid hsl(210 40% 90%);
+  border-radius: 6px;
+`;
+
+const TemplateLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: hsl(45 100% 40%);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  
+  &:hover {
+    color: hsl(45 100% 30%);
+    text-decoration: underline;
+  }
+`;
+
+const TemplateText = styled.p`
+  color: hsl(0 0% 64%);
+  font-size: 14px;
+  margin: 0 0 8px 0;
+`;
+
 export default function FileUploadModal({ isOpen, onClose }: FileUploadModalProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -206,6 +235,18 @@ export default function FileUploadModal({ isOpen, onClose }: FileUploadModalProp
     >
       <ModalContainer>
         <ModalTitle>Загрузка файла поставок</ModalTitle>
+        
+        <TemplateSection>
+          <TemplateText>Используйте шаблон для заполнения данных о поставках:</TemplateText>
+          <TemplateLink 
+            href="/template_supplies.xlsx" 
+            download="Шаблон_поставок.xlsx"
+            data-testid="link-download-template"
+          >
+            <DownloadIcon style={{ width: '16px', height: '16px' }} />
+            Шаблон поставок
+          </TemplateLink>
+        </TemplateSection>
         
         <UploadArea
           $isDragOver={isDragOver}
