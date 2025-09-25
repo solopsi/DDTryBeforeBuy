@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DataTable from "../DataTable";
 import StatusBadge from "../StatusBadge";
 import { Button, Modal, Input, Hint, Checkbox } from "vienna-ui";
-import { AddIcon, WarningTrIcon, IosIcon, Close16Icon, ChevronIcon } from "vienna.icons";
+import { AddIcon, WarningTrIcon, InfoRingIcon, Close16Icon, ChevronIcon } from "vienna.icons";
 
 const StatusContainer = styled.div`
   display: flex;
@@ -333,7 +333,7 @@ export default function SuppliersPage() {
               <SectionTitle>Основная информация</SectionTitle>
               
               <InfoSection>
-                <IosIcon style={{ width: '20px', height: '20px', color: 'hsl(216, 100%, 45%)', flexShrink: 0, marginTop: '2px' }} />
+                <InfoRingIcon style={{ width: '20px', height: '20px', color: 'hsl(216, 100%, 45%)', flexShrink: 0, marginTop: '2px' }} />
                 <InfoContent>
                   После проверки поставщика вы сможете прислать ему приглашение на платформу
                 </InfoContent>
