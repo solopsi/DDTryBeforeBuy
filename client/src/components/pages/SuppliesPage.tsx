@@ -54,7 +54,7 @@ const Title = styled.h1`
 const suppliesData = [
   {
     supplier: "ИП Тестов Тест Тестович",
-    discount: "—",
+    discount: "2,15 %",
     invoiceDate: "28.08.2025",
     invoiceNumber: "invoice-env307",
     paymentDate: "17.09.2025",
@@ -90,7 +90,7 @@ const suppliesData = [
   },
   {
     supplier: "ИП Петрова Анна Сергеевна",
-    discount: "—",
+    discount: "3,65 %",
     invoiceDate: "02.09.2025", 
     invoiceNumber: "invoice-pas461",
     paymentDate: "19.09.2025",
@@ -117,7 +117,7 @@ const suppliesData = [
   },
   {
     supplier: "ЗАО Технологии будущего",
-    discount: "—",
+    discount: "1,40 %",
     invoiceDate: "05.09.2025",
     invoiceNumber: "invoice-tbz156",
     paymentDate: "22.09.2025", 
@@ -144,7 +144,7 @@ const suppliesData = [
   },
   {
     supplier: "ООО Логистические решения",
-    discount: "—",
+    discount: "2,90 %",
     invoiceDate: "08.09.2025",
     invoiceNumber: "invoice-lrs948",
     paymentDate: "25.09.2025",
