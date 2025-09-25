@@ -102,16 +102,16 @@ const CompanyName = styled.span`
 `;
 
 const DocumentDetails = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 12px;
 `;
 
-const DetailItem = styled.div`
+const DetailRow = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const DetailLabel = styled.span`
@@ -388,22 +388,22 @@ export default function AgreementsPage() {
                 
                 <CollapsibleContent isOpen={expandedDocuments.has(index)}>
                   <DocumentDetails>
-                    <DetailItem>
+                    <DetailRow>
                       <DetailLabel>Дата ранней оплаты</DetailLabel>
                       <DetailValue>{formatDateForDisplay(agreement.paymentDate)}</DetailValue>
-                    </DetailItem>
-                    <DetailItem>
+                    </DetailRow>
+                    <DetailRow>
                       <DetailLabel>Сумма ранней оплаты</DetailLabel>
                       <DetailValue>{agreement.earlyPayment}</DetailValue>
-                    </DetailItem>
-                    <DetailItem>
+                    </DetailRow>
+                    <DetailRow>
                       <DetailLabel>Сумма скидки</DetailLabel>
                       <DetailValue>{agreement.discount}</DetailValue>
-                    </DetailItem>
-                    <DetailItem>
+                    </DetailRow>
+                    <DetailRow>
                       <DetailLabel>№ договора</DetailLabel>
                       <DetailValue>{generateContractNumber(agreement.supplier, index)}</DetailValue>
-                    </DetailItem>
+                    </DetailRow>
                   </DocumentDetails>
                 </CollapsibleContent>
               </DocumentCard>
