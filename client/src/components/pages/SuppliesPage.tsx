@@ -560,9 +560,13 @@ export default function SuppliesPage() {
           </Button>
           <Button 
             design="outline"
+            onClick={() => setIsUploadModalOpen(true)}
             data-testid="button-upload-supplies"
           >
-            Загрузить
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              <DownloadIcon style={{ width: '16px', height: '16px' }} />
+              Загрузить
+            </div>
           </Button>
         </div>
       );
