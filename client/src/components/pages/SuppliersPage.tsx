@@ -251,6 +251,12 @@ export default function SuppliersPage() {
     }
   };
 
+  const handleYieldRateChange = (value: string) => {
+    // Allow only numbers and decimal separator
+    const numericValue = value.replace(/[^0-9.,]/g, '').replace(',', '.');
+    setYieldRate(numericValue);
+  };
+
   const selectCompany = (company: typeof mockCompaniesData[0]) => {
     setInn(company.inn);
     setKpp(company.kpp);
@@ -362,6 +368,7 @@ export default function SuppliersPage() {
                     value={kpp}
                     onChange={(e) => setKpp(e.target.value)}
                     data-testid="input-supplier-kpp"
+                    disabled={true}
                   />
                 </FormField>
 
@@ -372,6 +379,7 @@ export default function SuppliersPage() {
                     value={ogrn}
                     onChange={(e) => setOgrn(e.target.value)}
                     data-testid="input-supplier-ogrn"
+                    disabled={true}
                   />
                 </FormField>
               </FieldRow>
@@ -383,6 +391,7 @@ export default function SuppliersPage() {
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
                   data-testid="input-supplier-name"
+                  disabled={true}
                 />
               </FormField>
             </Section>
@@ -395,7 +404,7 @@ export default function SuppliersPage() {
                 <Input
                   placeholder="% годовых"
                   value={yieldRate}
-                  onChange={(e) => setYieldRate(e.target.value)}
+                  onChange={(e) => handleYieldRateChange(e.target.value)}
                   data-testid="input-supplier-yield-rate"
                 />
               </FormField>
