@@ -70,10 +70,13 @@ const SupplierInfo = styled.div`
 `;
 
 const InfoItem = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  
   span {
     color: hsl(0 0% 8%);
     font-weight: 500;
-    margin-left: 8px;
   }
 `;
 
