@@ -163,12 +163,15 @@ const SummaryInfo = styled.div`
 `;
 
 const SummaryItem = styled.div`
-  color: hsl(0 0% 80%);
   display: inline-flex;
   align-items: center;
   gap: 16px;
   
-  span {
+  span:first-child {
+    color: hsl(0 0% 80%);
+  }
+  
+  span:last-child {
     color: white;
     font-weight: 500;
   }
@@ -413,10 +416,12 @@ export default function AuctionAgreementFormationView({
       <SummaryPanel data-testid="summary-panel">
         <SummaryInfo>
           <SummaryItem data-testid="total-early-payment">
-            Ранняя оплата: <span>86 012,00 ₽</span>
+            <span>Ранняя оплата:</span>
+            <span>86 012,00 ₽</span>
           </SummaryItem>
           <SummaryItem data-testid="total-discount">
-            Скидка: <span>8 983 879,00 ₽</span>
+            <span>Скидка:</span>
+            <span>8 983 879,00 ₽</span>
           </SummaryItem>
         </SummaryInfo>
         <CreateAgreementsButton
