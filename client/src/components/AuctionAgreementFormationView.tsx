@@ -158,20 +158,24 @@ const SummaryPanel = styled.div`
 const SummaryInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 48px;
   font-size: 14px;
+  flex-wrap: wrap;
 `;
 
 const SummaryItem = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
+  display: table;
+  white-space: nowrap;
+  margin-right: 48px;
   
   span:first-child {
+    display: table-cell;
     color: hsl(0 0% 80%);
+    padding-right: 24px;
   }
   
   span:last-child {
+    display: table-cell;
     color: white;
     font-weight: 500;
   }
