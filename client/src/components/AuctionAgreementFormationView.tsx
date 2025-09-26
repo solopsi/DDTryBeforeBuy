@@ -73,6 +73,7 @@ const InfoItem = styled.span`
   span {
     color: hsl(0 0% 8%);
     font-weight: 500;
+    margin-left: 8px;
   }
 `;
 
