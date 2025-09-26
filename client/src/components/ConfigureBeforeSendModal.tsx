@@ -199,8 +199,8 @@ const FooterInfo = styled.div`
 
 const FooterInfoItem = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 16px;
 `;
 
 const FooterLabel = styled.span`
