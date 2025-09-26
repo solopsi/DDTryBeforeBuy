@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Button } from "vienna-ui/dist/Button";
 import { Input } from "vienna-ui/dist/Input";
+import { Datepicker } from "vienna-ui";
 import { Drawer } from "vienna-ui/dist/Drawer";
 import { CalendarIcon, GoLeftIcon } from "vienna.icons";
 
@@ -448,11 +449,12 @@ export default function ConfigureBeforeSendModal({
                 <FormRow>
                   <FormLabel>Дата ранней оплаты</FormLabel>
                   <DateInputWrapper>
-                    <Input
+                    <Datepicker
                       placeholder="ДД.ММ.ГГГГ"
                       value={config.earlyPaymentDate}
-                      onChange={(e) => updateConfig(config.id, 'earlyPaymentDate', e.target.value)}
+                      onChange={(event, data) => updateConfig(config.id, 'earlyPaymentDate', data?.value || '')}
                       data-testid={`input-early-payment-date-${config.id}`}
+                      format="DD.MM.YYYY"
                     />
                   </DateInputWrapper>
                 </FormRow>
