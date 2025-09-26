@@ -189,6 +189,16 @@ export default function DataTable({
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(60);
+  const [previousDataLength, setPreviousDataLength] = useState(data.length);
+
+  // Reset selected rows when data changes (e.g., items removed)
+  useEffect(() => {
+    if (data.length !== previousDataLength) {
+      setSelectedRows(new Set());
+      onRowSelect?.([]);
+      setPreviousDataLength(data.length);
+    }
+  }, [data.length, previousDataLength, onRowSelect]);
 
   const handleRowSelect = (index: number, checked: boolean) => {
     const newSelectedRows = new Set(selectedRows);
