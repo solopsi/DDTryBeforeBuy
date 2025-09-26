@@ -90,8 +90,8 @@ const SummaryRow = styled.div`
 
 const SummaryItem = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 16px;
   min-width: 120px;
   flex-shrink: 0;
 `;
