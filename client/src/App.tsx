@@ -8,7 +8,8 @@ import MainApp from "./components/MainApp";
 // Допустимые пользователи
 const VALID_USERS = [
   { email: "123@mail.com", password: "123" },
-  { email: "456@mail.com", password: "456" }
+  { email: "456@mail.com", password: "456" },
+  { email: "ext123@mail.com", password: "ext123" }
 ];
 
 function App() {
