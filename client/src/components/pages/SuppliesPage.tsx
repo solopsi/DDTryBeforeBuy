@@ -5,6 +5,7 @@ import StatusBadge from "../StatusBadge";
 import FileUploadModal from "../FileUploadModal";
 import DeleteConfirmModal from "../DeleteConfirmModal";
 import Loader from "../Loader";
+import ConfigureBeforeSendModal from "../ConfigureBeforeSendModal";
 import { Button } from "vienna-ui/dist/Button";
 import { Select } from "vienna-ui/dist/Select";
 import { Input } from "vienna-ui/dist/Input";
@@ -708,6 +709,24 @@ export default function SuppliesPage() {
     setIsConfigureModalOpen(false);
   };
 
+  // Handle submit from configure modal
+  const handleConfigureSubmit = (configs: any[]) => {
+    console.log('Submitting configs:', configs);
+    
+    // Remove selected supplies from the list
+    const selectedIds = selectedSupplies.map(supply => supply.invoiceNumber);
+    const updatedData = currentSuppliesData.filter(supply => 
+      !selectedIds.includes(supply.invoiceNumber)
+    );
+    
+    setCurrentSuppliesData(updatedData);
+    setSelectedSupplies([]);
+    setIsConfigureModalOpen(false);
+    
+    // Here you would typically send the data to the backend
+    alert('Поставки отправлены на рассмотрение!');
+  };
+
   // Clear selected supplies when tab changes away from "on-shipment"
   const handleTabChange = (tabId: string) => {
     if (previousTab === "on-shipment" && tabId !== "on-shipment") {
@@ -1064,6 +1083,13 @@ export default function SuppliesPage() {
       <Loader 
         isVisible={isLoading}
         text="Удаление поставок..."
+      />
+      
+      <ConfigureBeforeSendModal
+        isOpen={isConfigureModalOpen}
+        onClose={handleCloseConfigureModal}
+        selectedSupplies={selectedSupplies}
+        onSubmit={handleConfigureSubmit}
       />
       
       {/* Bottom action bar for selected supplies */}
