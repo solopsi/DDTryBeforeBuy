@@ -164,11 +164,13 @@ const SummaryInfo = styled.div`
 
 const SummaryItem = styled.div`
   color: hsl(0 0% 80%);
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
   
   span {
     color: white;
     font-weight: 500;
-    margin-left: 4px;
   }
 `;
 
