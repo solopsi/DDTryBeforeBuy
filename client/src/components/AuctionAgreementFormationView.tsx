@@ -158,26 +158,30 @@ const SummaryPanel = styled.div`
 const SummaryInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 48px;
+  gap: 32px;
   font-size: 14px;
   flex-wrap: wrap;
+  flex: 1 1 auto;
+  min-width: 0;
 `;
 
 const SummaryItem = styled.div`
-  display: table;
-  white-space: nowrap;
-  margin-right: 48px;
+  display: inline-grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 16px;
+  align-items: center;
   
   span:first-child {
-    display: table-cell;
     color: hsl(0 0% 80%);
-    padding-right: 24px;
   }
   
   span:last-child {
-    display: table-cell;
     color: white;
     font-weight: 500;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 
@@ -186,6 +190,7 @@ const CreateAgreementsButton = styled(Button)`
   color: hsl(0 0% 8%) !important;
   border: none !important;
   font-weight: 500;
+  flex-shrink: 0;
   
   &:hover {
     background-color: hsl(45 100% 45%) !important;
