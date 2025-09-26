@@ -83,25 +83,30 @@ const SupplierContent = styled.div`
 
 const SummaryRow = styled.div`
   display: flex;
-  gap: 24px;
+  gap: 32px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 `;
 
 const SummaryItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+  min-width: 120px;
+  flex-shrink: 0;
 `;
 
 const SummaryLabel = styled.span`
   font-size: 12px;
   color: #666;
+  white-space: nowrap;
 `;
 
 const SummaryValue = styled.span`
   font-size: 16px;
   font-weight: 500;
   color: #2b2d33;
+  white-space: nowrap;
 `;
 
 const FormRow = styled.div`
