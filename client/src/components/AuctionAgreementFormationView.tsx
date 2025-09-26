@@ -70,13 +70,19 @@ const SupplierInfo = styled.div`
 `;
 
 const InfoItem = styled.span`
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 16px;
   align-items: center;
-  gap: 16px;
   
-  span {
+  span:first-child {
+    color: hsl(0 0% 45%);
+  }
+  
+  span:last-child {
     color: hsl(0 0% 8%);
     font-weight: 500;
+    white-space: nowrap;
   }
 `;
 
@@ -355,13 +361,16 @@ export default function AuctionAgreementFormationView({
             <SupplierTitle data-testid={`supplier-name-${group.id}`}>{group.name}</SupplierTitle>
             <SupplierInfo>
               <InfoItem data-testid={`early-payment-${group.id}`}>
-                Ранняя оплата <span>{group.earlyPayment}</span>
+                <span>Ранняя оплата</span>
+                <span>{group.earlyPayment}</span>
               </InfoItem>
               <InfoItem data-testid={`discount-${group.id}`}>
-                Скидка <span>{group.discount}</span>
+                <span>Скидка</span>
+                <span>{group.discount}</span>
               </InfoItem>
               <InfoItem data-testid={`supplies-count-${group.id}`}>
-                Поставки <span>{group.suppliesCount}</span>
+                <span>Поставки</span>
+                <span>{group.suppliesCount}</span>
               </InfoItem>
             </SupplierInfo>
             <ContractInfo data-testid={`early-payment-date-${group.id}`}>
