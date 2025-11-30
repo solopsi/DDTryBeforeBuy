@@ -225,6 +225,7 @@ interface SupplyConfig {
   paymentDate: string;
   invoiceNumber: string;
   invoiceDate: string;
+  contractNumber: string;
   earlyPaymentDate: string;
   isModified: boolean;
   rateDirection?: 'up' | 'down';
@@ -246,6 +247,13 @@ export default function ConfigureBeforeSendModal({
   const [configs, setConfigs] = useState<SupplyConfig[]>([]);
   const [allFieldsValid, setAllFieldsValid] = useState(false);
 
+  // Generate contract number in format ДГ-XXX/YYYY
+  const generateContractNumber = (index: number) => {
+    const year = new Date().getFullYear();
+    const baseNumber = 100 + index * 17 + Math.floor(Math.random() * 50);
+    return `ДГ-${baseNumber}/${year}`;
+  };
+
   // Initialize configs when modal opens or selectedSupplies changes
   useEffect(() => {
     if (isOpen && selectedSupplies.length > 0) {
@@ -259,6 +267,7 @@ export default function ConfigureBeforeSendModal({
         paymentDate: supply.paymentDate,
         invoiceNumber: supply.invoiceNumber,
         invoiceDate: supply.invoiceDate,
+        contractNumber: generateContractNumber(index),
         earlyPaymentDate: '',
         isModified: false
       }));
@@ -426,7 +435,7 @@ export default function ConfigureBeforeSendModal({
               <SupplierHeader>
                 <SupplierName>{config.supplier}</SupplierName>
                 <SupplierInfo>
-                  Ставка доходности {config.originalRate.toFixed(2)} % • Договор № {config.invoiceNumber} от {config.invoiceDate}
+                  Ставка доходности {config.originalRate.toFixed(2)} % • Договор № {config.contractNumber} от {config.invoiceDate}
                 </SupplierInfo>
               </SupplierHeader>
               
