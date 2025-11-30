@@ -79,19 +79,16 @@ const TabsSection = styled.div`
   padding-bottom: 16px;
 `;
 
-const TabItem = styled.span`
+const TabItem = styled.span<{ $active?: boolean }>`
   padding: 8px 0;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
-  
-  &:first-child {
-    border-bottom-color: hsl(45 100% 50%);
-    color: hsl(0 0% 8%);
-    font-weight: 500;
-  }
+  border-bottom: 2px solid ${props => props.$active ? 'hsl(45 100% 50%)' : 'transparent'};
+  color: ${props => props.$active ? 'hsl(0 0% 8%)' : 'hsl(0 0% 64%)'};
+  font-weight: ${props => props.$active ? '500' : '400'};
+  transition: all 0.2s ease;
   
   &:hover {
-    color: hsl(0 0% 45%);
+    color: ${props => props.$active ? 'hsl(0 0% 8%)' : 'hsl(0 0% 45%)'};
   }
 `;
 
@@ -155,9 +152,12 @@ const ErrorMessage = styled.div`
   margin-bottom: 16px;
 `;
 
+type TabType = 'buyers' | 'suppliers';
+
 export default function LoginForm({ onLogin, error }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [activeTab, setActiveTab] = useState<TabType>('buyers');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,8 +179,18 @@ export default function LoginForm({ onLogin, error }: LoginFormProps) {
       <FormPanel>
         <FormContainer>
           <TabsSection>
-            <TabItem>Для покупателей</TabItem>
-            <TabItem>Для поставщиков</TabItem>
+            <TabItem 
+              $active={activeTab === 'buyers'} 
+              onClick={() => setActiveTab('buyers')}
+            >
+              Для покупателей
+            </TabItem>
+            <TabItem 
+              $active={activeTab === 'suppliers'} 
+              onClick={() => setActiveTab('suppliers')}
+            >
+              Для поставщиков
+            </TabItem>
           </TabsSection>
           
           <CardHeader>
