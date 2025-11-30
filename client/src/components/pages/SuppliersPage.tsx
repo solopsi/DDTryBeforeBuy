@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import DataTable from "../DataTable";
 import StatusBadge from "../StatusBadge";
+import YieldRateSelect from "../YieldRateSelect";
 import { Button, Modal, Input, Hint, Checkbox } from "vienna-ui";
 import { AddIcon, WarningTrIcon, InfoRingIcon, Close16Icon, ChevronIcon } from "vienna.icons";
 
@@ -472,10 +473,10 @@ export default function SuppliersPage() {
               
               <FormField>
                 <FieldLabel>Ставка доходности</FieldLabel>
-                <Input
-                  placeholder="% годовых"
+                <YieldRateSelect
                   value={yieldRate}
-                  onChange={(e) => handleYieldRateChange(e.target.value)}
+                  onChange={(value) => setYieldRate(value)}
+                  placeholder="% годовых"
                   data-testid="input-supplier-yield-rate"
                 />
               </FormField>
@@ -607,13 +608,14 @@ export default function SuppliersPage() {
               <FormField>
                 <FieldLabel>Ставка доходности</FieldLabel>
                 <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
-                  <Input
-                    placeholder="% годовых"
-                    value={supplierYieldRate}
-                    onChange={(e) => handleYieldRateChange(e.target.value)}
-                    data-testid="input-detail-yield-rate"
-                    style={{ flex: 1 }}
-                  />
+                  <div style={{ flex: 1 }}>
+                    <YieldRateSelect
+                      value={supplierYieldRate}
+                      onChange={(value) => setSupplierYieldRate(value)}
+                      placeholder="% годовых"
+                      data-testid="input-detail-yield-rate"
+                    />
+                  </div>
                   <Button 
                     style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
                     onClick={handleSaveYieldRate}

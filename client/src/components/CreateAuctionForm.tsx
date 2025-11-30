@@ -3,6 +3,7 @@ import { Button, Input, Datepicker } from "vienna-ui";
 import { DocIcon } from "vienna.icons";
 import styled from "styled-components";
 import SupplierSelectionDrawer from "./SupplierSelectionDrawer";
+import YieldRateSelect from "./YieldRateSelect";
 
 // Utility function to format Date objects to Russian DD.MM.YYYY format
 const formatDate = (date: Date | string): string => {
@@ -390,9 +391,9 @@ export default function CreateAuctionForm({ onCreateAuction, onBack }: CreateAuc
           <FieldRow>
             <FieldGroup>
               <FieldLabel>Минимальная ставка доходности</FieldLabel>
-              <PercentInput
+              <YieldRateSelect
                 value={formData.minYieldRate}
-                onChange={(e) => handleInputChange('minYieldRate', e.target.value)}
+                onChange={(value) => handleInputChange('minYieldRate', value)}
                 placeholder="% годовых"
                 data-testid="input-min-yield-rate"
               />
