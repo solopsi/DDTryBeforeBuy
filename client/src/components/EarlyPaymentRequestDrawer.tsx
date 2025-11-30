@@ -304,7 +304,7 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
             <Select
               placeholder="От кого вы хотите получить оплату?"
               value={selectedBuyer}
-              onChange={(e: any) => setSelectedBuyer(e.value)}
+              onSelect={(e: any, data: any) => setSelectedBuyer(data?.value || e?.value)}
               data-testid="select-buyer"
             >
               {buyerOptions.map(option => (
