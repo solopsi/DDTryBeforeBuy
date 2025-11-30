@@ -185,7 +185,7 @@ const mockCompaniesData = [
 
 const suppliersData = [
   {
-    company: "ООО \"Поставщик 1\"",
+    company: "ООО Поставщик 1",
     yieldRate: "20%",
     status: "Активен",
     inn: "7724673222",
@@ -193,7 +193,7 @@ const suppliersData = [
     ogrn: "1706410862231"
   },
   {
-    company: "ООО \"Поставщик 2\"",
+    company: "ООО Поставщик 2",
     yieldRate: "19,5%",
     status: "Активен",
     inn: "5032764890",
@@ -201,7 +201,7 @@ const suppliersData = [
     ogrn: "1025003456789"
   },
   {
-    company: "ИП \"Поставщиков Поставщик\"",
+    company: "ИП Поставщиков Поставщик",
     yieldRate: "21%",
     status: "Регистрируется",
     inn: "1234567890",
@@ -209,7 +209,7 @@ const suppliersData = [
     ogrn: "1234567890123"
   },
   {
-    company: "ООО \"Поставщик 3\"",
+    company: "ООО Поставщик 3",
     yieldRate: "20,5%",
     status: "Приглашение отправлено",
     inn: "6543219876",
