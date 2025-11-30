@@ -1,12 +1,20 @@
 import styled from "styled-components";
 import RaiffeisenLogo from "./RaiffeisenLogo";
 import { DocumentIcon, HomeIcon, ArrowsLeftRightIcon } from "vienna.icons";
+import { Button } from "vienna-ui";
 
-const menuItems = [
+const buyerMenuItems = [
   { title: "Поставки", icon: HomeIcon, url: "/supplies" },
   { title: "Соглашения", icon: DocumentIcon, url: "/agreements" },
   { title: "Аукционы", icon: DocumentIcon, url: "/auctions" },
   { title: "Поставщики", icon: HomeIcon, url: "/suppliers" },
+  { title: "Пользователи", icon: HomeIcon, url: "/users" },
+];
+
+const supplierMenuItems = [
+  { title: "Поставки", icon: HomeIcon, url: "/supplies" },
+  { title: "Соглашения", icon: DocumentIcon, url: "/agreements" },
+  { title: "Аукционы", icon: DocumentIcon, url: "/auctions" },
   { title: "Пользователи", icon: HomeIcon, url: "/users" },
 ];
 
@@ -127,13 +135,55 @@ const LogoutButton = styled.button`
   }
 `;
 
+const PromoBanner = styled.div`
+  background: linear-gradient(135deg, hsl(180 60% 85%) 0%, hsl(160 50% 80%) 100%);
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const PromoIcon = styled.div`
+  font-size: 48px;
+  line-height: 1;
+`;
+
+const PromoTitle = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(0 0% 20%);
+  line-height: 1.4;
+`;
+
+const PromoDescription = styled.div`
+  font-size: 12px;
+  color: hsl(0 0% 45%);
+  line-height: 1.4;
+`;
+
+const ArchiveLink = styled.div`
+  font-size: 12px;
+  color: hsl(0 0% 64%);
+  cursor: pointer;
+  margin: 0 16px 16px 16px;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 interface AppSidebarProps {
   activeItem?: string;
   onItemClick?: (url: string) => void;
   onLogout?: () => void;
+  userRole?: 'buyer' | 'supplier';
 }
 
-export default function AppSidebar({ activeItem = "/supplies", onItemClick, onLogout }: AppSidebarProps) {
+export default function AppSidebar({ activeItem = "/supplies", onItemClick, onLogout, userRole = 'buyer' }: AppSidebarProps) {
+  const menuItems = userRole === 'supplier' ? supplierMenuItems : buyerMenuItems;
+  
   return (
     <SidebarContainer>
       <SidebarHeader>
@@ -157,6 +207,28 @@ export default function AppSidebar({ activeItem = "/supplies", onItemClick, onLo
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
+        
+        {userRole === 'supplier' && (
+          <>
+            <PromoBanner>
+              <PromoIcon>%</PromoIcon>
+              <PromoTitle>Отправьте покупателю запрос на раннюю оплату</PromoTitle>
+              <PromoDescription>
+                Если ему будут интересны ваши условия, он отправит вам поставки на согласование
+              </PromoDescription>
+              <Button 
+                design="accent" 
+                style={{ width: '100%' }}
+                data-testid="button-create-request"
+              >
+                Создать запрос
+              </Button>
+            </PromoBanner>
+            <ArchiveLink data-testid="link-download-archive">
+              Скачать архив заявления
+            </ArchiveLink>
+          </>
+        )}
       </SidebarContent>
       
       <SidebarFooter>
@@ -166,9 +238,9 @@ export default function AppSidebar({ activeItem = "/supplies", onItemClick, onLo
         </FooterInfo>
         
         <UserInfo>
-          <div>Покупатель</div>
+          <div>{userRole === 'supplier' ? 'Поставщик' : 'Покупатель'}</div>
           <div>ИП Тестов Тест Тестович</div>
-          <div>Тест Москв</div>
+          <div>Тест Моков</div>
         </UserInfo>
         
         <LogoutButton

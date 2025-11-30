@@ -109,15 +109,16 @@ const MainSection = styled.main`
 
 interface MainAppProps {
   onLogout?: () => void;
+  userRole?: 'buyer' | 'supplier';
 }
 
-export default function MainApp({ onLogout }: MainAppProps) {
+export default function MainApp({ onLogout, userRole = 'buyer' }: MainAppProps) {
   const [activeSection, setActiveSection] = useState("/supplies");
 
   const renderContent = () => {
     switch (activeSection) {
       case "/supplies":
-        return <SuppliesPage />;
+        return <SuppliesPage userRole={userRole} />;
       case "/agreements":
         return <AgreementsPage />;
       case "/auctions":
@@ -127,7 +128,7 @@ export default function MainApp({ onLogout }: MainAppProps) {
       case "/users":
         return <UsersPage />;
       default:
-        return <SuppliesPage />;
+        return <SuppliesPage userRole={userRole} />;
     }
   };
 
@@ -137,6 +138,7 @@ export default function MainApp({ onLogout }: MainAppProps) {
         activeItem={activeSection}
         onItemClick={setActiveSection}
         onLogout={onLogout}
+        userRole={userRole}
       />
       <MainContent>
         <MainSection>

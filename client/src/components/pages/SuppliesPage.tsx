@@ -635,19 +635,144 @@ const errorSuppliesColumns = [
   { key: 'errorReason', header: 'Причина ошибки' },
 ];
 
-export default function SuppliesPage() {
+interface SuppliesPageProps {
+  userRole?: 'buyer' | 'supplier';
+}
+
+const supplierAwaitingResponseData = [
+  {
+    buyer: "ООО Тестовые данные",
+    discount: "64,43 %",
+    invoiceDate: generateInvoiceDate(7),
+    invoiceNumber: "invoice-idt/204",
+    paymentDate: generatePaymentDate(21),
+    amount: "444 885,00 ₽",
+    earlyPaymentAmount: "442 428,00 ₽",
+    earlyPaymentDate: generatePaymentDate(0),
+    status: "Ждет ответа"
+  },
+  {
+    buyer: "ПАО Моковое общество",
+    discount: "94,62 %",
+    invoiceDate: generateInvoiceDate(7),
+    invoiceNumber: "invoice-4ai/706",
+    paymentDate: generatePaymentDate(19),
+    amount: "412 072,00 ₽",
+    earlyPaymentAmount: "409 713,00 ₽",
+    earlyPaymentDate: generatePaymentDate(0),
+    status: "Ждет ответа"
+  },
+  {
+    buyer: "ИП Моков Мок Мокович",
+    discount: "26,18 %",
+    invoiceDate: generateInvoiceDate(7),
+    invoiceNumber: "invoice-5c6/346",
+    paymentDate: generatePaymentDate(16),
+    amount: "860 856,00 ₽",
+    earlyPaymentAmount: "853 496,00 ₽",
+    earlyPaymentDate: generatePaymentDate(0),
+    status: "Ждет ответа"
+  },
+  {
+    buyer: "ИП Моков Мок Мокович",
+    discount: "62,19 %",
+    invoiceDate: generateInvoiceDate(5),
+    invoiceNumber: "invoice-46u/292",
+    paymentDate: generatePaymentDate(17),
+    amount: "821 445,00 ₽",
+    earlyPaymentAmount: "814 192,00 ₽",
+    earlyPaymentDate: generatePaymentDate(0),
+    status: "Ждет ответа"
+  }
+];
+
+const supplierAllSuppliesData = [
+  {
+    buyer: "ООО Тестовые данные",
+    discount: "64,43 %",
+    invoiceDate: "23.09.2025",
+    invoiceNumber: "invoice-idt/204",
+    paymentDate: "21.12.2025",
+    amount: "444 885,00 ₽",
+    earlyPaymentAmount: "442 428,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Подписана"
+  },
+  {
+    buyer: "ПАО Моковое общество",
+    discount: "94,62 %",
+    invoiceDate: "28.11.2025",
+    invoiceNumber: "invoice-4ai/706",
+    paymentDate: "19.12.2025",
+    amount: "412 072,00 ₽",
+    earlyPaymentAmount: "409 713,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Ждет подписи"
+  },
+  {
+    buyer: "ИП Моков Мок Мокович",
+    discount: "26,18 %",
+    invoiceDate: "28.11.2025",
+    invoiceNumber: "invoice-5c6/346",
+    paymentDate: "16.12.2025",
+    amount: "860 856,00 ₽",
+    earlyPaymentAmount: "853 496,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Просрочена"
+  },
+  {
+    buyer: "ИП Моков Мок Мокович",
+    discount: "62,19 %",
+    invoiceDate: "30.11.2025",
+    invoiceNumber: "invoice-46u/292",
+    paymentDate: "17.12.2025",
+    amount: "821 445,00 ₽",
+    earlyPaymentAmount: "814 192,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Отклонена"
+  }
+];
+
+const supplierColumns = [
+  { key: 'buyer', header: 'Покупатель' },
+  { key: 'discount', header: 'Скидка' },
+  { key: 'invoiceDate', header: 'Дата счета' },
+  { key: 'invoiceNumber', header: '№ счета' },
+  { key: 'paymentDate', header: 'Дата оплаты' },
+  { key: 'amount', header: 'Сумма оплаты' },
+  { key: 'earlyPaymentAmount', header: 'Сумма ранней оплаты' },
+  { key: 'earlyPaymentDate', header: 'Дата ранней оплаты' },
+  { 
+    key: 'status', 
+    header: 'Статус',
+    render: (value: string) => <StatusBadge status={value} />
+  },
+];
+
+export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("on-shipment");
-  const [previousTab, setPreviousTab] = useState("on-shipment");
+  const [activeTab, setActiveTab] = useState(userRole === 'supplier' ? "awaiting-response" : "on-shipment");
+  const [previousTab, setPreviousTab] = useState(userRole === 'supplier' ? "awaiting-response" : "on-shipment");
   const [showMoreFilters, setShowMoreFilters] = useState(false);
   const [currentSuppliesData, setCurrentSuppliesData] = useState(suppliesData);
   const [selectedSupplies, setSelectedSupplies] = useState<any[]>([]);
   const [isConfigureModalOpen, setIsConfigureModalOpen] = useState(false);
 
-  // Get data and columns based on active tab
+  // Get data and columns based on active tab and user role
   const getCurrentData = () => {
+    if (userRole === 'supplier') {
+      switch (activeTab) {
+        case "awaiting-response":
+          return supplierAwaitingResponseData;
+        case "all-supplies":
+          return supplierAllSuppliesData;
+        default:
+          return supplierAwaitingResponseData;
+      }
+    }
+    
     switch (activeTab) {
       case "all-supplies":
         return allSuppliesData;
@@ -663,6 +788,10 @@ export default function SuppliesPage() {
   };
 
   const getCurrentColumns = () => {
+    if (userRole === 'supplier') {
+      return supplierColumns;
+    }
+    
     switch (activeTab) {
       case "all-supplies":
         return allSuppliesColumns;
@@ -804,17 +933,17 @@ export default function SuppliesPage() {
       );
     }
 
-    // Ждут вашего ответа - Поставщик, Сумма оплаты, Дата оплаты
+    // Ждут вашего ответа - Поставщик/Покупатель, Сумма оплаты, Дата оплаты
     if (activeTab === "awaiting-response") {
       return (
         <FiltersSection>
           <FilterGroup>
-            <FilterLabel>Поставщик</FilterLabel>
+            <FilterLabel>{userRole === 'supplier' ? 'Покупатель' : 'Поставщик'}</FilterLabel>
             <Select
-              placeholder="Все поставщики"
+              placeholder={userRole === 'supplier' ? 'Все покупатели' : 'Все поставщики'}
               data-testid="filter-supplier"
             >
-              <Select.Option value="all">Все поставщики</Select.Option>
+              <Select.Option value="all">{userRole === 'supplier' ? 'Все покупатели' : 'Все поставщики'}</Select.Option>
             </Select>
           </FilterGroup>
 
@@ -992,6 +1121,10 @@ export default function SuppliesPage() {
   };
 
   const renderActions = () => {
+    if (userRole === 'supplier') {
+      return null;
+    }
+    
     if (activeTab === "all-supplies") {
       return (
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -1047,27 +1180,31 @@ export default function SuppliesPage() {
           {renderActions()}
         </TitleRow>
         <TabNavigation>
-          <TabButton 
-            $active={activeTab === "on-shipment"}
-            onClick={() => handleTabChange("on-shipment")}
-            data-testid="nav-not-shipped"
-          >
-            На отправку
-          </TabButton>
+          {userRole === 'buyer' && (
+            <TabButton 
+              $active={activeTab === "on-shipment"}
+              onClick={() => handleTabChange("on-shipment")}
+              data-testid="nav-not-shipped"
+            >
+              На отправку
+            </TabButton>
+          )}
           <TabButton 
             $active={activeTab === "awaiting-response"}
             onClick={() => handleTabChange("awaiting-response")}
             data-testid="nav-awaiting-response"
           >
-            Ждет вашего ответа
+            Ждут вашего ответа
           </TabButton>
-          <TabButton 
-            $active={activeTab === "with-error"}
-            onClick={() => handleTabChange("with-error")}
-            data-testid="nav-with-error"
-          >
-            С ошибкой
-          </TabButton>
+          {userRole === 'buyer' && (
+            <TabButton 
+              $active={activeTab === "with-error"}
+              onClick={() => handleTabChange("with-error")}
+              data-testid="nav-with-error"
+            >
+              С ошибкой
+            </TabButton>
+          )}
           <TabButton 
             $active={activeTab === "all-supplies"}
             onClick={() => handleTabChange("all-supplies")}

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import RaiffeisenLogo from "./RaiffeisenLogo";
 
 interface LoginFormProps {
-  onLogin?: (email: string, password: string) => void;
+  onLogin?: (email: string, password: string, role: 'buyer' | 'supplier') => void;
   error?: string | null;
 }
 
@@ -161,7 +161,8 @@ export default function LoginForm({ onLogin, error }: LoginFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onLogin?.(email, password);
+    const role = activeTab === 'buyers' ? 'buyer' : 'supplier';
+    onLogin?.(email, password, role);
   };
 
   return (

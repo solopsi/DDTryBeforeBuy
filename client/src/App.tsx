@@ -15,16 +15,16 @@ const VALID_USERS = [
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<'buyer' | 'supplier'>('buyer');
 
-  const handleLogin = (email: string, password: string) => {
-    // Очищаем предыдущие ошибки
+  const handleLogin = (email: string, password: string, role: 'buyer' | 'supplier') => {
     setLoginError(null);
     
-    // Проверяем введенные данные против списка валидных пользователей
     const user = VALID_USERS.find(u => u.email === email && u.password === password);
     
     if (user) {
       setIsAuthenticated(true);
+      setUserRole(role);
     } else {
       setLoginError("Неверный email или пароль");
     }
@@ -33,6 +33,7 @@ function App() {
   const handleLogout = () => {
     setIsAuthenticated(false);
     setLoginError(null);
+    setUserRole('buyer');
   };
 
   return (
@@ -41,7 +42,7 @@ function App() {
         {!isAuthenticated ? (
           <LoginForm onLogin={handleLogin} error={loginError} />
         ) : (
-          <MainApp onLogout={handleLogout} />
+          <MainApp onLogout={handleLogout} userRole={userRole} />
         )}
       </Body>
     </QueryClientProvider>
