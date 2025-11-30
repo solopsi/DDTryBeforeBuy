@@ -165,113 +165,133 @@ const InfoValue = styled.span`
   color: white;
 `;
 
+// Helper functions for generating dynamic dates
+const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
+};
+
+const generateInvoiceDate = (daysAgo: number): string => {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  return formatDate(date);
+};
+
+const generatePaymentDate = (daysFromNow: number): string => {
+  const date = new Date();
+  date.setDate(date.getDate() + daysFromNow);
+  return formatDate(date);
+};
+
 //todo: remove mock functionality
 const suppliesData = [
   {
     supplier: "ИП Тестов Тест Тестович",
     discount: "20%",
-    invoiceDate: "15.11.2025",
+    invoiceDate: generateInvoiceDate(15),
     invoiceNumber: "invoice-env307",
-    paymentDate: "15.12.2025",
+    paymentDate: generatePaymentDate(15),
     amount: "214 756,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "АО Тестовая компания", 
     discount: "19,5%",
-    invoiceDate: "16.11.2025",
+    invoiceDate: generateInvoiceDate(14),
     invoiceNumber: "invoice-vcu103",
-    paymentDate: "16.12.2025",
+    paymentDate: generatePaymentDate(16),
     amount: "817 554,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "ПАО Москвов общество",
     discount: "21%", 
-    invoiceDate: "17.11.2025",
+    invoiceDate: generateInvoiceDate(13),
     invoiceNumber: "invoice-pou533",
-    paymentDate: "17.12.2025",
+    paymentDate: generatePaymentDate(17),
     amount: "998 160,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "ООО Северная торговля",
     discount: "20,5%",
-    invoiceDate: "18.11.2025",
+    invoiceDate: generateInvoiceDate(12),
     invoiceNumber: "invoice-str825",
-    paymentDate: "18.12.2025",
+    paymentDate: generatePaymentDate(18),
     amount: "1 245 890,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "ИП Петрова Анна Сергеевна",
     discount: "20%",
-    invoiceDate: "19.11.2025", 
+    invoiceDate: generateInvoiceDate(11), 
     invoiceNumber: "invoice-pas461",
-    paymentDate: "19.12.2025",
+    paymentDate: generatePaymentDate(19),
     amount: "356 720,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "АО Волжский машиностроительный завод",
     discount: "19,5%",
-    invoiceDate: "20.11.2025",
+    invoiceDate: generateInvoiceDate(10),
     invoiceNumber: "invoice-vmz739",
-    paymentDate: "20.12.2025",
+    paymentDate: generatePaymentDate(20),
     amount: "2 134 567,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "ООО Сибирские ресурсы",
     discount: "21%",
-    invoiceDate: "21.11.2025",
+    invoiceDate: generateInvoiceDate(9),
     invoiceNumber: "invoice-sir294",
-    paymentDate: "21.12.2025",
+    paymentDate: generatePaymentDate(21),
     amount: "789 234,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "ЗАО Технологии будущего",
     discount: "20,5%",
-    invoiceDate: "22.11.2025",
+    invoiceDate: generateInvoiceDate(8),
     invoiceNumber: "invoice-tbz156",
-    paymentDate: "22.12.2025", 
+    paymentDate: generatePaymentDate(22), 
     amount: "467 891,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "ИП Сидоров Михаил Игоревич",
     discount: "20%",
-    invoiceDate: "23.11.2025",
+    invoiceDate: generateInvoiceDate(7),
     invoiceNumber: "invoice-smi673",
-    paymentDate: "23.12.2025",
+    paymentDate: generatePaymentDate(23),
     amount: "623 445,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "ПАО Энергосистемы",
     discount: "19,5%",
-    invoiceDate: "24.11.2025",
+    invoiceDate: generateInvoiceDate(6),
     invoiceNumber: "invoice-ens812",
-    paymentDate: "24.12.2025",
+    paymentDate: generatePaymentDate(24),
     amount: "1 567 223,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "ООО Логистические решения",
     discount: "21%",
-    invoiceDate: "25.11.2025",
+    invoiceDate: generateInvoiceDate(5),
     invoiceNumber: "invoice-lrs948",
-    paymentDate: "25.12.2025",
+    paymentDate: generatePaymentDate(25),
     amount: "892 156,00 ₽",
     status: "Ждет отправки"
   },
   {
     supplier: "АО Дальневосточная компания",
     discount: "20,5%",
-    invoiceDate: "26.11.2025",
+    invoiceDate: generateInvoiceDate(4),
     invoiceNumber: "invoice-dvk385",
-    paymentDate: "26.12.2025",
+    paymentDate: generatePaymentDate(26),
     amount: "1 789 456,00 ₽",
     status: "Ждет отправки"
   }
