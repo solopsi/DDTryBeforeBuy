@@ -293,9 +293,9 @@ export default function ConfigureBeforeSendModal({
     return parseFloat(amountStr.replace(/[^0-9,]/g, '').replace(',', '.'));
   };
 
-  const isValidDate = (dateString: string) => {
+  const parseDate = (dateString: string): Date | null => {
     const regex = /^\d{2}\.\d{2}\.\d{4}$/;
-    if (!regex.test(dateString)) return false;
+    if (!regex.test(dateString)) return null;
     
     const parts = dateString.split('.');
     const day = parseInt(parts[0], 10);
@@ -303,9 +303,43 @@ export default function ConfigureBeforeSendModal({
     const year = parseInt(parts[2], 10);
     
     const date = new Date(year, month - 1, day);
-    return date.getFullYear() === year && 
-           date.getMonth() === month - 1 && 
-           date.getDate() === day;
+    if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
+      return date;
+    }
+    return null;
+  };
+
+  const getToday = (): Date => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return today;
+  };
+
+  const getMaxEarlyPaymentDate = (paymentDateStr: string): Date => {
+    const paymentDate = parseDate(paymentDateStr);
+    if (paymentDate) {
+      const maxDate = new Date(paymentDate);
+      maxDate.setDate(maxDate.getDate() - 1);
+      return maxDate;
+    }
+    return new Date(2099, 11, 31);
+  };
+
+  const isValidDate = (dateString: string) => {
+    return parseDate(dateString) !== null;
+  };
+
+  const isValidEarlyPaymentDate = (dateString: string, paymentDateStr: string): boolean => {
+    const date = parseDate(dateString);
+    if (!date) return false;
+    
+    const today = getToday();
+    const paymentDate = parseDate(paymentDateStr);
+    
+    if (date < today) return false;
+    if (paymentDate && date >= paymentDate) return false;
+    
+    return true;
   };
 
   const calculateDaysDifference = (earlyDate: string, originalDate: string) => {
@@ -385,13 +419,13 @@ export default function ConfigureBeforeSendModal({
 
   const calculateTotals = () => {
     const totalEarlyPayment = configs.reduce((sum, config) => {
-      if (!config.earlyPaymentDate || !isValidDate(config.earlyPaymentDate)) {
+      if (!config.earlyPaymentDate || !isValidEarlyPaymentDate(config.earlyPaymentDate, config.paymentDate)) {
         return sum;
       }
       return sum + (config.paymentAmount ? parseAmount(config.paymentAmount) : 0);
     }, 0);
     const totalDiscount = configs.reduce((sum, config) => {
-      if (!config.earlyPaymentDate || !isValidDate(config.earlyPaymentDate)) {
+      if (!config.earlyPaymentDate || !isValidEarlyPaymentDate(config.earlyPaymentDate, config.paymentDate)) {
         return sum;
       }
       const originalAmount = parseAmount(config.originalPaymentAmount);
@@ -405,7 +439,7 @@ export default function ConfigureBeforeSendModal({
   // Validate all fields and update state
   useEffect(() => {
     const isValid = configs.length > 0 && configs.every(config => {
-      const hasValidDate = isValidDate(config.earlyPaymentDate);
+      const hasValidDate = isValidEarlyPaymentDate(config.earlyPaymentDate, config.paymentDate);
       const hasValidDiscount = Number.isFinite(config.discount) && config.discount >= 0;
       const hasValidPayment = config.paymentAmount && Number.isFinite(parseAmount(config.paymentAmount));
       return hasValidDate && hasValidDiscount && hasValidPayment;
@@ -449,7 +483,7 @@ export default function ConfigureBeforeSendModal({
                 <SummaryRow>
                   <SummaryItem>
                     <SummaryLabel>Ранняя оплата</SummaryLabel>
-                    <SummaryValue>{config.earlyPaymentDate && isValidDate(config.earlyPaymentDate) ? (config.paymentAmount || '0,00 ₽') : '0,00 ₽'}</SummaryValue>
+                    <SummaryValue>{config.earlyPaymentDate && isValidEarlyPaymentDate(config.earlyPaymentDate, config.paymentDate) ? (config.paymentAmount || '0,00 ₽') : '0,00 ₽'}</SummaryValue>
                   </SummaryItem>
                   <SummaryItem>
                     <SummaryLabel>Скидка</SummaryLabel>
@@ -469,7 +503,8 @@ export default function ConfigureBeforeSendModal({
                       value={config.earlyPaymentDate}
                       onChange={(event, data) => updateConfig(config.id, 'earlyPaymentDate', data?.value || '')}
                       data-testid={`input-early-payment-date-${config.id}`}
-                      format="DD.MM.YYYY"
+                      minDate={getToday()}
+                      maxDate={getMaxEarlyPaymentDate(config.paymentDate)}
                     />
                   </DateInputWrapper>
                 </FormRow>
@@ -507,14 +542,14 @@ export default function ConfigureBeforeSendModal({
                     
                     <div>
                       <Input
-                        value={config.earlyPaymentDate && isValidDate(config.earlyPaymentDate) ? config.discount.toFixed(2) : '0,00'}
+                        value={config.earlyPaymentDate && isValidEarlyPaymentDate(config.earlyPaymentDate, config.paymentDate) ? config.discount.toFixed(2) : '0,00'}
                         onChange={(e) => updateConfig(config.id, 'discount', e.target.value)}
-                        disabled={!config.earlyPaymentDate || !isValidDate(config.earlyPaymentDate)}
+                        disabled={!config.earlyPaymentDate || !isValidEarlyPaymentDate(config.earlyPaymentDate, config.paymentDate)}
                         data-testid={`input-discount-${config.id}`}
                       />
                     </div>
                     
-                    <div>{config.earlyPaymentDate && isValidDate(config.earlyPaymentDate) ? config.paymentAmount : '—'}</div>
+                    <div>{config.earlyPaymentDate && isValidEarlyPaymentDate(config.earlyPaymentDate, config.paymentDate) ? config.paymentAmount : '—'}</div>
                     <div>{config.originalPaymentAmount}</div>
                     <div>{config.paymentDate}</div>
                     <div>{config.invoiceNumber}</div>
