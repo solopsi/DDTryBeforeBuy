@@ -688,15 +688,147 @@ const supplierAwaitingResponseData = [
 
 const supplierAllSuppliesData = [
   {
+    buyer: "ИП Тестов Тест Тестович",
+    discount: "38,99 %",
+    invoiceDate: "24.11.2025",
+    invoiceNumber: "invoice-nzo/976",
+    paymentDate: "16.12.2025",
+    amount: "640 279,00 ₽",
+    earlyPaymentAmount: "635 270,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Отклонена"
+  },
+  {
+    buyer: "ИП Тестов Тест Тестович",
+    discount: "83,57 %",
+    invoiceDate: "30.11.2025",
+    invoiceNumber: "invoice-hfi/142",
+    paymentDate: "17.12.2025",
+    amount: "797 488,00 ₽",
+    earlyPaymentAmount: "791 477,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "На рассмотрении"
+  },
+  {
+    buyer: "ИП Тестов Тест Тестович",
+    discount: "38,32 %",
+    invoiceDate: "24.11.2025",
+    invoiceNumber: "invoice-5nb/179",
+    paymentDate: "18.12.2025",
+    amount: "577 734,00 ₽",
+    earlyPaymentAmount: "570 450,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Отклонена"
+  },
+  {
     buyer: "ООО Тестовые данные",
     discount: "64,43 %",
-    invoiceDate: "23.09.2025",
+    invoiceDate: "28.11.2025",
     invoiceNumber: "invoice-idt/204",
     paymentDate: "21.12.2025",
     amount: "444 885,00 ₽",
     earlyPaymentAmount: "442 428,00 ₽",
     earlyPaymentDate: "30.11.2025",
+    status: "Ждет ответа"
+  },
+  {
+    buyer: "ООО Тестовые данные",
+    discount: "88,89 %",
+    invoiceDate: "25.11.2025",
+    invoiceNumber: "invoice-wa0/891",
+    paymentDate: "16.12.2025",
+    amount: "660 254,00 ₽",
+    earlyPaymentAmount: "651 676,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "На рассмотрении"
+  },
+  {
+    buyer: "ООО Тестовые данные",
+    discount: "68,44 %",
+    invoiceDate: "28.11.2025",
+    invoiceNumber: "invoice-ozi/132",
+    paymentDate: "16.12.2025",
+    amount: "321 815,00 ₽",
+    earlyPaymentAmount: "314 077,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Ждет подписи"
+  },
+  {
+    buyer: "ООО Тестовые данные",
+    discount: "47,42 %",
+    invoiceDate: "25.11.2025",
+    invoiceNumber: "invoice-4pl/944",
+    paymentDate: "14.12.2025",
+    amount: "386 986,00 ₽",
+    earlyPaymentAmount: "378 228,00 ₽",
+    earlyPaymentDate: "30.11.2025",
     status: "Подписана"
+  },
+  {
+    buyer: "ООО Тестовые данные",
+    discount: "63,18 %",
+    invoiceDate: "28.11.2025",
+    invoiceNumber: "invoice-i32/784",
+    paymentDate: "21.12.2025",
+    amount: "222 443,00 ₽",
+    earlyPaymentAmount: "213 154,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Ждет подписи"
+  },
+  {
+    buyer: "АО Тестовая компания",
+    discount: "68,44 %",
+    invoiceDate: "27.11.2025",
+    invoiceNumber: "invoice-330/821",
+    paymentDate: "20.12.2025",
+    amount: "629 186,00 ₽",
+    earlyPaymentAmount: "623 410,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Отклонена"
+  },
+  {
+    buyer: "АО Тестовая компания",
+    discount: "67,86 %",
+    invoiceDate: "26.11.2025",
+    invoiceNumber: "invoice-v38/862",
+    paymentDate: "15.12.2025",
+    amount: "344 331,00 ₽",
+    earlyPaymentAmount: "340 064,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Отклонена"
+  },
+  {
+    buyer: "АО Тестовая компания",
+    discount: "13,86 %",
+    invoiceDate: "28.11.2025",
+    invoiceNumber: "invoice-3wa/624",
+    paymentDate: "21.12.2025",
+    amount: "582 160,00 ₽",
+    earlyPaymentAmount: "579 241,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Ждет подписи"
+  },
+  {
+    buyer: "АО Тестовая компания",
+    discount: "74,36 %",
+    invoiceDate: "25.11.2025",
+    invoiceNumber: "invoice-tc4/649",
+    paymentDate: "19.12.2025",
+    amount: "632 945,00 ₽",
+    earlyPaymentAmount: "625 795,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "В аукционе"
+  },
+  {
+    buyer: "АО Тестовая компания",
+    discount: "42,33 %",
+    invoiceDate: "26.11.2025",
+    invoiceNumber: "invoice-2u5/636",
+    paymentDate: "19.12.2025",
+    amount: "374 068,00 ₽",
+    earlyPaymentAmount: "366 581,00 ₽",
+    earlyPaymentDate: "30.11.2025",
+    status: "Ждет подписи"
   },
   {
     buyer: "ПАО Моковое общество",
@@ -707,29 +839,29 @@ const supplierAllSuppliesData = [
     amount: "412 072,00 ₽",
     earlyPaymentAmount: "409 713,00 ₽",
     earlyPaymentDate: "30.11.2025",
-    status: "Ждет подписи"
+    status: "Ждет ответа"
   },
   {
-    buyer: "ИП Моков Мок Мокович",
-    discount: "26,18 %",
-    invoiceDate: "28.11.2025",
-    invoiceNumber: "invoice-5c6/346",
+    buyer: "ПАО Моковое общество",
+    discount: "41,01 %",
+    invoiceDate: "25.11.2025",
+    invoiceNumber: "invoice-io6/795",
     paymentDate: "16.12.2025",
-    amount: "860 856,00 ₽",
-    earlyPaymentAmount: "853 496,00 ₽",
+    amount: "815 039,00 ₽",
+    earlyPaymentAmount: "812 181,00 ₽",
     earlyPaymentDate: "30.11.2025",
-    status: "Просрочена"
+    status: "В аукционе"
   },
   {
-    buyer: "ИП Моков Мок Мокович",
-    discount: "62,19 %",
-    invoiceDate: "30.11.2025",
-    invoiceNumber: "invoice-46u/292",
+    buyer: "ПАО Моковое общество",
+    discount: "44,64 %",
+    invoiceDate: "28.11.2025",
+    invoiceNumber: "invoice-k60/474",
     paymentDate: "17.12.2025",
-    amount: "821 445,00 ₽",
-    earlyPaymentAmount: "814 192,00 ₽",
+    amount: "273 592,00 ₽",
+    earlyPaymentAmount: "268 392,00 ₽",
     earlyPaymentDate: "30.11.2025",
-    status: "Отклонена"
+    status: "Ждет подписи"
   }
 ];
 
@@ -1043,10 +1175,10 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
                 <Select.Option value="all">Все статусы</Select.Option>
                 <Select.Option value="signed">Подписана</Select.Option>
                 <Select.Option value="awaiting-signature">Ждет подписи</Select.Option>
-                <Select.Option value="overdue">Просрочена</Select.Option>
-                <Select.Option value="under-review">На рассмотрении</Select.Option>
-                <Select.Option value="rejected">Отклонена</Select.Option>
                 <Select.Option value="awaiting-response">Ждет ответа</Select.Option>
+                <Select.Option value="under-review">На рассмотрении</Select.Option>
+                <Select.Option value="in-auction">В аукционе</Select.Option>
+                <Select.Option value="rejected">Отклонена</Select.Option>
               </Select>
             </FilterGroup>
 

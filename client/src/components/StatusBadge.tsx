@@ -92,17 +92,26 @@ const StyledBadge = styled.span<{ $statusType: string }>`
       `;
     }
     
-    // Ждет подписи - Orange
+    // Ждет подписи - Yellow/Orange
     if (status === "ждет подписи") {
       return `
-        background-color: #F5E1CD;
-        color: #8B5A2B;
-        border: 1px solid #E6C7A3;
+        background-color: #FFF3CD;
+        color: #856404;
+        border: 1px solid #FFEEBA;
       `;
     }
     
     // Просрочена - Red
     if (status === "просрочена") {
+      return `
+        background-color: #FFD5D2;
+        color: #B33A31;
+        border: 1px solid #F4B3AE;
+      `;
+    }
+    
+    // Отклонена - Red
+    if (status === "отклонена") {
       return `
         background-color: #FFD5D2;
         color: #B33A31;
@@ -119,7 +128,7 @@ const StyledBadge = styled.span<{ $statusType: string }>`
       `;
     }
     
-    // На рассмотрении - Purple
+    // На рассмотрении - Purple (#D7CDF5)
     if (status === "на рассмотрении") {
       return `
         background-color: #D7CDF5;
@@ -128,12 +137,30 @@ const StyledBadge = styled.span<{ $statusType: string }>`
       `;
     }
     
-    // Ждет ответ/ответа - Orange
+    // В аукционе - Purple (#D7CDF5)
+    if (status === "в аукционе") {
+      return `
+        background-color: #D7CDF5;
+        color: #5B4A8A;
+        border: 1px solid #C7B9F0;
+      `;
+    }
+    
+    // Ждет ответа - Yellow
+    if (status === "ждет ответа") {
+      return `
+        background-color: #FFF3CD;
+        color: #856404;
+        border: 1px solid #FFEEBA;
+      `;
+    }
+    
+    // Ждет ответ - Yellow (alternative spelling)
     if (status.includes("ждет ответ")) {
       return `
-        background-color: #F5E1CD;
-        color: #8B5A2B;
-        border: 1px solid #E6C7A3;
+        background-color: #FFF3CD;
+        color: #856404;
+        border: 1px solid #FFEEBA;
       `;
     }
     
