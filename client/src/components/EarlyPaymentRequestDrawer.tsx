@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import { Button, Select, Input, Datepicker } from "vienna-ui";
+import { Button, Select, Input } from "vienna-ui";
 import { Close16Icon } from "vienna.icons";
 
 const DrawerOverlay = styled.div`
@@ -113,6 +113,29 @@ const CurrencySymbol = styled.span`
   pointer-events: none;
 `;
 
+const StyledDateInput = styled.input`
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  font-size: 16px;
+  font-family: inherit;
+  border: 1px solid hsl(0 0% 80%);
+  border-radius: 4px;
+  background: white;
+  color: hsl(0 0% 20%);
+  box-sizing: border-box;
+  
+  &:focus {
+    outline: none;
+    border-color: hsl(45 100% 50%);
+    box-shadow: 0 0 0 2px hsla(45, 100%, 50%, 0.2);
+  }
+  
+  &::placeholder {
+    color: hsl(0 0% 60%);
+  }
+`;
+
 const DrawerFooter = styled.div`
   padding: 24px 32px;
   border-top: 1px solid hsl(0 0% 90%);
@@ -212,7 +235,7 @@ interface EarlyPaymentRequestDrawerProps {
 
 export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaymentRequestDrawerProps) {
   const [selectedBuyer, setSelectedBuyer] = useState<string | null>(null);
-  const [earlyPaymentDate, setEarlyPaymentDate] = useState<Date | undefined>(undefined);
+  const [earlyPaymentDate, setEarlyPaymentDate] = useState("");
   const [amount, setAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -220,7 +243,7 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
   useEffect(() => {
     if (!isOpen) {
       setSelectedBuyer(null);
-      setEarlyPaymentDate(undefined);
+      setEarlyPaymentDate("");
       setAmount("");
       setIsLoading(false);
       setIsSuccess(false);
@@ -318,11 +341,10 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
           
           <FormGroup>
             <FormLabel>Дата ранней оплаты</FormLabel>
-            <Datepicker
-              placeholder="ДД.ММ.ГГГГ"
+            <StyledDateInput
+              type="date"
               value={earlyPaymentDate}
-              onChange={(e: any, data: any) => setEarlyPaymentDate(data?.value || e?.value)}
-              dropdownPortal={document.body}
+              onChange={(e) => setEarlyPaymentDate(e.target.value)}
               data-testid="input-early-payment-date"
             />
           </FormGroup>
