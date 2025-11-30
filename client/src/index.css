@@ -269,3 +269,14 @@ input[type="search"]::-webkit-search-cancel-button {
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+/* ViennaUI Datepicker calendar dropdown - высокий z-index для отображения поверх drawer */
+[data-floating-ui-portal] {
+  z-index: 9999 !important;
+}
+
+/* ViennaUI компоненты в порталах */
+body > div[style*="position: absolute"],
+body > div[style*="position: fixed"] {
+  z-index: 9999 !important;
+}
