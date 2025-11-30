@@ -384,10 +384,16 @@ export default function ConfigureBeforeSendModal({
   };
 
   const calculateTotals = () => {
-    const totalEarlyPayment = configs.reduce((sum, config) => 
-      sum + (config.paymentAmount ? parseAmount(config.paymentAmount) : 0), 0
-    );
+    const totalEarlyPayment = configs.reduce((sum, config) => {
+      if (!config.earlyPaymentDate || !isValidDate(config.earlyPaymentDate)) {
+        return sum;
+      }
+      return sum + (config.paymentAmount ? parseAmount(config.paymentAmount) : 0);
+    }, 0);
     const totalDiscount = configs.reduce((sum, config) => {
+      if (!config.earlyPaymentDate || !isValidDate(config.earlyPaymentDate)) {
+        return sum;
+      }
       const originalAmount = parseAmount(config.originalPaymentAmount);
       const earlyAmount = config.paymentAmount ? parseAmount(config.paymentAmount) : originalAmount;
       return sum + (originalAmount - earlyAmount);
@@ -443,7 +449,7 @@ export default function ConfigureBeforeSendModal({
                 <SummaryRow>
                   <SummaryItem>
                     <SummaryLabel>Ранняя оплата</SummaryLabel>
-                    <SummaryValue>{config.paymentAmount || '0,00 ₽'}</SummaryValue>
+                    <SummaryValue>{config.earlyPaymentDate && isValidDate(config.earlyPaymentDate) ? (config.paymentAmount || '0,00 ₽') : '0,00 ₽'}</SummaryValue>
                   </SummaryItem>
                   <SummaryItem>
                     <SummaryLabel>Скидка</SummaryLabel>
@@ -507,7 +513,7 @@ export default function ConfigureBeforeSendModal({
                       />
                     </div>
                     
-                    <div>{config.paymentAmount}</div>
+                    <div>{config.earlyPaymentDate && isValidDate(config.earlyPaymentDate) ? config.paymentAmount : '—'}</div>
                     <div>{config.originalPaymentAmount}</div>
                     <div>{config.paymentDate}</div>
                     <div>{config.invoiceNumber}</div>
