@@ -890,6 +890,7 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
   const [showMoreFilters, setShowMoreFilters] = useState(false);
   const [currentSuppliesData, setCurrentSuppliesData] = useState(suppliesData);
   const [selectedSupplies, setSelectedSupplies] = useState<any[]>([]);
+  const [selectedAwaitingItems, setSelectedAwaitingItems] = useState<any[]>([]);
   const [isConfigureModalOpen, setIsConfigureModalOpen] = useState(false);
 
   // Get data and columns based on active tab and user role
@@ -961,6 +962,11 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
   // Handler for selecting supplies in "На отправку" tab
   const handleSuppliesSelect = (selectedRows: any[]) => {
     setSelectedSupplies(selectedRows);
+  };
+
+  // Handler for selecting items in supplier "Ждут вашего ответа" tab
+  const handleAwaitingSelect = (selectedRows: any[]) => {
+    setSelectedAwaitingItems(selectedRows);
   };
 
   // Calculate total payment amount
@@ -1354,8 +1360,14 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
         title=""
         columns={currentColumns}
         data={currentData}
-        onRowSelect={activeTab === "on-shipment" ? handleSuppliesSelect : undefined}
-        showCheckboxes={activeTab === "on-shipment"}
+        onRowSelect={
+          activeTab === "on-shipment" 
+            ? handleSuppliesSelect 
+            : (userRole === 'supplier' && activeTab === "awaiting-response" 
+              ? handleAwaitingSelect 
+              : undefined)
+        }
+        showCheckboxes={activeTab === "on-shipment" || (userRole === 'supplier' && activeTab === "awaiting-response")}
       />
       
       <FileUploadModal 
