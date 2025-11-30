@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 import { Button, Select, Input, Datepicker } from "vienna-ui";
 import { Close16Icon } from "vienna.icons";
 
@@ -117,15 +118,130 @@ const DrawerFooter = styled.div`
   border-top: 1px solid hsl(0 0% 90%);
 `;
 
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const Spinner = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top-color: hsl(0 0% 20%);
+  border-radius: 50%;
+  animation: ${spin} 0.8s linear infinite;
+`;
+
+const ButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+`;
+
+const SuccessContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+`;
+
+const SuccessIcon = styled.div`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: hsl(120 40% 95%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  
+  svg {
+    width: 40px;
+    height: 40px;
+    color: hsl(120 50% 45%);
+  }
+`;
+
+const SuccessTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 600;
+  color: hsl(0 0% 8%);
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+`;
+
+const SuccessDescription = styled.p`
+  font-size: 14px;
+  color: hsl(0 0% 45%);
+  margin: 0 0 32px 0;
+  line-height: 1.5;
+`;
+
+const CloseButtonOutlined = styled.button`
+  padding: 12px 32px;
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(0 0% 20%);
+  background: white;
+  border: 1px solid hsl(0 0% 80%);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: hsl(0 0% 98%);
+    border-color: hsl(0 0% 60%);
+  }
+`;
+
+const buyerOptions = [
+  { value: "testov", label: "ИП Тестов Тест Тестович" },
+  { value: "test-data", label: "ООО Тестовые данные" },
+  { value: "test-company", label: "АО Тестовая компания" },
+  { value: "moskovoe", label: "ПАО Московое общество" },
+];
+
 interface EarlyPaymentRequestDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaymentRequestDrawerProps) {
+  const [selectedBuyer, setSelectedBuyer] = useState<string | null>(null);
+  const [earlyPaymentDate, setEarlyPaymentDate] = useState<Date | undefined>(undefined);
+  const [amount, setAmount] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedBuyer(null);
+      setEarlyPaymentDate(undefined);
+      setAmount("");
+      setIsLoading(false);
+      setIsSuccess(false);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
+  const isFormValid = selectedBuyer && earlyPaymentDate && amount.trim() !== "";
+
   const handleSubmit = () => {
+    if (!isFormValid) return;
+    
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsSuccess(true);
+    }, 2000);
+  };
+
+  const handleClose = () => {
     onClose();
   };
 
@@ -135,12 +251,44 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
     }
   };
 
+  const selectedBuyerLabel = buyerOptions.find(opt => opt.value === selectedBuyer)?.label || "";
+
+  if (isSuccess) {
+    return (
+      <>
+        <DrawerOverlay onClick={handleOverlayClick} data-testid="drawer-overlay" />
+        <DrawerContainer data-testid="drawer-early-payment-request-success">
+          <DrawerHeader>
+            <CloseButton onClick={handleClose} data-testid="button-close-drawer">
+              <Close16Icon />
+            </CloseButton>
+          </DrawerHeader>
+          
+          <SuccessContent>
+            <SuccessIcon>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </SuccessIcon>
+            <SuccessTitle>Запрос на раннюю оплату поставок отправлен</SuccessTitle>
+            <SuccessDescription>
+              Вы отправили запрос {selectedBuyerLabel}
+            </SuccessDescription>
+            <CloseButtonOutlined onClick={handleClose} data-testid="button-close-success">
+              Закрыть
+            </CloseButtonOutlined>
+          </SuccessContent>
+        </DrawerContainer>
+      </>
+    );
+  }
+
   return (
     <>
       <DrawerOverlay onClick={handleOverlayClick} data-testid="drawer-overlay" />
       <DrawerContainer data-testid="drawer-early-payment-request">
         <DrawerHeader>
-          <CloseButton onClick={onClose} data-testid="button-close-drawer">
+          <CloseButton onClick={handleClose} data-testid="button-close-drawer">
             <Close16Icon />
           </CloseButton>
         </DrawerHeader>
@@ -155,12 +303,15 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
             <FormLabel>Покупатель</FormLabel>
             <Select
               placeholder="От кого вы хотите получить оплату?"
+              value={selectedBuyer}
+              onChange={(e: any) => setSelectedBuyer(e.value)}
               data-testid="select-buyer"
             >
-              <Select.Option value="testov">ИП Тестов Тест Тестович</Select.Option>
-              <Select.Option value="test-data">ООО Тестовые данные</Select.Option>
-              <Select.Option value="test-company">АО Тестовая компания</Select.Option>
-              <Select.Option value="moskovoe">ПАО Московое общество</Select.Option>
+              {buyerOptions.map(option => (
+                <Select.Option key={option.value} value={option.value}>
+                  {option.label}
+                </Select.Option>
+              ))}
             </Select>
           </FormGroup>
           
@@ -168,6 +319,8 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
             <FormLabel>Дата ранней оплаты</FormLabel>
             <Datepicker
               placeholder="ДД.ММ.ГГГГ"
+              value={earlyPaymentDate}
+              onChange={(e: any) => setEarlyPaymentDate(e.value)}
               data-testid="input-early-payment-date"
             />
           </FormGroup>
@@ -177,6 +330,8 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
             <AmountInputWrapper>
               <Input
                 placeholder="1 — 1 млрд"
+                value={amount}
+                onChange={(e: any) => setAmount(e.target.value)}
                 data-testid="input-amount"
               />
               <CurrencySymbol>₽</CurrencySymbol>
@@ -189,9 +344,13 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
             design="accent" 
             style={{ width: '100%' }}
             onClick={handleSubmit}
+            disabled={!isFormValid || isLoading}
             data-testid="button-submit-request"
           >
-            Отправить запрос
+            <ButtonContent>
+              {isLoading && <Spinner />}
+              {isLoading ? "Отправка..." : "Отправить запрос"}
+            </ButtonContent>
           </Button>
         </DrawerFooter>
       </DrawerContainer>
