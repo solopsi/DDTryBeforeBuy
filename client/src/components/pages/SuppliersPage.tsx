@@ -186,7 +186,7 @@ const mockCompaniesData = [
 const suppliersData = [
   {
     company: "ООО \"Поставщик 1\"",
-    yieldRate: "21%",
+    yieldRate: "20%",
     status: "Активен",
     inn: "7724673222",
     kpp: "332195312",
@@ -194,7 +194,7 @@ const suppliersData = [
   },
   {
     company: "ООО \"Поставщик 2\"",
-    yieldRate: "21%",
+    yieldRate: "19,5%",
     status: "Активен",
     inn: "5032764890",
     kpp: "503201001",
@@ -202,7 +202,7 @@ const suppliersData = [
   },
   {
     company: "ИП \"Поставщиков Поставщик\"",
-    yieldRate: "25%",
+    yieldRate: "21%",
     status: "Регистрируется",
     inn: "1234567890",
     kpp: "123456789",
@@ -210,7 +210,7 @@ const suppliersData = [
   },
   {
     company: "ООО \"Поставщик 3\"",
-    yieldRate: "21%",
+    yieldRate: "20,5%",
     status: "Приглашение отправлено",
     inn: "6543219876",
     kpp: "654321001",
@@ -218,7 +218,7 @@ const suppliersData = [
   },
   {
     company: "АО Кредиторский Кредитор",
-    yieldRate: "1.00%",
+    yieldRate: "20%",
     status: "Ждет приглашения",
     inn: "083422122",
     kpp: "157598698",
@@ -227,7 +227,7 @@ const suppliersData = [
   },
   {
     company: "ООО Финансовые Решения",
-    yieldRate: "2.50%",
+    yieldRate: "19,5%",
     status: "Ждет приглашения", 
     inn: "123456789",
     kpp: "987654321",

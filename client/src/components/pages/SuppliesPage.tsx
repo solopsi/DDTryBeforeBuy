@@ -169,7 +169,7 @@ const InfoValue = styled.span`
 const suppliesData = [
   {
     supplier: "ИП Тестов Тест Тестович",
-    discount: "2,15 %",
+    discount: "20%",
     invoiceDate: "28.08.2025",
     invoiceNumber: "invoice-env307",
     paymentDate: "17.09.2025",
@@ -178,7 +178,7 @@ const suppliesData = [
   },
   {
     supplier: "АО Тестовая компания", 
-    discount: "3,00 %",
+    discount: "19,5%",
     invoiceDate: "30.08.2025",
     invoiceNumber: "invoice-vcu103",
     paymentDate: "16.09.2025",
@@ -187,7 +187,7 @@ const suppliesData = [
   },
   {
     supplier: "ПАО Москвов общество",
-    discount: "2,00 %", 
+    discount: "21%", 
     invoiceDate: "29.08.2025",
     invoiceNumber: "invoice-pou533",
     paymentDate: "17.09.2025",
@@ -196,7 +196,7 @@ const suppliesData = [
   },
   {
     supplier: "ООО Северная торговля",
-    discount: "4,50 %",
+    discount: "20,5%",
     invoiceDate: "01.09.2025",
     invoiceNumber: "invoice-str825",
     paymentDate: "18.09.2025",
@@ -205,7 +205,7 @@ const suppliesData = [
   },
   {
     supplier: "ИП Петрова Анна Сергеевна",
-    discount: "3,65 %",
+    discount: "20%",
     invoiceDate: "02.09.2025", 
     invoiceNumber: "invoice-pas461",
     paymentDate: "19.09.2025",
@@ -214,7 +214,7 @@ const suppliesData = [
   },
   {
     supplier: "АО Волжский машиностроительный завод",
-    discount: "2,75 %",
+    discount: "19,5%",
     invoiceDate: "03.09.2025",
     invoiceNumber: "invoice-vmz739",
     paymentDate: "20.09.2025",
@@ -223,7 +223,7 @@ const suppliesData = [
   },
   {
     supplier: "ООО Сибирские ресурсы",
-    discount: "1,80 %",
+    discount: "21%",
     invoiceDate: "04.09.2025",
     invoiceNumber: "invoice-sir294",
     paymentDate: "21.09.2025",
@@ -232,7 +232,7 @@ const suppliesData = [
   },
   {
     supplier: "ЗАО Технологии будущего",
-    discount: "1,40 %",
+    discount: "20,5%",
     invoiceDate: "05.09.2025",
     invoiceNumber: "invoice-tbz156",
     paymentDate: "22.09.2025", 
@@ -241,7 +241,7 @@ const suppliesData = [
   },
   {
     supplier: "ИП Сидоров Михаил Игоревич",
-    discount: "3,25 %",
+    discount: "20%",
     invoiceDate: "06.09.2025",
     invoiceNumber: "invoice-smi673",
     paymentDate: "23.09.2025",
@@ -250,7 +250,7 @@ const suppliesData = [
   },
   {
     supplier: "ПАО Энергосистемы",
-    discount: "1,95 %",
+    discount: "19,5%",
     invoiceDate: "07.09.2025",
     invoiceNumber: "invoice-ens812",
     paymentDate: "24.09.2025",
@@ -259,7 +259,7 @@ const suppliesData = [
   },
   {
     supplier: "ООО Логистические решения",
-    discount: "2,90 %",
+    discount: "21%",
     invoiceDate: "08.09.2025",
     invoiceNumber: "invoice-lrs948",
     paymentDate: "25.09.2025",
@@ -268,7 +268,7 @@ const suppliesData = [
   },
   {
     supplier: "АО Дальневосточная компания",
-    discount: "4,10 %",
+    discount: "20,5%",
     invoiceDate: "09.09.2025",
     invoiceNumber: "invoice-dvk385",
     paymentDate: "26.09.2025",
@@ -281,7 +281,7 @@ const suppliesData = [
 const awaitingResponseData = [
   {
     supplier: "ООО Мегаснаб",
-    discount: "3,20 %",
+    discount: "20%",
     invoiceDate: "10.09.2025",
     invoiceNumber: "invoice-mega401",
     paymentDate: "27.09.2025",
@@ -290,7 +290,7 @@ const awaitingResponseData = [
   },
   {
     supplier: "АО Промышленные товары",
-    discount: "2,80 %",
+    discount: "19,5%",
     invoiceDate: "12.09.2025",
     invoiceNumber: "invoice-prom502",
     paymentDate: "29.09.2025",
@@ -299,7 +299,7 @@ const awaitingResponseData = [
   },
   {
     supplier: "ПАО Стройматериалы Плюс",
-    discount: "1,75 %",
+    discount: "21%",
     invoiceDate: "14.09.2025",
     invoiceNumber: "invoice-stroy603",
     paymentDate: "01.10.2025",
@@ -308,7 +308,7 @@ const awaitingResponseData = [
   },
   {
     supplier: "ООО Транспортные решения",
-    discount: "4,25 %",
+    discount: "20,5%",
     invoiceDate: "16.09.2025",
     invoiceNumber: "invoice-trans704",
     paymentDate: "03.10.2025",
@@ -418,7 +418,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ООО Тестовые данные",
-    discount: "9,00 %",
+    discount: "20%",
     invoiceDate: "23.09.2025",
     invoiceNumber: "invoice-vmi/839",
     paymentDate: "14.10.2025",
@@ -429,7 +429,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ООО Тестовые данные",
-    discount: "9,00 %",
+    discount: "19,5%",
     invoiceDate: "22.09.2025",
     invoiceNumber: "invoice-4rif/190",
     paymentDate: "12.10.2025",
@@ -440,7 +440,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ООО Тестовые данные",
-    discount: "9,00 %",
+    discount: "21%",
     invoiceDate: "25.09.2025",
     invoiceNumber: "invoice-uuf/715",
     paymentDate: "09.10.2025",
@@ -451,7 +451,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ООО Тестовые данные",
-    discount: "9,00 %",
+    discount: "20,5%",
     invoiceDate: "25.09.2025",
     invoiceNumber: "invoice-7ap/645",
     paymentDate: "11.10.2025",
@@ -495,7 +495,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ПАО Москвов общество",
-    discount: "6,00 %",
+    discount: "20%",
     invoiceDate: "23.09.2025",
     invoiceNumber: "invoice-cle/700",
     paymentDate: "15.10.2025",
@@ -506,7 +506,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ПАО Москвов общество",
-    discount: "6,00 %",
+    discount: "19,5%",
     invoiceDate: "24.09.2025",
     invoiceNumber: "invoice-rf3/323",
     paymentDate: "09.10.2025",
@@ -517,7 +517,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ПАО Москвов общество",
-    discount: "6,00 %",
+    discount: "21%",
     invoiceDate: "24.09.2025",
     invoiceNumber: "invoice-l57/319",
     paymentDate: "16.10.2025",
@@ -528,7 +528,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ИП Москв Мск Москвич",
-    discount: "7,00 %",
+    discount: "20,5%",
     invoiceDate: "19.09.2025",
     invoiceNumber: "invoice-qz/870",
     paymentDate: "15.10.2025",
@@ -539,7 +539,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ИП Москв Мск Москвич",
-    discount: "7,00 %",
+    discount: "20%",
     invoiceDate: "19.09.2025",
     invoiceNumber: "invoice-nj/326",
     paymentDate: "10.10.2025",
@@ -550,7 +550,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ИП Москв Мск Москвич",
-    discount: "7,00 %",
+    discount: "19,5%",
     invoiceDate: "23.09.2025",
     invoiceNumber: "invoice-r41/333",
     paymentDate: "12.10.2025",
@@ -561,7 +561,7 @@ const allSuppliesData = [
   },
   {
     supplier: "ИП Москв Мск Москвич",
-    discount: "7,00 %",
+    discount: "21%",
     invoiceDate: "23.09.2025",
     invoiceNumber: "invoice-urd/996",
     paymentDate: "11.10.2025",

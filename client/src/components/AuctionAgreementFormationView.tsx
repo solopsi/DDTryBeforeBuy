@@ -227,7 +227,7 @@ export default function AuctionAgreementFormationView({
       supplies: [
         {
           id: 1,
-          profitabilityRate: "89,00 %",
+          profitabilityRate: "20%",
           discount: "78,88",
           earlyPaymentAmount: "4 482,00 ₽",
           paymentAmount: "794 446,00 ₽",
@@ -237,7 +237,7 @@ export default function AuctionAgreementFormationView({
         },
         {
           id: 2, 
-          profitabilityRate: "13,00 %",
+          profitabilityRate: "19,5%",
           discount: "85,07",
           earlyPaymentAmount: "5 101,00 ₽",
           paymentAmount: "823 449,00 ₽",
@@ -259,7 +259,7 @@ export default function AuctionAgreementFormationView({
       supplies: [
         {
           id: 3,
-          profitabilityRate: "66,00 %",
+          profitabilityRate: "21%",
           discount: "36,95",
           earlyPaymentAmount: "3 819,00 ₽",
           paymentAmount: "510 477,00 ₽", 
@@ -269,7 +269,7 @@ export default function AuctionAgreementFormationView({
         },
         {
           id: 4,
-          profitabilityRate: "76,00 %", 
+          profitabilityRate: "20,5%", 
           discount: "62,40",
           earlyPaymentAmount: "2 029,00 ₽",
           paymentAmount: "290 161,00 ₽",
@@ -279,7 +279,7 @@ export default function AuctionAgreementFormationView({
         },
         {
           id: 5,
-          profitabilityRate: "77,00 %",
+          profitabilityRate: "20%",
           discount: "97,86", 
           earlyPaymentAmount: "1 813,00 ₽",
           paymentAmount: "741 871,00 ₽",
@@ -289,7 +289,7 @@ export default function AuctionAgreementFormationView({
         },
         {
           id: 6,
-          profitabilityRate: "73,00 %",
+          profitabilityRate: "19,5%",
           discount: "98,11",
           earlyPaymentAmount: "6 264,00 ₽", 
           paymentAmount: "491 613,00 ₽",
@@ -299,7 +299,7 @@ export default function AuctionAgreementFormationView({
         },
         {
           id: 7,
-          profitabilityRate: "95,00 %",
+          profitabilityRate: "21%",
           discount: "51,24",
           earlyPaymentAmount: "4 734,00 ₽",
           paymentAmount: "435 105,00 ₽", 
@@ -321,7 +321,7 @@ export default function AuctionAgreementFormationView({
       supplies: [
         {
           id: 8,
-          profitabilityRate: "95,00 %",
+          profitabilityRate: "20,5%",
           discount: "17,33",
           earlyPaymentAmount: "8 300,00 ₽",
           paymentAmount: "315 739,00 ₽",

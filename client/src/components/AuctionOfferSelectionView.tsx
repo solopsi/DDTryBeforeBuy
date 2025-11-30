@@ -288,7 +288,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
   const offersData = [
     {
       id: 1,
-      profitabilityRate: "97,00%",
+      profitabilityRate: "20%",
       discount: "76,32%",
       earlyPaymentAmount: "7 715,00 ₽",
       paymentAmount: "415 275,00 ₽",
@@ -302,7 +302,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 2,
-      profitabilityRate: "99,00%",
+      profitabilityRate: "19,5%",
       discount: "13,91%",
       earlyPaymentAmount: "4 327,00 ₽",
       paymentAmount: "807 195,00 ₽",
@@ -316,7 +316,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 3,
-      profitabilityRate: "92,00%",
+      profitabilityRate: "21%",
       discount: "79,15%",
       earlyPaymentAmount: "7 207,00 ₽",
       paymentAmount: "276 483,00 ₽",
@@ -330,7 +330,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 4,
-      profitabilityRate: "56,00%",
+      profitabilityRate: "20,5%",
       discount: "44,76%",
       earlyPaymentAmount: "3 214,00 ₽",
       paymentAmount: "356 656,00 ₽",
@@ -344,7 +344,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 5,
-      profitabilityRate: "95,00%",
+      profitabilityRate: "20%",
       discount: "17,33%",
       earlyPaymentAmount: "8 300,00 ₽",
       paymentAmount: "315 739,00 ₽",
@@ -358,7 +358,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 6,
-      profitabilityRate: "95,00%",
+      profitabilityRate: "19,5%",
       discount: "51,24%",
       earlyPaymentAmount: "4 734,00 ₽",
       paymentAmount: "435 105,00 ₽",
@@ -372,7 +372,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 7,
-      profitabilityRate: "73,00%",
+      profitabilityRate: "21%",
       discount: "98,11%",
       earlyPaymentAmount: "6 264,00 ₽",
       paymentAmount: "491 613,00 ₽",
@@ -386,7 +386,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 8,
-      profitabilityRate: "77,00%",
+      profitabilityRate: "20,5%",
       discount: "97,86%",
       earlyPaymentAmount: "1 813,00 ₽",
       paymentAmount: "741 871,00 ₽",
@@ -400,7 +400,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 9,
-      profitabilityRate: "76,00%",
+      profitabilityRate: "20%",
       discount: "62,40%",
       earlyPaymentAmount: "2 029,00 ₽",
       paymentAmount: "290 161,00 ₽",
@@ -414,7 +414,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 10,
-      profitabilityRate: "30,00%",
+      profitabilityRate: "19,5%",
       discount: "46,98%",
       earlyPaymentAmount: "7 038,00 ₽",
       paymentAmount: "786 356,00 ₽",
@@ -428,7 +428,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 11,
-      profitabilityRate: "78,00%",
+      profitabilityRate: "21%",
       discount: "19,32%",
       earlyPaymentAmount: "1 827,00 ₽",
       paymentAmount: "443 357,00 ₽",
@@ -442,7 +442,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 12,
-      profitabilityRate: "95,00%",
+      profitabilityRate: "20,5%",
       discount: "32,02%",
       earlyPaymentAmount: "6 652,00 ₽",
       paymentAmount: "593 577,00 ₽",
@@ -456,7 +456,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 13,
-      profitabilityRate: "64,00%",
+      profitabilityRate: "20%",
       discount: "85,80%",
       earlyPaymentAmount: "2 251,00 ₽",
       paymentAmount: "370 311,00 ₽",
@@ -470,7 +470,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 14,
-      profitabilityRate: "64,00%",
+      profitabilityRate: "19,5%",
       discount: "57,62%",
       earlyPaymentAmount: "4 995,00 ₽",
       paymentAmount: "448 734,00 ₽",
@@ -484,7 +484,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 15,
-      profitabilityRate: "77,00%",
+      profitabilityRate: "21%",
       discount: "72,39%",
       earlyPaymentAmount: "4 244,00 ₽",
       paymentAmount: "169 086,00 ₽",
@@ -498,7 +498,7 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
     },
     {
       id: 16,
-      profitabilityRate: "66,00%",
+      profitabilityRate: "20,5%",
       discount: "36,95%",
       earlyPaymentAmount: "3 819,00 ₽",
       paymentAmount: "510 477,00 ₽",
