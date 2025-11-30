@@ -1,8 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Button, Checkbox, Input, CustomTable, Select } from "vienna-ui";
+import { Button, Checkbox, Input, CustomTable } from "vienna-ui";
 import { GoLeftIcon } from "vienna.icons";
-import { YIELD_RATE_OPTIONS } from "./YieldRateSelect";
 
 const Container = styled.div`
   display: flex;
@@ -621,33 +620,19 @@ export default function AuctionOfferSelectionView({ auction, onBack, onCreateAgr
         <FilterGroup>
           <FilterLabel>Ставка доходности</FilterLabel>
           <RangeInputs>
-            <Select
-              value={rateFrom}
-              onSelect={(e: any, data?: { value?: string }) => data?.value && setRateFrom(data.value)}
+            <RangeInput
               placeholder="От"
+              value={rateFrom}
+              onChange={(e) => setRateFrom(e.target.value)}
               data-testid="input-rate-from"
-              style={{ width: '100px' }}
-            >
-              {YIELD_RATE_OPTIONS.map((option) => (
-                <Select.Option key={option.value} value={option.value}>
-                  {option.label}
-                </Select.Option>
-              ))}
-            </Select>
+            />
             <RangeSeparator>—</RangeSeparator>
-            <Select
-              value={rateTo}
-              onSelect={(e: any, data?: { value?: string }) => data?.value && setRateTo(data.value)}
+            <RangeInput
               placeholder="До"
+              value={rateTo}
+              onChange={(e) => setRateTo(e.target.value)}
               data-testid="input-rate-to"
-              style={{ width: '100px' }}
-            >
-              {YIELD_RATE_OPTIONS.map((option) => (
-                <Select.Option key={option.value} value={option.value}>
-                  {option.label}
-                </Select.Option>
-              ))}
-            </Select>
+            />
           </RangeInputs>
         </FilterGroup>
 
