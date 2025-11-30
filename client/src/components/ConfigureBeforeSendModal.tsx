@@ -507,8 +507,9 @@ export default function ConfigureBeforeSendModal({
                     
                     <div>
                       <Input
-                        value={config.discount.toFixed(2)}
+                        value={config.earlyPaymentDate && isValidDate(config.earlyPaymentDate) ? config.discount.toFixed(2) : '0,00'}
                         onChange={(e) => updateConfig(config.id, 'discount', e.target.value)}
+                        disabled={!config.earlyPaymentDate || !isValidDate(config.earlyPaymentDate)}
                         data-testid={`input-discount-${config.id}`}
                       />
                     </div>
