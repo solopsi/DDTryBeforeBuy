@@ -1,7 +1,9 @@
+import { useState } from "react";
 import styled from "styled-components";
 import RaiffeisenLogo from "./RaiffeisenLogo";
 import { DocumentIcon, HomeIcon, ArrowsLeftRightIcon } from "vienna.icons";
 import { Button } from "vienna-ui";
+import EarlyPaymentRequestDrawer from "./EarlyPaymentRequestDrawer";
 
 const buyerMenuItems = [
   { title: "Поставки", icon: HomeIcon, url: "/supplies" },
@@ -182,6 +184,7 @@ interface AppSidebarProps {
 }
 
 export default function AppSidebar({ activeItem = "/supplies", onItemClick, onLogout, userRole = 'buyer' }: AppSidebarProps) {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const menuItems = userRole === 'supplier' ? supplierMenuItems : buyerMenuItems;
   
   return (
@@ -219,11 +222,17 @@ export default function AppSidebar({ activeItem = "/supplies", onItemClick, onLo
               <Button 
                 design="accent" 
                 style={{ width: '100%' }}
+                onClick={() => setIsDrawerOpen(true)}
                 data-testid="button-create-request"
               >
                 Создать запрос
               </Button>
             </PromoBanner>
+            
+            <EarlyPaymentRequestDrawer
+              isOpen={isDrawerOpen}
+              onClose={() => setIsDrawerOpen(false)}
+            />
             <ArchiveLink data-testid="link-download-archive">
               Скачать архив заявления
             </ArchiveLink>
