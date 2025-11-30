@@ -1021,12 +1021,12 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
         <>
           <FiltersSection>
             <FilterGroup>
-              <FilterLabel>Поставщик</FilterLabel>
+              <FilterLabel>{userRole === 'supplier' ? 'Покупатель' : 'Поставщик'}</FilterLabel>
               <Select
-                placeholder="Все поставщики"
+                placeholder={userRole === 'supplier' ? 'Все покупатели' : 'Все поставщики'}
                 data-testid="filter-supplier"
               >
-                <Select.Option value="all">Все поставщики</Select.Option>
+                <Select.Option value="all">{userRole === 'supplier' ? 'Все покупатели' : 'Все поставщики'}</Select.Option>
                 <Select.Option value="testov">ИП Тестов Тест Тестович</Select.Option>
                 <Select.Option value="test-data">ООО Тестовые данные</Select.Option>
                 <Select.Option value="test-company">АО Тестовая компания</Select.Option>
