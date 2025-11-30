@@ -1363,11 +1363,11 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
         onRowSelect={
           activeTab === "on-shipment" 
             ? handleSuppliesSelect 
-            : (userRole === 'supplier' && activeTab === "awaiting-response" 
+            : (activeTab === "awaiting-response" 
               ? handleAwaitingSelect 
               : undefined)
         }
-        showCheckboxes={activeTab === "on-shipment" || (userRole === 'supplier' && activeTab === "awaiting-response")}
+        showCheckboxes={activeTab === "on-shipment" || activeTab === "awaiting-response"}
       />
       
       <FileUploadModal 
