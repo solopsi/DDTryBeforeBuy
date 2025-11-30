@@ -304,6 +304,7 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
             <Select
               placeholder="От кого вы хотите получить оплату?"
               value={selectedBuyer}
+              valueToString={(val: string) => buyerOptions.find(opt => opt.value === val)?.label || val}
               onSelect={(e: any, data: any) => setSelectedBuyer(data?.value || e?.value)}
               data-testid="select-buyer"
             >
@@ -320,7 +321,7 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
             <Datepicker
               placeholder="ДД.ММ.ГГГГ"
               value={earlyPaymentDate}
-              onChange={(e: any) => setEarlyPaymentDate(e.value)}
+              onChange={(e: any, data: any) => setEarlyPaymentDate(data?.value || e?.value)}
               data-testid="input-early-payment-date"
             />
           </FormGroup>
@@ -331,7 +332,7 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
               <Input
                 placeholder="1 — 1 млрд"
                 value={amount}
-                onChange={(e: any) => setAmount(e.target.value)}
+                onChange={(e: any, data: any) => setAmount(data?.value ?? e?.target?.value ?? '')}
                 data-testid="input-amount"
               />
               <CurrencySymbol>₽</CurrencySymbol>
