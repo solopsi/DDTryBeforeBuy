@@ -322,6 +322,7 @@ export default function EarlyPaymentRequestDrawer({ isOpen, onClose }: EarlyPaym
               placeholder="ДД.ММ.ГГГГ"
               value={earlyPaymentDate}
               onChange={(e: any, data: any) => setEarlyPaymentDate(data?.value || e?.value)}
+              dropdownPortal={document.body}
               data-testid="input-early-payment-date"
             />
           </FormGroup>
