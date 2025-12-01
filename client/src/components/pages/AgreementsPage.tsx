@@ -180,7 +180,7 @@ const SectionTitle = styled.h3`
 
 const CertificateItem = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   padding: 8px 0;
 `;
@@ -190,6 +190,7 @@ const CertificateIndicator = styled.div`
   height: 8px;
   border-radius: 50%;
   background: #fee600;
+  margin-top: 6px;
 `;
 
 const CertificateInfo = styled.div`
