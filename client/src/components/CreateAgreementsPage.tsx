@@ -79,25 +79,6 @@ const ContractInfo = styled.div`
   font-size: 14px;
   color: hsl(0 0% 45%);
   text-align: right;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-`;
-
-const ContractInfoRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-`;
-
-const YieldRate = styled.span`
-  font-weight: 500;
-  color: hsl(0 0% 20%);
-`;
-
-const Separator = styled.span`
-  color: hsl(0 0% 75%);
 `;
 
 const TableContainer = styled.div`
@@ -217,43 +198,7 @@ export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: Cre
 
   const generateContractNumber = (buyer: string) => {
     const hash = buyer.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return `contrac... от ${new Date().toLocaleDateString('ru-RU')}`;
-  };
-
-  const getBuyerYieldRate = (buyerSupplies: any[]) => {
-    const firstSupply = buyerSupplies[0];
-    if (firstSupply?.discount) {
-      const discountValue = parseFloat(firstSupply.discount.replace(/[^\d,]/g, '').replace(',', '.'));
-      const yieldRate = discountValue * 0.485;
-      return yieldRate.toFixed(2).replace('.', ',') + ' %';
-    }
-    return '6,00 %';
-  };
-
-  const getSupplyYieldRate = (supply: any) => {
-    if (supply?.discount) {
-      const discountValue = parseFloat(supply.discount.replace(/[^\d,]/g, '').replace(',', '.'));
-      const yieldRate = discountValue * 0.485;
-      return yieldRate.toFixed(2).replace('.', ',') + ' %';
-    }
-    return '6,00 %';
-  };
-
-  const getNewDiscountPercent = (supply: any) => {
-    if (supply?.discount) {
-      const discountValue = parseFloat(supply.discount.replace(/[^\d,]/g, '').replace(',', '.'));
-      return discountValue.toFixed(2).replace('.', ',');
-    }
-    return '0,00';
-  };
-
-  const getPreviousDiscountPercent = (supply: any) => {
-    if (supply?.discount) {
-      const discountValue = parseFloat(supply.discount.replace(/[^\d,]/g, '').replace(',', '.'));
-      const prevDiscount = discountValue * 0.32;
-      return prevDiscount.toFixed(2).replace('.', ',');
-    }
-    return '0,00';
+    return `contrac...  от ${new Date().toLocaleDateString('ru-RU')}`;
   };
 
   return (
@@ -288,13 +233,7 @@ export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: Cre
                 </DetailItem>
               </BuyerInfo>
               <ContractInfo>
-                <ContractInfoRow>
-                  <span>Ставка доходности</span>
-                  <YieldRate>{getBuyerYieldRate(buyerSupplies)}</YieldRate>
-                  <Separator>•</Separator>
-                  <span>Договор №</span>
-                  <YieldRate>{generateContractNumber(buyer)}</YieldRate>
-                </ContractInfoRow>
+                Договор № {generateContractNumber(buyer)}
               </ContractInfo>
             </BuyerHeader>
             
@@ -302,9 +241,7 @@ export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: Cre
               <CustomTable>
                 <CustomTable.Head>
                   <CustomTable.Row>
-                    <CustomTable.Header>Ставка доходности</CustomTable.Header>
-                    <CustomTable.Header>Скидка, % новая</CustomTable.Header>
-                    <CustomTable.Header>Скидка, % прежняя</CustomTable.Header>
+                    <CustomTable.Header>Скидка, %</CustomTable.Header>
                     <CustomTable.Header>Сумма ранней оплаты</CustomTable.Header>
                     <CustomTable.Header>Сумма оплаты</CustomTable.Header>
                     <CustomTable.Header>Дата оплаты</CustomTable.Header>
@@ -315,9 +252,7 @@ export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: Cre
                 <CustomTable.Body>
                   {buyerSupplies.map((supply: any, index: number) => (
                     <CustomTable.Row key={index}>
-                      <CustomTable.Data>{getSupplyYieldRate(supply)}</CustomTable.Data>
-                      <CustomTable.Data>{getNewDiscountPercent(supply)}</CustomTable.Data>
-                      <CustomTable.Data style={{ textDecoration: 'line-through', color: 'hsl(0 0% 64%)' }}>{getPreviousDiscountPercent(supply)}</CustomTable.Data>
+                      <CustomTable.Data>{supply.discount.replace(' %', '').replace('%', '')}</CustomTable.Data>
                       <CustomTable.Data>{supply.earlyPaymentAmount}</CustomTable.Data>
                       <CustomTable.Data>{supply.amount}</CustomTable.Data>
                       <CustomTable.Data>{supply.paymentDate}</CustomTable.Data>
