@@ -159,35 +159,48 @@ const otherStatusAuctionsData = [
   }
 ];
 
-const columns = [
-  { key: 'period', header: 'Период проведения' },
-  { key: 'auctionAmount', header: 'Сумма аукциона' },
-  { 
-    key: 'bidsAmount', 
-    header: 'Сумма ответов',
-    render: (value: any) => {
-      // Handle colored bids amount for awaiting response data
-      if (value && typeof value === 'object' && value.breakdown) {
-        return <ColoredBidsAmount breakdown={value.breakdown} />;
-      }
-      // Handle regular string amounts for other data
-      return String(value);
-    }
-  },
-  { key: 'paymentDate', header: 'Дата ранней оплаты' },
-  { 
-    key: 'status', 
-    header: 'Статус',
-    render: (value: string) => <StatusBadge status={value} />
-  },
-];
-
 interface AuctionsPageProps {
   userRole?: 'buyer' | 'supplier';
 }
 
 export default function AuctionsPage({ userRole = 'buyer' }: AuctionsPageProps) {
-  const [activeTab, setActiveTab] = useState("new");
+  const [activeTab, setActiveTab] = useState(userRole === 'supplier' ? "awaiting-response" : "new");
+
+  const getColumns = () => {
+    if (userRole === 'supplier') {
+      return [
+        { key: 'period', header: 'Период проведения' },
+        { key: 'auctionAmount', header: 'Сумма аукциона' },
+        { key: 'yourBidsAmount', header: 'Сумма ваших ответов' },
+        { key: 'paymentDate', header: 'Дата ранней оплаты' },
+        { 
+          key: 'status', 
+          header: 'Статус',
+          render: (value: string) => <StatusBadge status={value} />
+        },
+      ];
+    }
+    return [
+      { key: 'period', header: 'Период проведения' },
+      { key: 'auctionAmount', header: 'Сумма аукциона' },
+      { 
+        key: 'bidsAmount', 
+        header: 'Сумма ответов',
+        render: (value: any) => {
+          if (value && typeof value === 'object' && value.breakdown) {
+            return <ColoredBidsAmount breakdown={value.breakdown} />;
+          }
+          return String(value);
+        }
+      },
+      { key: 'paymentDate', header: 'Дата ранней оплаты' },
+      { 
+        key: 'status', 
+        header: 'Статус',
+        render: (value: string) => <StatusBadge status={value} />
+      },
+    ];
+  };
   const [selectedAuction, setSelectedAuction] = useState<any>(null);
   const [currentView, setCurrentView] = useState<'list' | 'detail' | 'offer-selection' | 'agreement-formation' | 'create-form'>('list');
   const [newAuctionsData, setNewAuctionsData] = useState(initialNewAuctionsData);
@@ -197,12 +210,25 @@ export default function AuctionsPage({ userRole = 'buyer' }: AuctionsPageProps) 
       case "new":
         return newAuctionsData;
       case "awaiting-response":
+        if (userRole === 'supplier') {
+          return awaitingResponseData.map(auction => ({
+            ...auction,
+            status: 'В процессе',
+            yourBidsAmount: '150 000,00 ₽'
+          }));
+        }
         return awaitingResponseData;
       case "all":
-        // Combine data from "new", "awaiting-response", and other statuses
+        if (userRole === 'supplier') {
+          const supplierData = [...awaitingResponseData, ...otherStatusAuctionsData].map(auction => ({
+            ...auction,
+            yourBidsAmount: '150 000,00 ₽'
+          }));
+          return supplierData;
+        }
         return [...newAuctionsData, ...awaitingResponseData, ...otherStatusAuctionsData];
       default:
-        return newAuctionsData;
+        return userRole === 'supplier' ? awaitingResponseData : newAuctionsData;
     }
   };
 
@@ -392,13 +418,15 @@ export default function AuctionsPage({ userRole = 'buyer' }: AuctionsPageProps) 
           )}
         </TitleRow>
         <TabNavigation>
-          <TabButton 
-            $active={activeTab === "new"}
-            onClick={() => setActiveTab("new")}
-            data-testid="tab-new-auctions"
-          >
-            Новые
-          </TabButton>
+          {userRole === 'buyer' && (
+            <TabButton 
+              $active={activeTab === "new"}
+              onClick={() => setActiveTab("new")}
+              data-testid="tab-new-auctions"
+            >
+              Новые
+            </TabButton>
+          )}
           <TabButton 
             $active={activeTab === "awaiting-response"}
             onClick={() => setActiveTab("awaiting-response")}
@@ -418,7 +446,7 @@ export default function AuctionsPage({ userRole = 'buyer' }: AuctionsPageProps) 
 
       <DataTable
         title="" // Remove title since we have it above
-        columns={columns}
+        columns={getColumns()}
         data={getTabData()}
         onRowSelect={(rows) => console.log('Selected auctions:', rows)}
         onRowClick={handleRowClick}
