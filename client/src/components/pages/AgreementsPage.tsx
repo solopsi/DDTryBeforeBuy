@@ -196,20 +196,21 @@ const CertificateIndicator = styled.div`
 const CertificateInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  flex: 1;
 `;
 
 const CertificateName = styled.div`
   font-size: 14px;
   font-weight: 500;
   color: #2b2d33;
-  display: block;
+  line-height: 1.4;
 `;
 
 const CertificateDate = styled.div`
   font-size: 12px;
   color: #666;
-  display: block;
+  line-height: 1.4;
 `;
 
 const StyledBadge = styled.span`
