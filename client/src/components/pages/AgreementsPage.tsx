@@ -199,15 +199,17 @@ const CertificateInfo = styled.div`
   gap: 2px;
 `;
 
-const CertificateName = styled.span`
+const CertificateName = styled.div`
   font-size: 14px;
   font-weight: 500;
   color: #2b2d33;
+  display: block;
 `;
 
-const CertificateDate = styled.span`
+const CertificateDate = styled.div`
   font-size: 12px;
   color: #666;
+  display: block;
 `;
 
 const StyledBadge = styled.span`
