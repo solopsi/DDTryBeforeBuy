@@ -352,43 +352,51 @@ const suppliesData = [
   }
 ];
 
-// Data for "Awaiting Response" tab
+// Data for "Awaiting Response" tab (buyer view)
 const awaitingResponseData = [
   {
-    supplier: "ООО Мегаснаб",
-    discount: "20%",
-    invoiceDate: "10.09.2025",
-    invoiceNumber: "invoice-mega401",
-    paymentDate: "27.09.2025",
-    amount: "892 345,00 ₽",
-    status: "Ждет ответ"
+    supplier: "ПАО Моковое общество",
+    discount: "20,65 %",
+    earlyPaymentDate: "30.11.2025",
+    paymentDate: "19.12.2025",
+    amount: "863 252,00 ₽",
+    earlyPaymentAmount: "860 242,00 ₽",
+    invoiceNumber: "invoice-tt8/627",
+    invoiceDate: "30.11.2025",
+    status: "Ждет ответа"
   },
   {
-    supplier: "АО Промышленные товары",
-    discount: "19,5%",
-    invoiceDate: "12.09.2025",
-    invoiceNumber: "invoice-prom502",
-    paymentDate: "29.09.2025",
-    amount: "1 567 890,00 ₽",
-    status: "Ждет ответ"
+    supplier: "ИП Моков Мок Мокович",
+    discount: "19,59 %",
+    earlyPaymentDate: "30.11.2025",
+    paymentDate: "15.12.2025",
+    amount: "101 265,00 ₽",
+    earlyPaymentAmount: "93 592,00 ₽",
+    invoiceNumber: "invoice-mgt/894",
+    invoiceDate: "30.11.2025",
+    status: "Ждет ответа"
   },
   {
-    supplier: "ПАО Стройматериалы Плюс",
-    discount: "21%",
-    invoiceDate: "14.09.2025",
-    invoiceNumber: "invoice-stroy603",
-    paymentDate: "01.10.2025",
-    amount: "2 234 567,00 ₽",
-    status: "Ждет ответ"
+    supplier: "АО Тестовая компания",
+    discount: "18,75 %",
+    earlyPaymentDate: "01.12.2025",
+    paymentDate: "20.12.2025",
+    amount: "756 890,00 ₽",
+    earlyPaymentAmount: "742 350,00 ₽",
+    invoiceNumber: "invoice-atk/512",
+    invoiceDate: "28.11.2025",
+    status: "Ждет ответа"
   },
   {
-    supplier: "ООО Транспортные решения",
-    discount: "20,5%",
-    invoiceDate: "16.09.2025",
-    invoiceNumber: "invoice-trans704",
-    paymentDate: "03.10.2025",
-    amount: "1 123 456,00 ₽",
-    status: "Ждет ответ"
+    supplier: "ООО Тестовые данные",
+    discount: "21,00 %",
+    earlyPaymentDate: "02.12.2025",
+    paymentDate: "18.12.2025",
+    amount: "523 400,00 ₽",
+    earlyPaymentAmount: "511 200,00 ₽",
+    invoiceNumber: "invoice-otd/391",
+    invoiceDate: "29.11.2025",
+    status: "Ждет ответа"
   }
 ];
 
@@ -690,8 +698,26 @@ const errorSuppliesColumns = [
   { key: 'errorReason', header: 'Причина ошибки' },
 ];
 
+// Columns for buyer "Ждут вашего ответа" view
+const buyerAwaitingColumns = [
+  { key: 'supplier', header: 'Поставщик' },
+  { key: 'discount', header: 'Скидка' },
+  { key: 'earlyPaymentDate', header: 'Дата ранней оплаты' },
+  { key: 'paymentDate', header: 'Дата оплаты' },
+  { key: 'amount', header: 'Сумма оплаты' },
+  { key: 'earlyPaymentAmount', header: 'Сумма ранней оплаты' },
+  { key: 'invoiceNumber', header: '№ счета' },
+  { key: 'invoiceDate', header: 'Дата счета' },
+  { 
+    key: 'status', 
+    header: 'Статус',
+    render: (value: string) => <StatusBadge status={value} />
+  },
+];
+
 interface SuppliesPageProps {
   userRole?: 'buyer' | 'supplier';
+  onNavigate?: (path: string) => void;
 }
 
 const supplierAwaitingResponseData = [
@@ -936,7 +962,7 @@ const supplierColumns = [
   },
 ];
 
-export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) {
+export default function SuppliesPage({ userRole = 'buyer', onNavigate }: SuppliesPageProps) {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -988,6 +1014,8 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
         return allSuppliesColumns;
       case "with-error":
         return errorSuppliesColumns;
+      case "awaiting-response":
+        return buyerAwaitingColumns;
       default:
         return columns;
     }
@@ -1074,6 +1102,12 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
   // Handle close success modal
   const handleCloseSuccessModal = () => {
     setIsAgreementsSuccessModalOpen(false);
+  };
+
+  // Handle go to agreements page
+  const handleGoToAgreements = () => {
+    setIsAgreementsSuccessModalOpen(false);
+    onNavigate?.("/agreements");
   };
 
   // Format currency
@@ -1415,6 +1449,7 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
         supplies={agreementSupplies}
         onBack={handleBackFromAgreements}
         onSubmit={handleSubmitAgreements}
+        userRole={userRole}
       />
     );
   }
@@ -1562,10 +1597,42 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
         </BottomActionBar>
       )}
 
+      {/* Bottom action bar for selected supplies - Buyer awaiting response */}
+      {selectedAwaitingItems.length > 0 && userRole === 'buyer' && activeTab === "awaiting-response" && (
+        <BottomActionBar>
+          <SupplierActionButton $primary onClick={handleCreateAgreements} data-testid="button-buyer-create-agreements">
+            <DocIcon size="s" />
+            Создать соглашения
+          </SupplierActionButton>
+          <SupplierActionButton data-testid="button-buyer-change-conditions">
+            <EditIcon size="s" />
+            Изменить условия
+          </SupplierActionButton>
+          <SupplierActionButton data-testid="button-buyer-reject">
+            <Close16Icon size="s" />
+            Отклонить
+          </SupplierActionButton>
+          <SupplierActionInfo>
+            <SupplierInfoItem>
+              <SupplierInfoLabel>Количество</SupplierInfoLabel>
+              <SupplierInfoValue data-testid="text-buyer-selected-count">{selectedAwaitingItems.length}</SupplierInfoValue>
+            </SupplierInfoItem>
+            <SupplierInfoItem>
+              <SupplierInfoLabel>Оплата</SupplierInfoLabel>
+              <SupplierInfoValue data-testid="text-buyer-payment-total">{formatCurrency(calculateSupplierTotalPayment())}</SupplierInfoValue>
+            </SupplierInfoItem>
+            <SupplierInfoItem>
+              <SupplierInfoLabel>Ранняя оплата</SupplierInfoLabel>
+              <SupplierInfoValue data-testid="text-buyer-early-payment-total">{formatCurrency(calculateSupplierEarlyPayment())}</SupplierInfoValue>
+            </SupplierInfoItem>
+          </SupplierActionInfo>
+        </BottomActionBar>
+      )}
+
       <AgreementsSuccessModal
         isOpen={isAgreementsSuccessModalOpen}
         onClose={handleCloseSuccessModal}
-        onGoToAgreements={handleCloseSuccessModal}
+        onGoToAgreements={handleGoToAgreements}
       />
     </PageContainer>
   );

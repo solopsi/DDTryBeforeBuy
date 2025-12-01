@@ -118,7 +118,7 @@ export default function MainApp({ onLogout, userRole = 'buyer' }: MainAppProps) 
   const renderContent = () => {
     switch (activeSection) {
       case "/supplies":
-        return <SuppliesPage userRole={userRole} />;
+        return <SuppliesPage userRole={userRole} onNavigate={setActiveSection} />;
       case "/agreements":
         return <AgreementsPage userRole={userRole} />;
       case "/auctions":
@@ -128,7 +128,7 @@ export default function MainApp({ onLogout, userRole = 'buyer' }: MainAppProps) 
       case "/users":
         return <UsersPage />;
       default:
-        return <SuppliesPage userRole={userRole} />;
+        return <SuppliesPage userRole={userRole} onNavigate={setActiveSection} />;
     }
   };
 

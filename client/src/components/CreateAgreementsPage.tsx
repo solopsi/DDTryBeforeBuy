@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button, CustomTable } from "vienna-ui";
-import { GoLeftIcon } from "vienna.icons";
+import { GoLeftIcon, InfoIconRingIcon } from "vienna.icons";
 
 const PageContainer = styled.div`
   display: flex;
@@ -31,14 +31,14 @@ const Title = styled.h1`
   margin: 0;
 `;
 
-const BuyerCard = styled.div`
+const SupplierCard = styled.div`
   border: 1px solid hsl(0 0% 90%);
   border-radius: 8px;
   background: white;
   overflow: hidden;
 `;
 
-const BuyerHeader = styled.div`
+const SupplierHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -46,19 +46,19 @@ const BuyerHeader = styled.div`
   border-bottom: 1px solid hsl(0 0% 93%);
 `;
 
-const BuyerInfo = styled.div`
+const SupplierInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
 
-const BuyerName = styled.h3`
+const SupplierName = styled.h3`
   font-size: 16px;
   font-weight: 600;
   margin: 0;
 `;
 
-const BuyerDetails = styled.div`
+const SupplierDetails = styled.div`
   display: flex;
   gap: 24px;
   font-size: 14px;
@@ -112,6 +112,12 @@ const TableContainer = styled.div`
   }
 `;
 
+const HeaderWithIcon = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
 const BottomBar = styled.div`
   position: fixed;
   bottom: 0;
@@ -147,15 +153,18 @@ interface CreateAgreementsPageProps {
   supplies: any[];
   onBack: () => void;
   onSubmit: () => void;
+  userRole?: 'buyer' | 'supplier';
 }
 
-export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: CreateAgreementsPageProps) {
-  const groupedByBuyer = supplies.reduce((acc, supply) => {
-    const buyer = supply.buyer;
-    if (!acc[buyer]) {
-      acc[buyer] = [];
+export default function CreateAgreementsPage({ supplies, onBack, onSubmit, userRole = 'buyer' }: CreateAgreementsPageProps) {
+  const groupKey = userRole === 'buyer' ? 'supplier' : 'buyer';
+  
+  const groupedByCounterparty = supplies.reduce((acc, supply) => {
+    const counterparty = supply[groupKey];
+    if (!acc[counterparty]) {
+      acc[counterparty] = [];
     }
-    acc[buyer].push(supply);
+    acc[counterparty].push(supply);
     return acc;
   }, {} as Record<string, any[]>);
 
@@ -181,24 +190,37 @@ export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: Cre
     }).format(amount) + ' ₽';
   };
 
-  const getBuyerEarlyPayment = (buyerSupplies: any[]) => {
-    return buyerSupplies.reduce((total, supply) => {
+  const getCounterpartyEarlyPayment = (counterpartySupplies: any[]) => {
+    return counterpartySupplies.reduce((total, supply) => {
       const amount = parseFloat(supply.earlyPaymentAmount.replace(/[^\d,]/g, '').replace(',', '.'));
       return total + amount;
     }, 0);
   };
 
-  const getBuyerDiscount = (buyerSupplies: any[]) => {
-    return buyerSupplies.reduce((total, supply) => {
+  const getCounterpartyDiscount = (counterpartySupplies: any[]) => {
+    return counterpartySupplies.reduce((total, supply) => {
       const amount = parseFloat(supply.amount.replace(/[^\d,]/g, '').replace(',', '.'));
       const earlyPayment = parseFloat(supply.earlyPaymentAmount.replace(/[^\d,]/g, '').replace(',', '.'));
       return total + (amount - earlyPayment);
     }, 0);
   };
 
-  const generateContractNumber = (buyer: string) => {
-    const hash = buyer.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const generateContractNumber = () => {
     return `contrac...  от ${new Date().toLocaleDateString('ru-RU')}`;
+  };
+
+  const getYieldRate = (supply: any) => {
+    const discount = supply.discount?.replace(' %', '').replace('%', '').replace(',', '.') || '0';
+    return parseFloat(discount) / 2;
+  };
+
+  const getNewDiscountPercent = (supply: any) => {
+    const discount = supply.discount?.replace(' %', '').replace('%', '').replace(',', '.') || '0';
+    return parseFloat(discount);
+  };
+
+  const getPreviousDiscountPercent = () => {
+    return (Math.random() * 5 + 2).toFixed(2);
   };
 
   return (
@@ -210,38 +232,48 @@ export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: Cre
       
       <Title>Формирование соглашений</Title>
       
-      {Object.entries(groupedByBuyer).map(([buyer, buyerSuppliesRaw]) => {
-        const buyerSupplies = buyerSuppliesRaw as any[];
+      {Object.entries(groupedByCounterparty).map(([counterparty, counterpartySuppliesRaw]) => {
+        const counterpartySupplies = counterpartySuppliesRaw as any[];
+        const firstSupply = counterpartySupplies[0];
+        const yieldRate = firstSupply?.discount?.replace(' %', '').replace('%', '') || '6,00';
+        
         return (
-          <BuyerCard key={buyer}>
-            <BuyerHeader>
-              <BuyerInfo>
-                <BuyerName>{buyer}</BuyerName>
-                <BuyerDetails>
+          <SupplierCard key={counterparty}>
+            <SupplierHeader>
+              <SupplierInfo>
+                <SupplierName>{counterparty}</SupplierName>
+                <SupplierDetails>
                   <DetailItem>
-                    Ранняя оплата <strong>{formatCurrency(getBuyerEarlyPayment(buyerSupplies))}</strong>
+                    Ранняя оплата <strong>{formatCurrency(getCounterpartyEarlyPayment(counterpartySupplies))}</strong>
                   </DetailItem>
                   <DetailItem>
-                    Скидка <strong>{formatCurrency(getBuyerDiscount(buyerSupplies))}</strong>
+                    Скидка <strong>{formatCurrency(getCounterpartyDiscount(counterpartySupplies))}</strong>
                   </DetailItem>
                   <DetailItem>
-                    Поставки <strong>{buyerSupplies.length} шт</strong>
+                    Поставки <strong>{counterpartySupplies.length} шт</strong>
                   </DetailItem>
-                </BuyerDetails>
+                </SupplierDetails>
                 <DetailItem style={{ color: 'hsl(0 0% 45%)' }}>
-                  Дата ранней оплаты <strong>{buyerSupplies[0]?.earlyPaymentDate}</strong>
+                  Дата ранней оплаты <strong>{counterpartySupplies[0]?.earlyPaymentDate}</strong>
                 </DetailItem>
-              </BuyerInfo>
+              </SupplierInfo>
               <ContractInfo>
-                Договор № {generateContractNumber(buyer)}
+                Ставка доходности {yieldRate} % • Договор № {generateContractNumber()}
               </ContractInfo>
-            </BuyerHeader>
+            </SupplierHeader>
             
             <TableContainer>
               <CustomTable>
                 <CustomTable.Head>
                   <CustomTable.Row>
-                    <CustomTable.Header>Скидка, %</CustomTable.Header>
+                    <CustomTable.Header>
+                      <HeaderWithIcon>
+                        Ставка доходности
+                        <InfoIconRingIcon size="xs" style={{ color: 'hsl(0 0% 64%)' }} />
+                      </HeaderWithIcon>
+                    </CustomTable.Header>
+                    <CustomTable.Header>Скидка, % новая</CustomTable.Header>
+                    <CustomTable.Header>Скидка, % прежняя</CustomTable.Header>
                     <CustomTable.Header>Сумма ранней оплаты</CustomTable.Header>
                     <CustomTable.Header>Сумма оплаты</CustomTable.Header>
                     <CustomTable.Header>Дата оплаты</CustomTable.Header>
@@ -250,9 +282,11 @@ export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: Cre
                   </CustomTable.Row>
                 </CustomTable.Head>
                 <CustomTable.Body>
-                  {buyerSupplies.map((supply: any, index: number) => (
+                  {counterpartySupplies.map((supply: any, index: number) => (
                     <CustomTable.Row key={index}>
-                      <CustomTable.Data>{supply.discount.replace(' %', '').replace('%', '')}</CustomTable.Data>
+                      <CustomTable.Data>{getYieldRate(supply).toFixed(2).replace('.', ',')} %</CustomTable.Data>
+                      <CustomTable.Data>{getNewDiscountPercent(supply).toFixed(2).replace('.', ',')}</CustomTable.Data>
+                      <CustomTable.Data style={{ textDecoration: 'line-through', color: 'hsl(0 0% 64%)' }}>{getPreviousDiscountPercent()}</CustomTable.Data>
                       <CustomTable.Data>{supply.earlyPaymentAmount}</CustomTable.Data>
                       <CustomTable.Data>{supply.amount}</CustomTable.Data>
                       <CustomTable.Data>{supply.paymentDate}</CustomTable.Data>
@@ -263,7 +297,7 @@ export default function CreateAgreementsPage({ supplies, onBack, onSubmit }: Cre
                 </CustomTable.Body>
               </CustomTable>
             </TableContainer>
-          </BuyerCard>
+          </SupplierCard>
         );
       })}
       
