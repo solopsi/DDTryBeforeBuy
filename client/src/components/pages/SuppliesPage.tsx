@@ -8,6 +8,7 @@ import Loader from "../Loader";
 import ConfigureBeforeSendModal from "../ConfigureBeforeSendModal";
 import CreateAgreementsPage from "../CreateAgreementsPage";
 import AgreementsSuccessModal from "../AgreementsSuccessModal";
+import DeclineConfirmationModal from "../DeclineConfirmationModal";
 import { Button } from "vienna-ui/dist/Button";
 import { Select } from "vienna-ui/dist/Select";
 import { Input } from "vienna-ui/dist/Input";
@@ -976,25 +977,30 @@ export default function SuppliesPage({ userRole = 'buyer', onNavigate }: Supplie
   const [showCreateAgreementsPage, setShowCreateAgreementsPage] = useState(false);
   const [isAgreementsSuccessModalOpen, setIsAgreementsSuccessModalOpen] = useState(false);
   const [agreementSupplies, setAgreementSupplies] = useState<any[]>([]);
+  const [isDeclineModalOpen, setIsDeclineModalOpen] = useState(false);
+  const [awaitingData, setAwaitingData] = useState(awaitingResponseData);
+  const [supplierAwaitingData, setSupplierAwaitingData] = useState(supplierAwaitingResponseData);
+  const [allSupplies, setAllSupplies] = useState(allSuppliesData);
+  const [supplierAllSupplies, setSupplierAllSupplies] = useState(supplierAllSuppliesData);
 
   // Get data and columns based on active tab and user role
   const getCurrentData = () => {
     if (userRole === 'supplier') {
       switch (activeTab) {
         case "awaiting-response":
-          return supplierAwaitingResponseData;
+          return supplierAwaitingData;
         case "all-supplies":
-          return supplierAllSuppliesData;
+          return supplierAllSupplies;
         default:
-          return supplierAwaitingResponseData;
+          return supplierAwaitingData;
       }
     }
     
     switch (activeTab) {
       case "all-supplies":
-        return allSuppliesData;
+        return allSupplies;
       case "awaiting-response":
-        return awaitingResponseData;
+        return awaitingData;
       case "with-error":
         return errorSuppliesData;
       case "on-shipment":
@@ -1108,6 +1114,58 @@ export default function SuppliesPage({ userRole = 'buyer', onNavigate }: Supplie
   const handleGoToAgreements = () => {
     setIsAgreementsSuccessModalOpen(false);
     onNavigate?.("/agreements");
+  };
+
+  // Handle decline button click - open confirmation modal
+  const handleOpenDeclineModal = () => {
+    if (selectedAwaitingItems.length > 0) {
+      setIsDeclineModalOpen(true);
+    }
+  };
+
+  // Handle close decline modal
+  const handleCloseDeclineModal = () => {
+    setIsDeclineModalOpen(false);
+  };
+
+  // Handle confirm decline - move supplies to all supplies with declined status
+  const handleConfirmDecline = () => {
+    const declinedItems = selectedAwaitingItems.map(item => ({
+      ...item,
+      status: 'Отклонена'
+    }));
+
+    const selectedIds = selectedAwaitingItems.map(item => item.invoiceNumber);
+
+    if (userRole === 'supplier') {
+      // Remove from awaiting data
+      setSupplierAwaitingData(prev => 
+        prev.filter(item => !selectedIds.includes(item.invoiceNumber))
+      );
+      // Add to all supplies
+      setSupplierAllSupplies(prev => [...prev, ...declinedItems]);
+    } else {
+      // Remove from awaiting data
+      setAwaitingData(prev => 
+        prev.filter(item => !selectedIds.includes(item.invoiceNumber))
+      );
+      // Add to all supplies
+      setAllSupplies(prev => [...prev, ...declinedItems]);
+    }
+
+    // Clear selection and close modal
+    setSelectedAwaitingItems([]);
+    setIsDeclineModalOpen(false);
+  };
+
+  // Calculate total amount for selected awaiting items
+  const calculateDeclineTotalAmount = () => {
+    return selectedAwaitingItems.reduce((sum, item) => {
+      const amount = typeof item.amount === 'string' 
+        ? parseFloat(item.amount.replace(/[^\d.,]/g, '').replace(',', '.')) 
+        : item.amount || 0;
+      return sum + amount;
+    }, 0);
   };
 
   // Format currency
@@ -1576,7 +1634,7 @@ export default function SuppliesPage({ userRole = 'buyer', onNavigate }: Supplie
             <EditIcon size="s" />
             Изменить условия
           </SupplierActionButton>
-          <SupplierActionButton data-testid="button-reject">
+          <SupplierActionButton onClick={handleOpenDeclineModal} data-testid="button-reject">
             <Close16Icon size="s" />
             Отклонить
           </SupplierActionButton>
@@ -1608,7 +1666,7 @@ export default function SuppliesPage({ userRole = 'buyer', onNavigate }: Supplie
             <EditIcon size="s" />
             Изменить условия
           </SupplierActionButton>
-          <SupplierActionButton data-testid="button-buyer-reject">
+          <SupplierActionButton onClick={handleOpenDeclineModal} data-testid="button-buyer-reject">
             <Close16Icon size="s" />
             Отклонить
           </SupplierActionButton>
@@ -1633,6 +1691,14 @@ export default function SuppliesPage({ userRole = 'buyer', onNavigate }: Supplie
         isOpen={isAgreementsSuccessModalOpen}
         onClose={handleCloseSuccessModal}
         onGoToAgreements={handleGoToAgreements}
+      />
+
+      <DeclineConfirmationModal
+        isOpen={isDeclineModalOpen}
+        onClose={handleCloseDeclineModal}
+        onConfirm={handleConfirmDecline}
+        suppliesCount={selectedAwaitingItems.length}
+        totalAmount={calculateDeclineTotalAmount()}
       />
     </PageContainer>
   );
