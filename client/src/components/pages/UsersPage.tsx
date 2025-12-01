@@ -29,12 +29,12 @@ const ModalActions = styled.div`
 const initialUsersData = [
   {
     user: "Первый пользователь",
-    email: "user1@buyer.ru",
+    email: "user1@supplier.ru",
     status: "Активен"
   },
   {
     user: "—",
-    email: "user2@buyer.ru",
+    email: "user2@supplier.ru",
     status: "Приглашение отправлено"
   }
 ];
