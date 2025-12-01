@@ -6,10 +6,12 @@ import FileUploadModal from "../FileUploadModal";
 import DeleteConfirmModal from "../DeleteConfirmModal";
 import Loader from "../Loader";
 import ConfigureBeforeSendModal from "../ConfigureBeforeSendModal";
+import CreateAgreementsPage from "../CreateAgreementsPage";
+import AgreementsSuccessModal from "../AgreementsSuccessModal";
 import { Button } from "vienna-ui/dist/Button";
 import { Select } from "vienna-ui/dist/Select";
 import { Input } from "vienna-ui/dist/Input";
-import { DownloadIcon, SettingsIcon } from "vienna.icons";
+import { DownloadIcon, SettingsIcon, DocIcon, EditIcon, Close16Icon } from "vienna.icons";
 
 // Styled components for tabs
 const TabNavigation = styled.div`
@@ -160,6 +162,59 @@ const InfoLabel = styled.span`
 `;
 
 const InfoValue = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+`;
+
+const SupplierActionButton = styled.button<{ $primary?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  ${props => props.$primary ? `
+    background: #FEE600;
+    border: none;
+    color: #2B2D33;
+    font-weight: 500;
+    
+    &:hover {
+      background: #E6CF00;
+    }
+  ` : `
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  `}
+`;
+
+const SupplierActionInfo = styled.div`
+  display: flex;
+  gap: 16px;
+  margin-left: auto;
+`;
+
+const SupplierInfoItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const SupplierInfoLabel = styled.span`
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+`;
+
+const SupplierInfoValue = styled.span`
   font-size: 14px;
   font-weight: 500;
   color: white;
@@ -892,6 +947,9 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
   const [selectedSupplies, setSelectedSupplies] = useState<any[]>([]);
   const [selectedAwaitingItems, setSelectedAwaitingItems] = useState<any[]>([]);
   const [isConfigureModalOpen, setIsConfigureModalOpen] = useState(false);
+  const [showCreateAgreementsPage, setShowCreateAgreementsPage] = useState(false);
+  const [isAgreementsSuccessModalOpen, setIsAgreementsSuccessModalOpen] = useState(false);
+  const [agreementSupplies, setAgreementSupplies] = useState<any[]>([]);
 
   // Get data and columns based on active tab and user role
   const getCurrentData = () => {
@@ -975,6 +1033,47 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
       const amount = parseFloat(supply.amount.replace(/[^\d,]/g, '').replace(',', '.'));
       return total + amount;
     }, 0);
+  };
+
+  // Calculate supplier total payment amount (Сумма оплаты)
+  const calculateSupplierTotalPayment = () => {
+    return selectedAwaitingItems.reduce((total, supply) => {
+      const amount = parseFloat(supply.amount.replace(/[^\d,]/g, '').replace(',', '.'));
+      return total + amount;
+    }, 0);
+  };
+
+  // Calculate supplier total early payment amount (Сумма ранней оплаты)
+  const calculateSupplierEarlyPayment = () => {
+    return selectedAwaitingItems.reduce((total, supply) => {
+      const amount = parseFloat(supply.earlyPaymentAmount.replace(/[^\d,]/g, '').replace(',', '.'));
+      return total + amount;
+    }, 0);
+  };
+
+  // Handle create agreements button click
+  const handleCreateAgreements = () => {
+    setAgreementSupplies([...selectedAwaitingItems]);
+    setShowCreateAgreementsPage(true);
+  };
+
+  // Handle back from create agreements page
+  const handleBackFromAgreements = () => {
+    setShowCreateAgreementsPage(false);
+  };
+
+  // Handle submit agreements - show success modal and navigate to all supplies
+  const handleSubmitAgreements = () => {
+    setActiveTab("all-supplies");
+    setSelectedAwaitingItems([]);
+    setAgreementSupplies([]);
+    setIsAgreementsSuccessModalOpen(true);
+    setShowCreateAgreementsPage(false);
+  };
+
+  // Handle close success modal
+  const handleCloseSuccessModal = () => {
+    setIsAgreementsSuccessModalOpen(false);
   };
 
   // Format currency
@@ -1310,6 +1409,16 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
     );
   };
 
+  if (showCreateAgreementsPage) {
+    return (
+      <CreateAgreementsPage
+        supplies={agreementSupplies}
+        onBack={handleBackFromAgreements}
+        onSubmit={handleSubmitAgreements}
+      />
+    );
+  }
+
   return (
     <PageContainer>
       <TitleSection>
@@ -1393,7 +1502,7 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
         onSubmit={handleConfigureSubmit}
       />
       
-      {/* Bottom action bar for selected supplies */}
+      {/* Bottom action bar for selected supplies - Buyer */}
       {selectedSupplies.length > 0 && activeTab === "on-shipment" && (
         <BottomActionBar>
           <ActionContent>
@@ -1420,6 +1529,44 @@ export default function SuppliesPage({ userRole = 'buyer' }: SuppliesPageProps) 
           </ActionContent>
         </BottomActionBar>
       )}
+
+      {/* Bottom action bar for selected supplies - Supplier awaiting response */}
+      {selectedAwaitingItems.length > 0 && userRole === 'supplier' && activeTab === "awaiting-response" && (
+        <BottomActionBar>
+          <SupplierActionButton $primary onClick={handleCreateAgreements} data-testid="button-create-agreements">
+            <DocIcon size="s" />
+            Создать соглашения
+          </SupplierActionButton>
+          <SupplierActionButton data-testid="button-change-conditions">
+            <EditIcon size="s" />
+            Изменить условия
+          </SupplierActionButton>
+          <SupplierActionButton data-testid="button-reject">
+            <Close16Icon size="s" />
+            Отклонить
+          </SupplierActionButton>
+          <SupplierActionInfo>
+            <SupplierInfoItem>
+              <SupplierInfoLabel>Количество</SupplierInfoLabel>
+              <SupplierInfoValue data-testid="text-supplier-selected-count">{selectedAwaitingItems.length}</SupplierInfoValue>
+            </SupplierInfoItem>
+            <SupplierInfoItem>
+              <SupplierInfoLabel>Оплата</SupplierInfoLabel>
+              <SupplierInfoValue data-testid="text-supplier-payment-total">{formatCurrency(calculateSupplierTotalPayment())}</SupplierInfoValue>
+            </SupplierInfoItem>
+            <SupplierInfoItem>
+              <SupplierInfoLabel>Ранняя оплата</SupplierInfoLabel>
+              <SupplierInfoValue data-testid="text-supplier-early-payment-total">{formatCurrency(calculateSupplierEarlyPayment())}</SupplierInfoValue>
+            </SupplierInfoItem>
+          </SupplierActionInfo>
+        </BottomActionBar>
+      )}
+
+      <AgreementsSuccessModal
+        isOpen={isAgreementsSuccessModalOpen}
+        onClose={handleCloseSuccessModal}
+        onGoToAgreements={handleCloseSuccessModal}
+      />
     </PageContainer>
   );
 }
