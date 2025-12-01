@@ -122,7 +122,7 @@ export default function MainApp({ onLogout, userRole = 'buyer' }: MainAppProps) 
       case "/agreements":
         return <AgreementsPage userRole={userRole} />;
       case "/auctions":
-        return <AuctionsPage />;
+        return <AuctionsPage userRole={userRole} />;
       case "/suppliers":
         return <SuppliersPage />;
       case "/users":

@@ -182,7 +182,11 @@ const columns = [
   },
 ];
 
-export default function AuctionsPage() {
+interface AuctionsPageProps {
+  userRole?: 'buyer' | 'supplier';
+}
+
+export default function AuctionsPage({ userRole = 'buyer' }: AuctionsPageProps) {
   const [activeTab, setActiveTab] = useState("new");
   const [selectedAuction, setSelectedAuction] = useState<any>(null);
   const [currentView, setCurrentView] = useState<'list' | 'detail' | 'offer-selection' | 'agreement-formation' | 'create-form'>('list');
@@ -376,14 +380,16 @@ export default function AuctionsPage() {
       <TitleSection>
         <TitleRow>
           <Title>Аукционы</Title>
-          <Button 
-            data-testid="button-create-auction-header"
-            onClick={handleCreateAuction}
-            style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
-          >
-            <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
-            Создать
-          </Button>
+          {userRole === 'buyer' && (
+            <Button 
+              data-testid="button-create-auction-header"
+              onClick={handleCreateAuction}
+              style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
+            >
+              <AddIcon style={{ width: '16px', height: '16px', marginRight: '8px' }} />
+              Создать
+            </Button>
+          )}
         </TitleRow>
         <TabNavigation>
           <TabButton 

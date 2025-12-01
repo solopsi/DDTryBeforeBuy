@@ -3,7 +3,12 @@ import styled from "styled-components";
 import DataTable from "../DataTable";
 import StatusBadge from "../StatusBadge";
 import { Button, Drawer, Select, Datepicker } from "vienna-ui";
-import { DocumentIcon, ChevronIcon, EditIcon, CheckmarkRingIcon } from "vienna.icons";
+import {
+  DocumentIcon,
+  ChevronIcon,
+  EditIcon,
+  CheckmarkRingIcon,
+} from "vienna.icons";
 
 const BottomActionBar = styled.div`
   position: fixed;
@@ -68,7 +73,7 @@ const CloseButton = styled.button`
   cursor: pointer;
   padding: 0;
   line-height: 1;
-  
+
   &:hover {
     color: #333;
   }
@@ -102,7 +107,8 @@ const DocumentHeader = styled.div`
 `;
 
 const ChevronIconWrapper = styled.div<{ $isExpanded: boolean }>`
-  transform: ${props => props.$isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'};
+  transform: ${(props) =>
+    props.$isExpanded ? "rotate(180deg)" : "rotate(0deg)"};
   transition: transform 0.2s ease;
   display: flex;
   align-items: center;
@@ -155,7 +161,7 @@ const DrawerFooter = styled.div`
 `;
 
 const CollapsibleContent = styled.div<{ $isOpen: boolean }>`
-  display: ${props => props.$isOpen ? 'block' : 'none'};
+  display: ${(props) => (props.$isOpen ? "block" : "none")};
 `;
 
 const Title = styled.h2`
@@ -183,7 +189,7 @@ const CertificateIndicator = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #FEE600;
+  background: #fee600;
 `;
 
 const CertificateInfo = styled.div`
@@ -210,12 +216,12 @@ const StyledBadge = styled.span`
   border-radius: 4px;
   font-size: 12px;
   font-weight: 500;
-  background-color: #0066CC;
+  background-color: #0066cc;
   color: white;
   cursor: pointer;
-  
+
   &:hover {
-    background-color: #0055AA;
+    background-color: #0055aa;
   }
 `;
 
@@ -229,15 +235,16 @@ const Tab = styled.button<{ $isActive: boolean }>`
   padding: 12px 24px;
   background: none;
   border: none;
-  border-bottom: 2px solid ${props => props.$isActive ? '#FEE600' : 'transparent'};
-  color: ${props => props.$isActive ? '#2B2D33' : '#666'};
+  border-bottom: 2px solid
+    ${(props) => (props.$isActive ? "#FEE600" : "transparent")};
+  color: ${(props) => (props.$isActive ? "#2B2D33" : "#666")};
   font-size: 14px;
-  font-weight: ${props => props.$isActive ? '600' : '400'};
+  font-weight: ${(props) => (props.$isActive ? "600" : "400")};
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    color: #2B2D33;
+    color: #2b2d33;
   }
 `;
 
@@ -276,7 +283,7 @@ const FilterLink = styled.button`
   display: flex;
   align-items: center;
   gap: 4px;
-  
+
   &:hover {
     color: #333;
   }
@@ -296,13 +303,13 @@ const SuccessIcon = styled.div`
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: #C3EBD7;
+  background: #c3ebd7;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
-  color: #2D5A3D;
-  
+  color: #2d5a3d;
+
   svg {
     width: 32px;
     height: 32px;
@@ -312,13 +319,13 @@ const SuccessIcon = styled.div`
 const SuccessTitle = styled.h2`
   font-size: 24px;
   font-weight: 600;
-  color: #2B2D33;
+  color: #2b2d33;
   margin: 0 0 32px 0;
   line-height: 1.3;
 `;
 
 interface AgreementsPageProps {
-  userRole?: 'buyer' | 'supplier';
+  userRole?: "buyer" | "supplier";
 }
 
 interface AgreementData {
@@ -341,7 +348,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "2 736,00 ₽",
     paymentDate: "30.11.2025",
     status: "Ждет вашей подписи",
-    contractNumber: "contract-anf/177"
+    contractNumber: "contract-anf/177",
   },
   {
     id: 2,
@@ -351,7 +358,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "9 290,00 ₽",
     paymentDate: "24.11.2025",
     status: "Ждет вашей подписи",
-    contractNumber: "contract-7of/520"
+    contractNumber: "contract-7of/520",
   },
   {
     id: 3,
@@ -361,7 +368,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "2 845,00 ₽",
     paymentDate: "24.11.2025",
     status: "Ждет вашей подписи",
-    contractNumber: "contract-8kl/321"
+    contractNumber: "contract-8kl/321",
   },
   {
     id: 4,
@@ -371,7 +378,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "7 474,00 ₽",
     paymentDate: "01.12.2025",
     status: "Ждет финальной подписи",
-    contractNumber: "contract-abc/111"
+    contractNumber: "contract-abc/111",
   },
   {
     id: 5,
@@ -381,7 +388,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "1 514,00 ₽",
     paymentDate: "29.11.2025",
     status: "Ждет финальной подписи",
-    contractNumber: "contract-def/222"
+    contractNumber: "contract-def/222",
   },
   {
     id: 6,
@@ -391,7 +398,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "1 876,00 ₽",
     paymentDate: "27.11.2025",
     status: "Отклонено",
-    contractNumber: "contract-ghi/333"
+    contractNumber: "contract-ghi/333",
   },
   {
     id: 7,
@@ -401,7 +408,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "2 719,00 ₽",
     paymentDate: "26.11.2025",
     status: "Ждет финальной подписи",
-    contractNumber: "contract-jkl/444"
+    contractNumber: "contract-jkl/444",
   },
   {
     id: 8,
@@ -411,7 +418,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "8 372,00 ₽",
     paymentDate: "28.11.2025",
     status: "Отклонено",
-    contractNumber: "contract-mno/555"
+    contractNumber: "contract-mno/555",
   },
   {
     id: 9,
@@ -421,7 +428,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "8 937,00 ₽",
     paymentDate: "01.12.2025",
     status: "Подписано",
-    contractNumber: "contract-pqr/666"
+    contractNumber: "contract-pqr/666",
   },
   {
     id: 10,
@@ -431,7 +438,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "9 691,00 ₽",
     paymentDate: "27.11.2025",
     status: "Отклонено",
-    contractNumber: "contract-stu/777"
+    contractNumber: "contract-stu/777",
   },
   {
     id: 11,
@@ -441,7 +448,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "9 188,00 ₽",
     paymentDate: "25.11.2025",
     status: "На рассмотрении",
-    contractNumber: "contract-vwx/888"
+    contractNumber: "contract-vwx/888",
   },
   {
     id: 12,
@@ -451,7 +458,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "8 246,00 ₽",
     paymentDate: "25.11.2025",
     status: "Подписано",
-    contractNumber: "contract-yza/999"
+    contractNumber: "contract-yza/999",
   },
   {
     id: 13,
@@ -461,7 +468,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "1 464,00 ₽",
     paymentDate: "28.11.2025",
     status: "Ждет финальной подписи",
-    contractNumber: "contract-bcd/100"
+    contractNumber: "contract-bcd/100",
   },
   {
     id: 14,
@@ -471,7 +478,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "4 663,00 ₽",
     paymentDate: "01.12.2025",
     status: "Подписано",
-    contractNumber: "contract-efg/101"
+    contractNumber: "contract-efg/101",
   },
   {
     id: 15,
@@ -481,7 +488,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "9 964,00 ₽",
     paymentDate: "01.12.2025",
     status: "На рассмотрении",
-    contractNumber: "contract-hij/102"
+    contractNumber: "contract-hij/102",
   },
   {
     id: 16,
@@ -491,7 +498,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "5 463,00 ₽",
     paymentDate: "28.11.2025",
     status: "Просрочено",
-    contractNumber: "contract-klm/103"
+    contractNumber: "contract-klm/103",
   },
   {
     id: 17,
@@ -501,7 +508,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "5 468,00 ₽",
     paymentDate: "27.11.2025",
     status: "Ждет финальной подписи",
-    contractNumber: "contract-nop/104"
+    contractNumber: "contract-nop/104",
   },
   {
     id: 18,
@@ -511,7 +518,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "1 765,00 ₽",
     paymentDate: "27.11.2025",
     status: "Просрочено",
-    contractNumber: "contract-qrs/105"
+    contractNumber: "contract-qrs/105",
   },
   {
     id: 19,
@@ -521,7 +528,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "2 961,00 ₽",
     paymentDate: "29.11.2025",
     status: "На рассмотрении",
-    contractNumber: "contract-tuv/106"
+    contractNumber: "contract-tuv/106",
   },
   {
     id: 20,
@@ -531,7 +538,7 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "1 112,00 ₽",
     paymentDate: "01.12.2025",
     status: "Просрочено",
-    contractNumber: "contract-wxy/107"
+    contractNumber: "contract-wxy/107",
   },
   {
     id: 21,
@@ -541,8 +548,8 @@ const supplierAgreementsData: AgreementData[] = [
     discount: "4 463,00 ₽",
     paymentDate: "27.11.2025",
     status: "Отклонено",
-    contractNumber: "contract-zab/108"
-  }
+    contractNumber: "contract-zab/108",
+  },
 ];
 
 const buyerAgreementsData = [
@@ -554,7 +561,7 @@ const buyerAgreementsData = [
     discount: "8 686,00 ₽",
     paymentDate: "21.09.2025",
     status: "Ждет вашей подписи",
-    contractNumber: "contract-vm3/731"
+    contractNumber: "contract-vm3/731",
   },
   {
     id: 2,
@@ -564,7 +571,7 @@ const buyerAgreementsData = [
     discount: "9 623,00 ₽",
     paymentDate: "20.09.2025",
     status: "Ждет вашей подписи",
-    contractNumber: "contract-vm3/732"
+    contractNumber: "contract-vm3/732",
   },
   {
     id: 3,
@@ -574,7 +581,7 @@ const buyerAgreementsData = [
     discount: "5 711,00 ₽",
     paymentDate: "25.09.2025",
     status: "Ждет вашей подписи",
-    contractNumber: "contract-0vw/733"
+    contractNumber: "contract-0vw/733",
   },
   {
     id: 4,
@@ -584,7 +591,7 @@ const buyerAgreementsData = [
     discount: "6 997,00 ₽",
     paymentDate: "20.09.2025",
     status: "Ждет вашей подписи",
-    contractNumber: "contract-pao/734"
+    contractNumber: "contract-pao/734",
   },
   {
     id: 5,
@@ -594,83 +601,94 @@ const buyerAgreementsData = [
     discount: "6 496,00 ₽",
     paymentDate: "21.09.2025",
     status: "Ждет вашей подписи",
-    contractNumber: "contract-ip/735"
-  }
+    contractNumber: "contract-ip/735",
+  },
 ];
 
-export default function AgreementsPage({ userRole = 'buyer' }: AgreementsPageProps) {
+export default function AgreementsPage({
+  userRole = "buyer",
+}: AgreementsPageProps) {
   const [selectedAgreements, setSelectedAgreements] = useState<any[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [drawerStep, setDrawerStep] = useState<'review' | 'success'>('review');
-  const [expandedDocuments, setExpandedDocuments] = useState<Set<number>>(new Set([0]));
-  const [activeTab, setActiveTab] = useState('outgoing');
-  const [allAgreements, setAllAgreements] = useState(
-    userRole === 'supplier' ? supplierAgreementsData : buyerAgreementsData
+  const [drawerStep, setDrawerStep] = useState<"review" | "success">("review");
+  const [expandedDocuments, setExpandedDocuments] = useState<Set<number>>(
+    new Set([0]),
   );
-  const [counterpartyFilter, setCounterpartyFilter] = useState<string>('');
-  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [activeTab, setActiveTab] = useState("outgoing");
+  const [allAgreements, setAllAgreements] = useState(
+    userRole === "supplier" ? supplierAgreementsData : buyerAgreementsData,
+  );
+  const [counterpartyFilter, setCounterpartyFilter] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("");
 
   const tabs = [
-    { id: 'outgoing', label: 'Исходящие' },
-    { id: 'incoming', label: 'Входящие' },
-    { id: 'all', label: 'Все соглашения' }
+    { id: "outgoing", label: "Исходящие" },
+    { id: "incoming", label: "Входящие" },
+    { id: "all", label: "Все соглашения" },
   ];
 
   const getFilteredAgreements = () => {
     let data = allAgreements;
-    
+
     switch (activeTab) {
-      case 'outgoing':
-        data = allAgreements.filter(agreement => agreement.status === 'Ждет вашей подписи');
+      case "outgoing":
+        data = allAgreements.filter(
+          (agreement) => agreement.status === "Ждет вашей подписи",
+        );
         break;
-      case 'incoming':
-        data = allAgreements.filter(agreement => agreement.status === 'Ждет финальной подписи');
+      case "incoming":
+        data = allAgreements.filter(
+          (agreement) => agreement.status === "Ждет финальной подписи",
+        );
         break;
-      case 'all':
+      case "all":
         data = allAgreements;
         break;
     }
-    
+
     if (counterpartyFilter) {
-      data = data.filter(agreement => agreement.counterparty === counterpartyFilter);
+      data = data.filter(
+        (agreement) => agreement.counterparty === counterpartyFilter,
+      );
     }
-    
-    if (statusFilter && activeTab === 'all') {
+
+    if (statusFilter && activeTab === "all") {
       const statusMap: { [key: string]: string } = {
-        'signed': 'Подписано',
-        'pending': 'Ждет вашей подписи',
-        'final': 'Ждет финальной подписи',
-        'rejected': 'Отклонено',
-        'review': 'На рассмотрении',
-        'overdue': 'Просрочено'
+        signed: "Подписано",
+        pending: "Ждет вашей подписи",
+        final: "Ждет финальной подписи",
+        rejected: "Отклонено",
+        review: "На рассмотрении",
+        overdue: "Просрочено",
       };
       const targetStatus = statusMap[statusFilter];
       if (targetStatus) {
-        data = data.filter(agreement => agreement.status === targetStatus);
+        data = data.filter((agreement) => agreement.status === targetStatus);
       }
     }
-    
+
     return data;
   };
-  
+
   const handleResetFilters = () => {
-    setCounterpartyFilter('');
-    setStatusFilter('');
+    setCounterpartyFilter("");
+    setStatusFilter("");
   };
 
   const getColumns = () => {
-    const counterpartyHeader = userRole === 'supplier' ? 'Покупатель' : 'Поставщик';
-    
+    const counterpartyHeader =
+      userRole === "supplier" ? "Покупатель" : "Поставщик";
+
     return [
-      { key: 'agreementDate', header: 'Дата соглашения' },
-      { key: 'counterparty', header: counterpartyHeader },
-      { key: 'earlyPayment', header: 'Сумма ранней оплаты' },
-      { key: 'discount', header: 'Сумма скидки' },
-      { key: 'paymentDate', header: 'Дата ранней оплаты' },
-      { 
-        key: 'status', 
-        header: 'Статус',
-        render: (value: string) => <StatusBadge status={value} />
+      { key: "agreementDate", header: "Дата соглашения" },
+      { key: "counterparty", header: counterpartyHeader },
+      { key: "earlyPayment", header: "Сумма ранней оплаты" },
+      { key: "discount", header: "Сумма скидки" },
+      { key: "paymentDate", header: "Дата ранней оплаты" },
+      {
+        key: "status",
+        header: "Статус",
+        render: (value: string) => <StatusBadge status={value} />,
       },
     ];
   };
@@ -681,45 +699,47 @@ export default function AgreementsPage({ userRole = 'buyer' }: AgreementsPagePro
 
   const calculateTotalEarlyPayment = () => {
     return selectedAgreements.reduce((total, agreement) => {
-      const amount = parseFloat(agreement.earlyPayment.replace(/[^\d]/g, ''));
+      const amount = parseFloat(agreement.earlyPayment.replace(/[^\d]/g, ""));
       return total + amount;
     }, 0);
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('ru-RU', {
-      style: 'decimal',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(amount / 100) + ' ₽';
+    return (
+      new Intl.NumberFormat("ru-RU", {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(amount / 100) + " ₽"
+    );
   };
 
   const handleSignAndSend = () => {
-    setDrawerStep('review');
+    setDrawerStep("review");
     setIsDrawerOpen(true);
     setExpandedDocuments(new Set([0]));
   };
 
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
-    setDrawerStep('review');
-    
-    if (drawerStep === 'success') {
-      setActiveTab('all');
+    setDrawerStep("review");
+
+    if (drawerStep === "success") {
+      setActiveTab("all");
       setSelectedAgreements([]);
     }
   };
 
   const handleFinalSignAndSend = () => {
-    const updatedAgreements = allAgreements.map(agreement => {
-      const isSelected = selectedAgreements.some(selected => 
-        selected.id === agreement.id
+    const updatedAgreements = allAgreements.map((agreement) => {
+      const isSelected = selectedAgreements.some(
+        (selected) => selected.id === agreement.id,
       );
-      return isSelected ? { ...agreement, status: 'Подписано' } : agreement;
+      return isSelected ? { ...agreement, status: "Подписано" } : agreement;
     });
-    
+
     setAllAgreements(updatedAgreements);
-    setDrawerStep('success');
+    setDrawerStep("success");
   };
 
   const toggleDocumentExpansion = (index: number) => {
@@ -738,13 +758,15 @@ export default function AgreementsPage({ userRole = 'buyer' }: AgreementsPagePro
   };
 
   const getUniqueBuyers = () => {
-    const unique = Array.from(new Set(allAgreements.map(a => a.counterparty)));
+    const unique = Array.from(
+      new Set(allAgreements.map((a) => a.counterparty)),
+    );
     return unique.filter(Boolean) as string[];
   };
 
   const groupByCounterparty = () => {
     const groups: { [key: string]: AgreementData[] } = {};
-    
+
     selectedAgreements.forEach((agreement: AgreementData) => {
       const key = agreement.counterparty;
       if (!groups[key]) {
@@ -752,17 +774,21 @@ export default function AgreementsPage({ userRole = 'buyer' }: AgreementsPagePro
       }
       groups[key].push(agreement);
     });
-    
+
     return groups;
   };
 
   return (
     <>
       <div>
-        <h1 style={{ fontSize: '24px', fontWeight: '600', margin: '0 0 24px 0' }}>Соглашения</h1>
-        
+        <h1
+          style={{ fontSize: "24px", fontWeight: "600", margin: "0 0 24px 0" }}
+        >
+          Соглашения
+        </h1>
+
         <TabsContainer>
-          {tabs.map(tab => (
+          {tabs.map((tab) => (
             <Tab
               key={tab.id}
               $isActive={activeTab === tab.id}
@@ -773,53 +799,61 @@ export default function AgreementsPage({ userRole = 'buyer' }: AgreementsPagePro
             </Tab>
           ))}
         </TabsContainer>
-        
+
         <FiltersContainer>
           <FilterGroup>
-            <FilterLabel>{userRole === 'supplier' ? 'Покупатель' : 'Поставщик'}</FilterLabel>
+            <FilterLabel>
+              {userRole === "supplier" ? "Покупатель" : "Поставщик"}
+            </FilterLabel>
             <Select
               size="m"
-              placeholder={userRole === 'supplier' ? 'Все покупатели' : 'Все поставщики'}
+              placeholder={
+                userRole === "supplier" ? "Все покупатели" : "Все поставщики"
+              }
               value={counterpartyFilter}
-              onSelect={(e: any, data: any) => setCounterpartyFilter(data?.value || '')}
-              style={{ minWidth: '200px' }}
+              onSelect={(e: any, data: any) =>
+                setCounterpartyFilter(data?.value || "")
+              }
+              style={{ minWidth: "200px" }}
             >
               <Select.Option value="">
-                {userRole === 'supplier' ? 'Все покупатели' : 'Все поставщики'}
+                {userRole === "supplier" ? "Все покупатели" : "Все поставщики"}
               </Select.Option>
-              {getUniqueBuyers().map(buyer => (
-                <Select.Option key={buyer} value={buyer}>{buyer}</Select.Option>
+              {getUniqueBuyers().map((buyer) => (
+                <Select.Option key={buyer} value={buyer}>
+                  {buyer}
+                </Select.Option>
               ))}
             </Select>
           </FilterGroup>
-          
-          {activeTab !== 'all' && (
+
+          {activeTab !== "all" && (
             <>
               <FilterGroup>
                 <FilterLabel>Дата</FilterLabel>
                 <Select
                   size="m"
                   placeholder="Ранней оплаты"
-                  style={{ minWidth: '150px' }}
+                  style={{ minWidth: "150px" }}
                 >
                   <Select.Option value="early">Ранней оплаты</Select.Option>
                   <Select.Option value="agreement">Соглашения</Select.Option>
                 </Select>
               </FilterGroup>
-              
+
               <FilterGroup>
                 <FilterLabel>&nbsp;</FilterLabel>
                 <Datepicker
                   size="m"
                   placeholder="ДД.ММ.ГГГГ"
-                  style={{ minWidth: '150px' }}
+                  style={{ minWidth: "150px" }}
                   dropdownPortal={document.body}
                 />
               </FilterGroup>
             </>
           )}
-          
-          {activeTab === 'all' && (
+
+          {activeTab === "all" && (
             <>
               <FilterGroup>
                 <FilterLabel>Статус</FilterLabel>
@@ -827,77 +861,85 @@ export default function AgreementsPage({ userRole = 'buyer' }: AgreementsPagePro
                   size="m"
                   placeholder="Все статусы"
                   value={statusFilter}
-                  onSelect={(e: any, data: any) => setStatusFilter(data?.value || '')}
-                  style={{ minWidth: '150px' }}
+                  onSelect={(e: any, data: any) =>
+                    setStatusFilter(data?.value || "")
+                  }
+                  style={{ minWidth: "150px" }}
                 >
                   <Select.Option value="">Все статусы</Select.Option>
                   <Select.Option value="signed">Подписано</Select.Option>
-                  <Select.Option value="pending">Ждет вашей подписи</Select.Option>
-                  <Select.Option value="final">Ждет финальной подписи</Select.Option>
+                  <Select.Option value="pending">
+                    Ждет вашей подписи
+                  </Select.Option>
+                  <Select.Option value="final">
+                    Ждет финальной подписи
+                  </Select.Option>
                   <Select.Option value="rejected">Отклонено</Select.Option>
                   <Select.Option value="review">На рассмотрении</Select.Option>
                   <Select.Option value="overdue">Просрочено</Select.Option>
                 </Select>
               </FilterGroup>
-              
+
               <FilterGroup>
                 <FilterLabel>Сумма ранней оплаты</FilterLabel>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                  <input 
-                    type="text" 
-                    placeholder="От" 
-                    style={{ 
-                      width: '100px', 
-                      padding: '8px 12px', 
-                      border: '1px solid #e0e0e0', 
-                      borderRadius: '4px',
-                      fontSize: '14px'
-                    }} 
+                <div
+                  style={{ display: "flex", gap: "8px", alignItems: "center" }}
+                >
+                  <input
+                    type="text"
+                    placeholder="От"
+                    style={{
+                      width: "100px",
+                      padding: "8px 12px",
+                      border: "1px solid #e0e0e0",
+                      borderRadius: "4px",
+                      fontSize: "14px",
+                    }}
                   />
-                  <span style={{ color: '#666' }}>—</span>
-                  <input 
-                    type="text" 
-                    placeholder="До" 
-                    style={{ 
-                      width: '100px', 
-                      padding: '8px 12px', 
-                      border: '1px solid #e0e0e0', 
-                      borderRadius: '4px',
-                      fontSize: '14px'
-                    }} 
+                  <span style={{ color: "#666" }}>—</span>
+                  <input
+                    type="text"
+                    placeholder="До"
+                    style={{
+                      width: "100px",
+                      padding: "8px 12px",
+                      border: "1px solid #e0e0e0",
+                      borderRadius: "4px",
+                      fontSize: "14px",
+                    }}
                   />
                 </div>
               </FilterGroup>
             </>
           )}
-          
+
           <FilterActions>
             <FilterLink>
               Еще фильтры <ChevronIcon />
             </FilterLink>
-            <FilterLink style={{ color: '#999' }} onClick={handleResetFilters}>
+            <FilterLink style={{ color: "#999" }} onClick={handleResetFilters}>
               Сбросить
             </FilterLink>
           </FilterActions>
         </FiltersContainer>
-        
+
         <DataTable
           title=""
           columns={getColumns()}
           data={getFilteredAgreements()}
-          onRowSelect={activeTab !== 'all' ? handleRowSelect : undefined}
-          showCheckboxes={activeTab !== 'all'}
+          onRowSelect={activeTab !== "all" ? handleRowSelect : undefined}
+          showCheckboxes={activeTab !== "all"}
         />
       </div>
-      
-      {selectedAgreements.length > 0 && activeTab !== 'all' && (
+
+      {selectedAgreements.length > 0 && activeTab !== "all" && (
         <BottomActionBar>
           <Button
-            style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
+            style={{ backgroundColor: "#FEE600", color: "#2B2D33" }}
             onClick={handleSignAndSend}
             data-testid="button-sign-and-send"
           >
-            <EditIcon style={{ marginRight: '8px' }} />
+            <EditIcon style={{ marginRight: "8px" }} />
             Подписать и отправить
           </Button>
           <ActionInfo>
@@ -907,81 +949,96 @@ export default function AgreementsPage({ userRole = 'buyer' }: AgreementsPagePro
             </InfoItem>
             <InfoItem>
               <InfoLabel>Ранняя оплата</InfoLabel>
-              <InfoValue>{formatCurrency(calculateTotalEarlyPayment())}</InfoValue>
+              <InfoValue>
+                {formatCurrency(calculateTotalEarlyPayment())}
+              </InfoValue>
             </InfoItem>
           </ActionInfo>
         </BottomActionBar>
       )}
 
-      <Drawer
-        isOpen={isDrawerOpen}
-        onClose={handleCloseDrawer}
-      >
+      <Drawer isOpen={isDrawerOpen} onClose={handleCloseDrawer}>
         <DrawerContent>
-          {drawerStep === 'review' ? (
+          {drawerStep === "review" ? (
             <>
               <DrawerHeader>
                 <Title>Документы на подпись</Title>
                 <CloseButton onClick={handleCloseDrawer}>×</CloseButton>
               </DrawerHeader>
 
-              <SectionTitle>
-                Выберите способ подписи
-              </SectionTitle>
-              
+              <SectionTitle>Выберите способ подписи</SectionTitle>
+
               <SigningMethodSection>
                 <CertificateItem>
                   <CertificateIndicator />
                   <CertificateInfo>
-                    <CertificateName>-, (Sign) PAUCHOK Stepan I</CertificateName>
-                    <CertificateDate>Выдан 30.04.2025 10:21:37. Действителен до 30.04.2026</CertificateDate>
+                    <CertificateName>
+                      -, (Sign) ТЕСТОВ Тест Тестович
+                    </CertificateName>
+                    <CertificateDate>
+                      Выдан 30.04.2025 10:21:37. Действителен до 30.04.2026
+                    </CertificateDate>
                   </CertificateInfo>
                 </CertificateItem>
               </SigningMethodSection>
 
               <DocumentsList>
-                {Object.entries(groupByCounterparty()).map(([counterparty, agreements], groupIndex) => (
-                  <DocumentCard key={groupIndex}>
-                    <DocumentHeader onClick={() => toggleDocumentExpansion(groupIndex)}>
-                      <ChevronIconWrapper $isExpanded={expandedDocuments.has(groupIndex)}>
-                        <ChevronIcon />
-                      </ChevronIconWrapper>
-                      <DocumentHeaderContent>
-                        <CompanyName>{counterparty}</CompanyName>
-                        <StyledBadge>
-                          <DocumentIcon style={{ marginRight: '6px' }} />
-                          Соглашение от {agreements[0].agreementDate}
-                        </StyledBadge>
-                      </DocumentHeaderContent>
-                    </DocumentHeader>
-                    
-                    <CollapsibleContent $isOpen={expandedDocuments.has(groupIndex)}>
-                      <DocumentDetails>
-                        <DetailRow>
-                          <DetailLabel>Дата ранней оплаты</DetailLabel>
-                          <DetailValue>{agreements[0].paymentDate}</DetailValue>
-                        </DetailRow>
-                        <DetailRow>
-                          <DetailLabel>Сумма ранней оплаты</DetailLabel>
-                          <DetailValue>{agreements[0].earlyPayment}</DetailValue>
-                        </DetailRow>
-                        <DetailRow>
-                          <DetailLabel>Сумма скидки</DetailLabel>
-                          <DetailValue>{agreements[0].discount}</DetailValue>
-                        </DetailRow>
-                        <DetailRow>
-                          <DetailLabel>№ договора</DetailLabel>
-                          <DetailValue>{agreements[0].contractNumber}</DetailValue>
-                        </DetailRow>
-                      </DocumentDetails>
-                    </CollapsibleContent>
-                  </DocumentCard>
-                ))}
+                {Object.entries(groupByCounterparty()).map(
+                  ([counterparty, agreements], groupIndex) => (
+                    <DocumentCard key={groupIndex}>
+                      <DocumentHeader
+                        onClick={() => toggleDocumentExpansion(groupIndex)}
+                      >
+                        <ChevronIconWrapper
+                          $isExpanded={expandedDocuments.has(groupIndex)}
+                        >
+                          <ChevronIcon />
+                        </ChevronIconWrapper>
+                        <DocumentHeaderContent>
+                          <CompanyName>{counterparty}</CompanyName>
+                          <StyledBadge>
+                            <DocumentIcon style={{ marginRight: "6px" }} />
+                            Соглашение от {agreements[0].agreementDate}
+                          </StyledBadge>
+                        </DocumentHeaderContent>
+                      </DocumentHeader>
+
+                      <CollapsibleContent
+                        $isOpen={expandedDocuments.has(groupIndex)}
+                      >
+                        <DocumentDetails>
+                          <DetailRow>
+                            <DetailLabel>Дата ранней оплаты</DetailLabel>
+                            <DetailValue>
+                              {agreements[0].paymentDate}
+                            </DetailValue>
+                          </DetailRow>
+                          <DetailRow>
+                            <DetailLabel>Сумма ранней оплаты</DetailLabel>
+                            <DetailValue>
+                              {agreements[0].earlyPayment}
+                            </DetailValue>
+                          </DetailRow>
+                          <DetailRow>
+                            <DetailLabel>Сумма скидки</DetailLabel>
+                            <DetailValue>{agreements[0].discount}</DetailValue>
+                          </DetailRow>
+                          <DetailRow>
+                            <DetailLabel>№ договора</DetailLabel>
+                            <DetailValue>
+                              {agreements[0].contractNumber}
+                            </DetailValue>
+                          </DetailRow>
+                        </DocumentDetails>
+                      </CollapsibleContent>
+                    </DocumentCard>
+                  ),
+                )}
               </DocumentsList>
 
               <DrawerFooter>
                 <Button
-                  style={{ backgroundColor: '#FEE600', color: '#2B2D33' }}
+                  style={{ backgroundColor: "#FEE600", color: "#2B2D33" }}
                   onClick={handleFinalSignAndSend}
                   data-testid="button-final-sign-and-send"
                 >
@@ -1001,13 +1058,14 @@ export default function AgreementsPage({ userRole = 'buyer' }: AgreementsPagePro
                 <div></div>
                 <CloseButton onClick={handleCloseDrawer}>×</CloseButton>
               </DrawerHeader>
-              
+
               <SuccessContainer>
                 <SuccessIcon>
                   <CheckmarkRingIcon />
                 </SuccessIcon>
                 <SuccessTitle>
-                  Соглашения подписаны и<br />отправлены покупателям
+                  Соглашения подписаны и<br />
+                  отправлены покупателям
                 </SuccessTitle>
                 <Button
                   onClick={handleCloseDrawer}
