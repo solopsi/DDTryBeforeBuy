@@ -101,6 +101,51 @@ const StyledBadge = styled.span<{ $statusType: string }>`
       `;
     }
     
+    // Ждет вашей подписи - Yellow/Orange
+    if (status === "ждет вашей подписи") {
+      return `
+        background-color: #FFF3CD;
+        color: #856404;
+        border: 1px solid #FFEEBA;
+      `;
+    }
+    
+    // Ждет финальной подписи - Yellow/Orange
+    if (status === "ждет финальной подписи") {
+      return `
+        background-color: #FFF3CD;
+        color: #856404;
+        border: 1px solid #FFEEBA;
+      `;
+    }
+    
+    // Подписано - Green
+    if (status === "подписано") {
+      return `
+        background-color: #C3EBD7;
+        color: #2D5A3D;
+        border: 1px solid #A8D4BD;
+      `;
+    }
+    
+    // Отклонено - Red
+    if (status === "отклонено") {
+      return `
+        background-color: #FFD5D2;
+        color: #B33A31;
+        border: 1px solid #F4B3AE;
+      `;
+    }
+    
+    // Просрочено - Red
+    if (status === "просрочено") {
+      return `
+        background-color: #FFD5D2;
+        color: #B33A31;
+        border: 1px solid #F4B3AE;
+      `;
+    }
+    
     // Просрочена - Red
     if (status === "просрочена") {
       return `
